@@ -143,7 +143,7 @@ let users: any = await response.json();
 ```
 
 To achieve type safety, you can use `class-transform`.
-Purpose of this library is to help you to map your plain javascript
+Purpose of this library is to help you to convert your plain javascript
 objects to the instances of classes you have.
 
 This library also great for models exposed in your APIs,
