@@ -137,36 +137,12 @@ from `users.json` file and may want to write the following code:
 
 ```typescript
 let response = await fetch("users.json");
-let users: Array<User> = await response.json();
-// You do a trick here to make the plain object
-// treated as a `User` type here by the compiler,
-// and type hinting will be available to you.
-// However, `users` are not actually instances of the `User` class,
-// which means that you cannot use any method of `User`.
+let users = await response.json();
+// `users` variable is just an array of plain objects.
+// TypeScript compiler cannot help you with `any` type like this.
 ```
 
-In this code you can use the followings:
-
-- `users[0].id`
-- `users[0].firstName`
-- `users[0].lastName`
-
-However you cannot use these:
-
-- `users[0].getName()`
-- `users[0].isAdult()`
-
-This is because the `users` variable is actually an
-array of plain javascript objects, not instances of the `User` class.
-You actually lied to compiler when you wrote `users: Array<User>`.
-
-So what to do? How to make a `users` array of instances of `User` class
-instead of plain javascript objects?
-Solution is to create new instances of `User` object
-and manually copy all properties to new objects.
-But things may go wrong very fast once you have a more complex object hierarchy.
-
-Alternatives? Yes, you can use `class-transform`.
+To achieve type safety, you can use `class-transform`.
 Purpose of this library is to help you to map your plain javascript
 objects to the instances of classes you have.
 
@@ -178,10 +154,17 @@ Here is an example how it will look like:
 ```typescript
 let response = await fetch("users.json");
 let realUsers = plainToInstance(User, await response.json());
-// Now each value in `realUsers` is a real instance of the `User` class.
+// Now each value in `realUsers` is an instance of the `User` class.
 ```
 
-Now you can use class methods properly.
+By converting plain objects into class instances,
+it's possible to use the compiler's type checking.
+You can use class methods as well.
+
+```typescript
+users[0].getName();
+users[0].isAdult();
+```
 
 ## Functions
 
