@@ -376,7 +376,7 @@ class User {
 ```
 
 In both scenarios, `id` and `email` will be included,
-and password will be excluded during transformation.
+and `password` will be excluded during transformation.
 Fields are inclusive unless you decorate the whole class with `@exclude`.
 
 ## Skipping properties by operation
