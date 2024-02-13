@@ -72,7 +72,7 @@ export class TransformOperationExecutor {
               realTargetType === undefined
                 ? (realTargetType = newType)
                 : (realTargetType = realTargetType.value);
-              if (!targetType.options.keepDiscriminatorProperty)
+              if (!targetType.options.keepDiscriminator)
                 delete subValue[targetType.options.discriminator.property];
             }
 
@@ -303,7 +303,7 @@ export class TransformOperationExecutor {
                     },
                   );
                   type === undefined ? (type = newType) : (type = type.value);
-                  if (!metadata.options.keepDiscriminatorProperty) {
+                  if (!metadata.options.keepDiscriminator) {
                     if (
                       subValue &&
                       subValue instanceof Object &&

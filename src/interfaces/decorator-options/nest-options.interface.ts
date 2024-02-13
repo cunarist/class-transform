@@ -16,5 +16,5 @@ export interface NestOptions {
    *
    * @default false
    */
-  keepDiscriminatorProperty?: boolean;
+  keepDiscriminator?: boolean;
 }

@@ -342,7 +342,7 @@ let album = plainToInstance(Album, albumPlain);
 // now album is Album object with a UnderWater object without `__type` property.
 ```
 
-Hint: The same applies for arrays with different sub types. Moreover you can specify `keepDiscriminatorProperty: true`
+Hint: The same applies for arrays with different sub types. Moreover you can specify `keepDiscriminator: true`
 in the options to keep the discriminator property also inside your resulting class.
 
 ## Skipping specific properties
