@@ -7,15 +7,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
-      - run: npm ci --ignore-scripts
       - run: npm run prettier:check
-      - run: npm run lint:check
   tests:
     name: Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['10.x', '12.x', '14.x']
+        node-version: ["10", "12", "14", "16", "18", "20"]
       fail-fast: false
     steps:
       - uses: actions/checkout@v1
@@ -23,10 +21,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci --ignore-scripts
-      - run: npm run test:ci
-      - run: npm install codecov -g
-        if: ${{ matrix.node-version == '14.x' }}
       - run: codecov -f ./coverage/clover.xml -t ${{ secrets.CODECOV_TOKEN }} --commit=$GITHUB_SHA --branch=${GITHUB_REF##*/}
         if: ${{ matrix.node-version == '14.x' }}
   build:
@@ -35,9 +29,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
-      - run: npm ci --ignore-scripts
-      - run: npm run build:es2015
-      - run: npm run build:esm5
-      - run: npm run build:cjs
-      - run: npm run build:umd
-      - run: npm run build:types
+      - run: npm run build
