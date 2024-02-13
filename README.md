@@ -177,7 +177,7 @@ let photoPlain = instanceToPlain(photo);
 
 ### instanceToInstance
 
-Transforms your class object into a new instance of the class object.
+Transforms your instance into a new instance of the same class.
 This may be treated as deep clone of your objects.
 
 ```typescript
