@@ -1,5 +1,5 @@
 import { defaultMetadataStorage } from "./storage";
-import { ClassTransformOptions, TypeMetadata, TypeOptions } from "./interfaces";
+import { ClassTransformOptions, NestMetadata, NestOptions } from "./interfaces";
 import { TransformationType } from "./enums";
 import { getGlobal, isPromise } from "./utils";
 
@@ -34,7 +34,7 @@ export class TransformOperationExecutor {
   transform(
     source: Record<string, any> | Record<string, any>[] | any,
     value: Record<string, any> | Record<string, any>[] | any,
-    targetType: Function | TypeMetadata,
+    targetType: Function | NestMetadata,
     arrayType: Function,
     isMap: boolean,
     level: number = 0,
@@ -64,7 +64,7 @@ export class TransformOperationExecutor {
                 (subType) =>
                   subType.name ===
                   subValue[
-                    (targetType as { options: TypeOptions }).options
+                    (targetType as { options: NestOptions }).options
                       .discriminator.property
                   ],
               );
@@ -218,29 +218,29 @@ export class TransformOperationExecutor {
           if (
             this.transformationType === TransformationType.PLAIN_TO_INSTANCE
           ) {
-            const exposeMetadata =
-              defaultMetadataStorage.findExposeMetadataByCustomName(
+            const includeMetadata =
+              defaultMetadataStorage.findIncludeMetadataByCustomName(
                 targetType as Function,
                 key,
               );
-            if (exposeMetadata) {
-              propertyName = exposeMetadata.propertyName;
-              newValueKey = exposeMetadata.propertyName;
+            if (includeMetadata) {
+              propertyName = includeMetadata.propertyName;
+              newValueKey = includeMetadata.propertyName;
             }
           } else if (
             this.transformationType === TransformationType.INSTANCE_TO_PLAIN ||
             this.transformationType === TransformationType.INSTANCE_TO_INSTANCE
           ) {
-            const exposeMetadata = defaultMetadataStorage.findExposeMetadata(
+            const includeMetadata = defaultMetadataStorage.findIncludeMetadata(
               targetType as Function,
               key,
             );
             if (
-              exposeMetadata &&
-              exposeMetadata.options &&
-              exposeMetadata.options.name
+              includeMetadata &&
+              includeMetadata.options &&
+              includeMetadata.options.name
             ) {
-              newValueKey = exposeMetadata.options.name;
+              newValueKey = includeMetadata.options.name;
             }
           }
         }
@@ -271,7 +271,7 @@ export class TransformOperationExecutor {
         if (targetType && isMap) {
           type = targetType;
         } else if (targetType) {
-          const metadata = defaultMetadataStorage.findTypeMetadata(
+          const metadata = defaultMetadataStorage.findNestMetadata(
             targetType as Function,
             propertyName,
           );
@@ -552,7 +552,7 @@ export class TransformOperationExecutor {
     propertyName: string,
   ): Function | undefined {
     if (!target) return undefined;
-    const meta = defaultMetadataStorage.findTypeMetadata(target, propertyName);
+    const meta = defaultMetadataStorage.findNestMetadata(target, propertyName);
     return meta ? meta.reflectedType : undefined;
   }
 
@@ -589,7 +589,7 @@ export class TransformOperationExecutor {
       this.options.excludeExtraneousValues &&
       target
     ) {
-      const exposedProperties = defaultMetadataStorage.getExposedProperties(
+      const includedProperties = defaultMetadataStorage.getIncludedProperties(
         target,
         this.transformationType,
       );
@@ -597,36 +597,36 @@ export class TransformOperationExecutor {
         target,
         this.transformationType,
       );
-      keys = [...exposedProperties, ...excludedProperties];
+      keys = [...includedProperties, ...excludedProperties];
     }
 
     if (!this.options.ignoreDecorators && target) {
-      // add all exposed to list of keys
-      let exposedProperties = defaultMetadataStorage.getExposedProperties(
+      // add all included to list of keys
+      let includedProperties = defaultMetadataStorage.getIncludedProperties(
         target,
         this.transformationType,
       );
       if (this.transformationType === TransformationType.PLAIN_TO_INSTANCE) {
-        exposedProperties = exposedProperties.map((key) => {
-          const exposeMetadata = defaultMetadataStorage.findExposeMetadata(
+        includedProperties = includedProperties.map((key) => {
+          const includeMetadata = defaultMetadataStorage.findIncludeMetadata(
             target,
             key,
           );
           if (
-            exposeMetadata &&
-            exposeMetadata.options &&
-            exposeMetadata.options.name
+            includeMetadata &&
+            includeMetadata.options &&
+            includeMetadata.options.name
           ) {
-            return exposeMetadata.options.name;
+            return includeMetadata.options.name;
           }
 
           return key;
         });
       }
       if (this.options.excludeExtraneousValues) {
-        keys = exposedProperties;
+        keys = includedProperties;
       } else {
-        keys = keys.concat(exposedProperties);
+        keys = keys.concat(includedProperties);
       }
 
       // exclude excluded properties
@@ -643,15 +643,15 @@ export class TransformOperationExecutor {
       // apply versioning options
       if (this.options.version !== undefined) {
         keys = keys.filter((key) => {
-          const exposeMetadata = defaultMetadataStorage.findExposeMetadata(
+          const includeMetadata = defaultMetadataStorage.findIncludeMetadata(
             target,
             key,
           );
-          if (!exposeMetadata || !exposeMetadata.options) return true;
+          if (!includeMetadata || !includeMetadata.options) return true;
 
           return this.checkVersion(
-            exposeMetadata.options.since,
-            exposeMetadata.options.until,
+            includeMetadata.options.since,
+            includeMetadata.options.until,
           );
         });
       }
@@ -659,25 +659,25 @@ export class TransformOperationExecutor {
       // apply grouping options
       if (this.options.groups && this.options.groups.length) {
         keys = keys.filter((key) => {
-          const exposeMetadata = defaultMetadataStorage.findExposeMetadata(
+          const includeMetadata = defaultMetadataStorage.findIncludeMetadata(
             target,
             key,
           );
-          if (!exposeMetadata || !exposeMetadata.options) return true;
+          if (!includeMetadata || !includeMetadata.options) return true;
 
-          return this.checkGroups(exposeMetadata.options.groups);
+          return this.checkGroups(includeMetadata.options.groups);
         });
       } else {
         keys = keys.filter((key) => {
-          const exposeMetadata = defaultMetadataStorage.findExposeMetadata(
+          const includeMetadata = defaultMetadataStorage.findIncludeMetadata(
             target,
             key,
           );
           return (
-            !exposeMetadata ||
-            !exposeMetadata.options ||
-            !exposeMetadata.options.groups ||
-            !exposeMetadata.options.groups.length
+            !includeMetadata ||
+            !includeMetadata.options ||
+            !includeMetadata.options.groups ||
+            !includeMetadata.options.groups.length
           );
         });
       }

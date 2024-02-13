@@ -60,7 +60,7 @@ Album {
   - [Skipping all properties of the class](#skipping-all-properties-of-the-class)
   - [Skipping private properties, or some prefixed properties](#skipping-private-properties-or-some-prefixed-properties)
   - [Using groups to control excluded properties](#using-groups-to-control-excluded-properties)
-  - [Using versioning to control exposed and excluded properties](#using-versioning-to-control-exposed-and-excluded-properties)
+  - [Using versioning to control included and excluded properties](#using-versioning-to-control-included-and-excluded-properties)
   - [Сonverting date strings into Date objects](#сonverting-date-strings-into-date-objects)
   - [Working with arrays](#working-with-arrays)
   - [Additional data transformation](#additional-data-transformation)
@@ -221,12 +221,12 @@ If this behaviour does not suit your needs, you can use the `excludeExtraneousVa
 in the `plainToInstance` method while _exposing all your class properties_ as a requirement.
 
 ```typescript
-import { expose, plainToInstance } from "class-transform";
+import { include, plainToInstance } from "class-transform";
 
 class User {
-  @expose() id: number;
-  @expose() firstName: string;
-  @expose() lastName: string;
+  @include() id: number;
+  @include() firstName: string;
+  @include() lastName: string;
 }
 
 let userPlain = {
@@ -348,10 +348,10 @@ in the options to keep the discriminator property also inside your resulting cla
 
 ## Exposing getters and method return values
 
-You can expose what your getter or method returns by setting an `@expose()` decorator to those getters or methods:
+You can expose what your getter or method returns by setting an `@include()` decorator to those getters or methods:
 
 ```typescript
-import { expose } from "class-transform";
+import { include } from "class-transform";
 
 class User {
   id: number;
@@ -359,12 +359,12 @@ class User {
   lastName: string;
   password: string;
 
-  @expose()
+  @include()
   get name() {
     return this.firstName + " " + this.lastName;
   }
 
-  @expose()
+  @include()
   getFullName() {
     return this.firstName + " " + this.lastName;
   }
@@ -374,20 +374,20 @@ class User {
 ## Exposing properties with different names
 
 If you want to expose some of the properties with a different name,
-you can do that by specifying a `name` option to `@expose` decorator:
+you can do that by specifying a `name` option to `@include` decorator:
 
 ```typescript
-import { expose } from "class-transform";
+import { include } from "class-transform";
 
 class User {
-  @expose({ name: "uid" })
+  @include({ name: "uid" })
   id: number;
   firstName: string;
   lastName: string;
-  @expose({ name: "secretKey" })
+  @include({ name: "secretKey" })
   password: string;
 
-  @expose({ name: "fullName" })
+  @include({ name: "fullName" })
   getFullName() {
     return this.firstName + " " + this.lastName;
   }
@@ -400,7 +400,7 @@ Sometimes you want to skip some properties during transformation.
 This can be done using `@exclude` decorator:
 
 ```typescript
-import { expose } from "class-transform";
+import { include } from "class-transform";
 
 class User {
   id: number;
@@ -417,7 +417,7 @@ Now when you transform a User, the `password` property will be skipped and not b
 You can control on what operation you will exclude a property. Use `toInstanceOnly` or `toPlainOnly` options:
 
 ```typescript
-import { expose } from "class-transform";
+import { include } from "class-transform";
 
 class User {
   id: number;
@@ -434,19 +434,19 @@ Now `password` property will be excluded only during `instanceToPlain` operation
 You can skip all properties of the class, and expose only those are needed explicitly:
 
 ```typescript
-import { exclude, expose } from "class-transform";
+import { exclude, include } from "class-transform";
 
 @exclude()
 class User {
-  @expose()
+  @include()
   id: number;
-  @expose()
+  @include()
   email: string;
   password: string;
 }
 ```
 
-Now `id` and `email` will be exposed, and password will be excluded during transformation.
+Now `id` and `email` will be included, and password will be excluded during transformation.
 Alternatively, you can set exclusion strategy during transformation:
 
 ```typescript
@@ -471,7 +471,7 @@ You can pass any number of prefixes and all properties that begin with these pre
 For example:
 
 ```typescript
-import { expose, instanceToPlain } from "class-transform";
+import { include, instanceToPlain } from "class-transform";
 
 class User {
   id: number;
@@ -484,7 +484,7 @@ class User {
     this._lastName = lastName;
   }
 
-  @expose()
+  @include()
   get name() {
     return this._firstName + " " + this._lastName;
   }
@@ -502,20 +502,20 @@ let userPlain = instanceToPlain(user, { excludePrefixes: ["_"] });
 
 ## Using groups to control excluded properties
 
-You can use groups to control what data will be exposed and what will not be:
+You can use groups to control what data will be included and what will not be:
 
 ```typescript
-import { exclude, expose, instanceToPlain } from "class-transform";
+import { exclude, include, instanceToPlain } from "class-transform";
 
 class User {
   id: number;
 
   name: string;
 
-  @expose({ groups: ["user", "admin"] }) // this means that this data will be exposed only to users and admins
+  @include({ groups: ["user", "admin"] }) // this means that this data will be included only to users and admins
   email: string;
 
-  @expose({ groups: ["user"] }) // this means that this data will be exposed only to users
+  @include({ groups: ["user"] }) // this means that this data will be included only to users
   password: string;
 }
 
@@ -523,20 +523,20 @@ let user1 = instanceToPlain(user, { groups: ["user"] }); // will contain id, nam
 let user2 = instanceToPlain(user, { groups: ["admin"] }); // will contain id, name and email
 ```
 
-## Using versioning to control exposed and excluded properties
+## Using versioning to control included and excluded properties
 
 If you are building an API that has different versions, class-transform has extremely useful tools for that.
-You can control which properties of your model should be exposed or excluded in what version. Example:
+You can control which properties of your model should be included or excluded in what version. Example:
 
 ```typescript
-import { exclude, expose, instanceToPlain } from "class-transform";
+import { exclude, include, instanceToPlain } from "class-transform";
 
 class User {
   id: number;
   name: string;
-  @expose({ since: 0.7, until: 1 }) // this means that this property will be exposed for version starting from 0.7 until 1
+  @include({ since: 0.7, until: 1 }) // this means that this property will be included for version starting from 0.7 until 1
   email: string;
-  @expose({ since: 2.1 }) // this means that this property will be exposed for version starting from 2.1
+  @include({ since: 2.1 }) // this means that this property will be included for version starting from 2.1
   password: string;
 }
 

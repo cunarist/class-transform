@@ -1,6 +1,6 @@
 import {
-  TypeMetadata,
-  ExposeMetadata,
+  NestMetadata,
+  IncludeMetadata,
   ExcludeMetadata,
   TransformMetadata,
 } from "./interfaces";
@@ -14,12 +14,12 @@ export class MetadataStorage {
   // Properties
   // -------------------------------------------------------------------------
 
-  private _typeMetadatas = new Map<Function, Map<string, TypeMetadata>>();
+  private _typeMetadatas = new Map<Function, Map<string, NestMetadata>>();
   private _transformMetadatas = new Map<
     Function,
     Map<string, TransformMetadata[]>
   >();
-  private _exposeMetadatas = new Map<Function, Map<string, ExposeMetadata>>();
+  private _exposeMetadatas = new Map<Function, Map<string, IncludeMetadata>>();
   private _excludeMetadatas = new Map<Function, Map<string, ExcludeMetadata>>();
   private _ancestorsMap = new Map<Function, Function[]>();
 
@@ -27,9 +27,9 @@ export class MetadataStorage {
   // Adder Methods
   // -------------------------------------------------------------------------
 
-  addTypeMetadata(metadata: TypeMetadata): void {
+  addNestMetadata(metadata: NestMetadata): void {
     if (!this._typeMetadatas.has(metadata.target)) {
-      this._typeMetadatas.set(metadata.target, new Map<string, TypeMetadata>());
+      this._typeMetadatas.set(metadata.target, new Map<string, NestMetadata>());
     }
     this._typeMetadatas
       .get(metadata.target)
@@ -56,11 +56,11 @@ export class MetadataStorage {
       .push(metadata);
   }
 
-  addExposeMetadata(metadata: ExposeMetadata): void {
+  addIncludeMetadata(metadata: IncludeMetadata): void {
     if (!this._exposeMetadatas.has(metadata.target)) {
       this._exposeMetadatas.set(
         metadata.target,
-        new Map<string, ExposeMetadata>(),
+        new Map<string, IncludeMetadata>(),
       );
     }
     this._exposeMetadatas
@@ -119,20 +119,20 @@ export class MetadataStorage {
     return this.findMetadata(this._excludeMetadatas, target, propertyName);
   }
 
-  findExposeMetadata(target: Function, propertyName: string): ExposeMetadata {
+  findIncludeMetadata(target: Function, propertyName: string): IncludeMetadata {
     return this.findMetadata(this._exposeMetadatas, target, propertyName);
   }
 
-  findExposeMetadataByCustomName(
+  findIncludeMetadataByCustomName(
     target: Function,
     name: string,
-  ): ExposeMetadata {
-    return this.getExposedMetadatas(target).find((metadata) => {
+  ): IncludeMetadata {
+    return this.getIncludedMetadatas(target).find((metadata) => {
       return metadata.options && metadata.options.name === name;
     });
   }
 
-  findTypeMetadata(target: Function, propertyName: string): TypeMetadata {
+  findNestMetadata(target: Function, propertyName: string): NestMetadata {
     return this.findMetadata(this._typeMetadatas, target, propertyName);
   }
 
@@ -145,7 +145,7 @@ export class MetadataStorage {
     return exclude ? "excludeAll" : "exposeAll";
   }
 
-  getExposedMetadatas(target: Function): ExposeMetadata[] {
+  getIncludedMetadatas(target: Function): IncludeMetadata[] {
     return this.getMetadata(this._exposeMetadatas, target);
   }
 
@@ -153,11 +153,11 @@ export class MetadataStorage {
     return this.getMetadata(this._excludeMetadatas, target);
   }
 
-  getExposedProperties(
+  getIncludedProperties(
     target: Function,
     transformationType: TransformationType,
   ): string[] {
-    return this.getExposedMetadatas(target)
+    return this.getIncludedMetadatas(target)
       .filter((metadata) => {
         if (!metadata.options) return true;
         if (

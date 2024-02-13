@@ -1,9 +1,9 @@
-import { TypeOptions } from "..";
+import { NestOptions } from "..";
 
 /**
  * This object represents metadata assigned to a property via the @nest decorator.
  */
-export interface TypeMetadata {
+export interface NestMetadata {
   target: Function;
 
   /**
@@ -25,5 +25,5 @@ export interface TypeMetadata {
   /**
    * Options passed to the @nest operator for this property.
    */
-  options: TypeOptions;
+  options: NestOptions;
 }

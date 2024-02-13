@@ -1,9 +1,9 @@
-import { DiscriminatorDescriptor } from "./type-discriminator-descriptor.interface";
+import { DiscriminatorDescriptor } from "./nest-discriminator-descriptor.interface";
 
 /**
  * Possible transformation options for the @nest decorator.
  */
-export interface TypeOptions {
+export interface NestOptions {
   /**
    * Optional discriminator object, when provided the property value will be
    * initialized according to the specified object.

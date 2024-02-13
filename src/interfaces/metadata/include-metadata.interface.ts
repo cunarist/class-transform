@@ -1,9 +1,9 @@
-import { ExposeOptions } from "..";
+import { IncludeOptions } from "..";
 
 /**
- * This object represents metadata assigned to a property via the @expose decorator.
+ * This object represents metadata assigned to a property via the @include decorator.
  */
-export interface ExposeMetadata {
+export interface IncludeMetadata {
   target: Function;
 
   /**
@@ -14,7 +14,7 @@ export interface ExposeMetadata {
   propertyName: string | undefined;
 
   /**
-   * Options passed to the @expose operator for this property.
+   * Options passed to the @include operator for this property.
    */
-  options: ExposeOptions;
+  options: IncludeOptions;
 }

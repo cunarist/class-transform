@@ -1,14 +1,14 @@
 /**
- * Possible transformation options for the @expose decorator.
+ * Possible transformation options for the @include decorator.
  */
-export interface ExposeOptions {
+export interface IncludeOptions {
   /**
    * Name of property on the target object to expose the value of this property.
    */
   name?: string;
 
   /**
-   * First version where this property should be exposed.
+   * First version where this property should be included.
    *
    * Example:
    * ```ts
@@ -18,7 +18,7 @@ export interface ExposeOptions {
   since?: number;
 
   /**
-   * Last version where this property should be exposed.
+   * Last version where this property should be included.
    *
    * Example:
    * ```ts
@@ -29,7 +29,7 @@ export interface ExposeOptions {
 
   /**
    * List of transformation groups this property belongs to. When set,
-   * the property will be exposed only when transform is called with
+   * the property will be included only when transform is called with
    * one of the groups specified.
    *
    * Example:

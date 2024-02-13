@@ -3,7 +3,7 @@
  */
 export interface TransformOptions {
   /**
-   * First version where this property should be exposed.
+   * First version where this property should be included.
    *
    * Example:
    * ```ts
@@ -13,7 +13,7 @@ export interface TransformOptions {
   since?: number;
 
   /**
-   * Last version where this property should be exposed.
+   * Last version where this property should be included.
    *
    * Example:
    * ```ts
@@ -24,7 +24,7 @@ export interface TransformOptions {
 
   /**
    * List of transformation groups this property belongs to. When set,
-   * the property will be exposed only when transform is called with
+   * the property will be included only when transform is called with
    * one of the groups specified.
    *
    * Example:
