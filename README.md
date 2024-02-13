@@ -361,7 +361,7 @@ class User {
 }
 ```
 
-Alternatively, you can make all of the class fields exclusive
+Alternatively, you can make the class fields exclusive by default
 and include only those are needed:
 
 ```typescript
