@@ -11,7 +11,7 @@
 It's ES6 and Typescript era.
 Nowadays you are working with classes and constructor objects more than ever.
 `class-transform` allows you to transform
-JSON or plain object into typed instance of class and vice versa.
+JSON or plain object into typed instance of a class and vice versa.
 This tool is super useful on both frontend and backend.
 
 ```javascript
