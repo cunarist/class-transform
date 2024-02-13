@@ -257,10 +257,10 @@ console.log(
 ## Working with nested objects
 
 When you are trying to transform objects that have nested objects,
-it's required to known what type of object you are trying to transform.
-Since Typescript does not have good reflection abilities yet,
-we should implicitly specify what type of object each property contain.
-This is done using `@nested` decorator.
+it's necessary to know which type you should transform the object into.
+Since TypeScript does not yet have robust reflection abilities,
+we need to explicitly specify the type of object each property contains.
+This is accomplished using the `@nested` decorator.
 
 Lets say we have an album with photos.
 And we are trying to convert album plain object to class object:
