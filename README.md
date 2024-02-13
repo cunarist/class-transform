@@ -1,9 +1,3 @@
-> This library is a fork of the original
-> [`class-transformer`](https://github.com/typestack/class-transformer) package.
-> Its goal is to enhance API usability through continuous updates.
-> This project will be maintained and will always accept pull requests.
-> Please note that the API is still subject to changes.
-
 # `class-transform`
 
 [![Continuous Integration](https://github.com/cunarist/class-transform/workflows/CI/badge.svg)](https://github.com/cunarist/class-transform/actions/workflows/continuous_integration.yml)
@@ -40,6 +34,12 @@ Album {
   pages: Pages { table: 6, contents: 72 }
 }
 ```
+
+> This library is a fork of the original
+> [`class-transformer`](https://github.com/typestack/class-transformer) package.
+> Its goal is to enhance API usability through continuous updates.
+> This project will be maintained and will always accept pull requests.
+> Please note that the API is still subject to changes.
 
 ## Table of contents
 
