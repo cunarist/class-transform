@@ -147,9 +147,6 @@ To achieve type safety, you can use `class-transform`.
 Purpose of this library is to help you to convert your plain javascript
 objects to the instances of classes you have.
 
-This library also great for models exposed in your APIs,
-because it provides a great tooling to control
-what your models are exposing in your API.
 Here is an example how it will look like:
 
 ```typescript
