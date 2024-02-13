@@ -6,7 +6,8 @@
 
 # `class-transform`
 
-[![npm version](https://badge.fury.io/js/class-transform.svg)](https://badge.fury.io/js/class-transform)
+[![Continuous Integration](https://github.com/cunarist/class-transform/workflows/CI/badge.svg)](https://github.com/cunarist/class-transform/actions/workflows/continuous-integration.yml)
+[![NPM Version](https://img.shields.io/npm/v/class-transform)](https://badge.fury.io/js/class-transform)
 
 It's ES6 and Typescript era.
 Nowadays you are working with classes and instances more than ever.
