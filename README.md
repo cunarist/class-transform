@@ -180,7 +180,7 @@ let users = plainToInstance(User, userPlain); // Also supports arrays
 
 ### instanceToPlain
 
-This method transforms your class object back to plain javascript object, that can be `JSON.stringify` later.
+This method transforms your class object back to plain javascript object, that can be `JSON.stringify`ed later.
 
 ```typescript
 import { instanceToPlain } from "class-transform";
