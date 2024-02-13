@@ -1,4 +1,4 @@
-import { instanceToPlain, plainToInstance } from "../../src/index";
+import { instanceToPlain, plainToInstance } from "class-transform";
 import { Photo } from "./Photo";
 
 let photoJson = {

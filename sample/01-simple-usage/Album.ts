@@ -1,12 +1,8 @@
-import { nested, exclude } from "../../src/index";
-import { Photo } from "./Photo";
+import { exclude } from "class-transform";
 
 export class Album {
   id: string;
 
   @exclude()
   name: string;
-
-  @nested(Photo)
-  photos: Array<Photo>;
 }

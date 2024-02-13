@@ -1,11 +1,10 @@
 import { Album } from "./Album";
-import { AlbumArray } from "./AlbumArray";
-import { nested } from "../../src/index";
+import { nested } from "class-transform";
 
 export class Photo {
   id: string;
   filename: string;
   description: string;
   tags: Array<string>;
-  @nested(Album) albums: AlbumArray;
+  @nested(Album) albums: Array<Album>;
 }

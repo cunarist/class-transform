@@ -1,4 +1,4 @@
-import { nested, exclude } from "../../src/index";
+import { nested, exclude } from "class-transform";
 import { Album } from "./Album";
 import { Authorable } from "./Authorable";
 

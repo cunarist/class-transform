@@ -1,4 +1,4 @@
-import { nested } from "../../src/index";
+import { nested } from "class-transform";
 
 export class User {
   @nested(Number)

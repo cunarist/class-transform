@@ -1,4 +1,4 @@
-import { plainToInstance, instanceToPlain } from "../../src/index";
+import { plainToInstance, instanceToPlain } from "class-transform";
 import { Photo } from "./Photo";
 
 // check deserialization

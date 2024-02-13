@@ -609,23 +609,7 @@ export class Photo {
 }
 ```
 
-You can also use custom array types:
-
-```typescript
-import { nested } from "class-transform";
-
-export class AlbumCollection extends Array<Album> {
-  // custom array functions ...
-}
-
-export class Photo {
-  id: number;
-  name: string;
-  @nested(Album) albums: AlbumCollection;
-}
-```
-
-Library will handle proper transformation automatically.
+This library will handle the transformation automatically.
 
 ## Additional data transformation
 

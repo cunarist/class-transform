@@ -1,4 +1,4 @@
-import { nested } from "../../src/index";
+import { nested } from "class-transform";
 import { Album } from "./Album";
 import { User } from "./User";
 

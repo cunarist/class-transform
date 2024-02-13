@@ -1,4 +1,4 @@
-import { nested, exclude } from "../../src/index";
+import { nested, exclude } from "class-transform";
 import { User } from "./User";
 
 export class Authorable {

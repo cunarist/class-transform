@@ -1,4 +1,4 @@
-import { instanceToPlain, plainToInstance } from "../../src/index";
+import { instanceToPlain, plainToInstance } from "class-transform";
 import { Photo } from "./Photo";
 
 // check deserialization
@@ -22,8 +22,6 @@ let photoJson = {
 
 let photo = plainToInstance(Photo, photoJson);
 console.log("deserialized object: ", photo);
-console.log("-----------------------------");
-console.log("Trying to find album: ", photo.albums.findByName("My life"));
 console.log("-----------------------------");
 
 // now check serialization
