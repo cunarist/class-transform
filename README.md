@@ -155,9 +155,11 @@ the compiler's type checking becomes available.
 You can use class methods as well.
 
 ```typescript
-users[0].getName();
-users[0].isAdult();
+realUsers[0].getName();
+realUsers[0].isAdult();
 ```
+
+Using classes for JSON can be advantageous over TypeScript's `interface` and `type` statements because they are preserved after compilation, enabling true object-oriented programming for type-safe runtime behaviors.
 
 ## Functions
 
