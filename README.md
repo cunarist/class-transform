@@ -506,15 +506,19 @@ class User {
 
   name: string;
 
-  @include({ groups: ["user", "admin"] }) // this means that this data will be included only to users and admins
+  @include({ groups: ["user", "admin"] })
+  // This means that this data will be included only to users and admins
   email: string;
 
-  @include({ groups: ["user"] }) // this means that this data will be included only to users
+  @include({ groups: ["user"] })
+  // This means that this data will be included only to users
   password: string;
 }
 
-let user1 = instanceToPlain(user, { groups: ["user"] }); // will contain id, name, email and password
-let user2 = instanceToPlain(user, { groups: ["admin"] }); // will contain id, name and email
+let user1 = instanceToPlain(user, { groups: ["user"] });
+// will contain id, name, email and password
+let user2 = instanceToPlain(user, { groups: ["admin"] });
+// will contain id, name and email
 ```
 
 ## Using versioning to control included and excluded properties
@@ -528,9 +532,13 @@ import { exclude, include, instanceToPlain } from "class-transform";
 class User {
   id: number;
   name: string;
-  @include({ since: 0.7, until: 1 }) // this means that this property will be included for version starting from 0.7 until 1
+  @include({ since: 0.7, until: 1 })
+  // This means that this property will be included
+  // for version starting from 0.7 until 1
   email: string;
-  @include({ since: 2.1 }) // this means that this property will be included for version starting from 2.1
+  @include({ since: 2.1 })
+  // This means that this property will be included
+  // for version starting from 2.1
   password: string;
 }
 
