@@ -1,6 +1,6 @@
 {
   "name": "class-transform",
-  "version": "0.6.2",
+  "version": "0.7.0-dev.0",
   "description": "Decorator-based transformation between plain JavaScript objects and class instances",
   "author": "Cunarist",
   "license": "MIT",
