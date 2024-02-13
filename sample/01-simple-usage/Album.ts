@@ -1,8 +1,8 @@
-import { conceal } from "class-transform";
+import { exclude } from "class-transform";
 
 export class Album {
   id: string;
 
-  @conceal()
+  @exclude()
   name: string;
 }
