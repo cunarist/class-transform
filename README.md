@@ -1,12 +1,44 @@
-> This repository is a fork of the original [`class-transformer`](https://github.com/typestack/class-transformer) package. Its goal is to enhance API usability through continuous updates. This repository will be maintained and will always accept pull requests. Please note that the API is still subject to changes.
+> This repository is a fork of the original
+> [`class-transformer`](https://github.com/typestack/class-transformer) package.
+> Its goal is to enhance API usability through continuous updates.
+> This repository will be maintained and will always accept pull requests.
+> Please note that the API is still subject to changes.
 
 # class-transform
 
 [![npm version](https://badge.fury.io/js/class-transform.svg)](https://badge.fury.io/js/class-transform)
 
-It's ES6 and Typescript era. Nowadays you are working with classes and constructor objects more than ever.
-Class-transform allows you to transform JSON or plain object into some instance of class and vice versa.
+It's ES6 and Typescript era.
+Nowadays you are working with classes and constructor objects more than ever.
+Class-transform allows you to transform
+JSON or plain object into typed instance of class and vice versa.
 This tool is super useful on both frontend and backend.
+
+```javascript
+// Plain - no type information
+{
+  id: 1,
+  name: 'foo',
+  photos: [
+    { id: 9, filename: 'cool_whale.jpg', depth: 1245 },
+    { id: 10, filename: 'hot_bird.jpg', depth: 6123 }
+  ],
+  pages: { table: 6, contents: 72 }
+}
+```
+
+```javascript
+// Instance - typed by a class
+Album {
+  id: 1,
+  name: 'foo',
+  photos: [
+    Photo { id: 9, filename: 'cool_whale.jpg', depth: 1245 },
+    Photo { id: 10, filename: 'hot_bird.jpg', depth: 6123 }
+  ],
+  pages: Pages { table: 6, contents: 72 }
+}
+```
 
 ## Table of contents
 
