@@ -659,7 +659,7 @@ The `@transform` decorator is given more arguments to let you configure how you 
 Generics are not supported because TypeScript does not have good reflection abilities yet.
 Once TypeScript team provide us better runtime type reflection tools, generics will be implemented.
 There are some tweaks however you can use, that maybe can solve your problem.
-[Checkout this example.](https://github.com/pleerock/class-transform/tree/main/sample/sample4-generics)
+[Check out the sample code.](https://github.com/cunarist/class-transform/tree/main/sample/sample4-generics)
 
 ## Implicit type conversion
 
@@ -701,7 +701,7 @@ Circular references are not ignored only during `instanceToInstance` operation.
 
 ## Samples
 
-Take a look on samples in [./sample](https://github.com/pleerock/class-transform/tree/main/sample) for more examples of
+Take a look on [samples](https://github.com/cunarist/class-transform/tree/main/sample) for more examples of
 usages.
 
 ## Release notes
