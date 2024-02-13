@@ -29,5 +29,5 @@ jobs:
       - run: npm run build
       - run: npm install
         working-directory: ./sample
-      - run: npx tsc
+      - run: npx tsx index.ts
         working-directory: ./sample
