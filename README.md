@@ -4,13 +4,13 @@
 > This repository will be maintained and will always accept pull requests.
 > Please note that the API is still subject to changes.
 
-# class-transform
+# `class-transform`
 
 [![npm version](https://badge.fury.io/js/class-transform.svg)](https://badge.fury.io/js/class-transform)
 
 It's ES6 and Typescript era.
 Nowadays you are working with classes and constructor objects more than ever.
-Class-transform allows you to transform
+`class-transform` allows you to transform
 JSON or plain object into typed instance of class and vice versa.
 This tool is super useful on both frontend and backend.
 
@@ -42,9 +42,9 @@ Album {
 
 ## Table of contents
 
-- [class-transform](#class-transform)
+- [`class-transform`](#class-transform)
   - [Table of contents](#table-of-contents)
-  - [About class-transform](#about-class-transform)
+  - [About this library](#about-this-library)
   - [Functions](#functions)
     - [plainToInstance](#plaintoinstance)
     - [instanceToPlain](#instancetoplain)
@@ -71,23 +71,22 @@ Album {
   - [Samples](#samples)
   - [Release notes](#release-notes)
 
-## About class-transform
+## About this library
 
-In JavaScript there are two types of objects:
+In JavaScript, objects can be classified into two categories:
 
-- plain (literal) objects
-- class (constructor) objects
-
-Plain objects are objects that are instances of `Object` class.
-Sometimes they are called **literal** objects, when created via `{}` notation.
-Class objects are instances of classes with own defined constructor, properties and methods.
-Usually you define them via `class` notation.
+- Plain objects:
+  Objects that are instances of `Object` class.
+  Sometimes they are called **literal** objects, when created via `{}` notation.
+- Instance objects:
+  Instances of classes with own defined constructor, properties and methods.
+  Usually you define them via `class` notation.
 
 So, what is the problem?
 
-Sometimes you want to transform plain javascript object to the ES6 **classes** you have.
-For example, if you are loading a json from your backend, some api or from a json file,
-and after you `JSON.parse` it you have a plain javascript object, not instance of class you have.
+Sometimes you want to transform plain javascript object to an instance of the ES6 **class** you have.
+If you are loading data from some JSON API or a JSON file,
+and after you've done `JSON.parse` you have a plain javascript object, not an instance of a class.
 
 For example you have a list of users in your `users.json` that you are loading:
 
@@ -133,40 +132,56 @@ export class User {
 }
 ```
 
-You are assuming that you are downloading users of type `User` from `users.json` file and may want to write
-following code:
+You are assuming that you are downloading users of type `User`
+from `users.json` file and may want to write the following code:
 
 ```typescript
 let response = await fetch("users.json");
 let users: Array<User> = await response.json();
-// you can use users here, and type hinting also will be available to you,
-// but users are not actually instances of User class
-// this means that you can't use methods of User class
+// You do a trick here to make the plain object
+// treated as a `User` type here by the compiler,
+// and type hinting will be available to you.
+// However, `users` are not actually instances of the `User` class,
+// which means that you cannot use any method of `User`.
 ```
 
-In this code you can use `users[0].id`, you can also use `users[0].firstName` and `users[0].lastName`.
-However you cannot use `users[0].getName()` or `users[0].isAdult()` because "users" actually is
-array of plain javascript objects, not instances of User object.
-You actually lied to compiler when you said that its `users: User[]`.
+In this code you can use the followings:
 
-So what to do? How to make a `users` array of instances of `User` objects instead of plain javascript objects?
-Solution is to create new instances of User object and manually copy all properties to new objects.
+- `users[0].id`
+- `users[0].firstName`
+- `users[0].lastName`
+
+However you cannot use these:
+
+- `users[0].getName()`
+- `users[0].isAdult()`
+
+This is because the `users` variable is actually an
+array of plain javascript objects, not instances of the `User` class.
+You actually lied to compiler when you wrote `users: Array<User>`.
+
+So what to do? How to make a `users` array of instances of `User` class
+instead of plain javascript objects?
+Solution is to create new instances of `User` object
+and manually copy all properties to new objects.
 But things may go wrong very fast once you have a more complex object hierarchy.
 
-Alternatives? Yes, you can use class-transform. Purpose of this library is to help you to map your plain javascript
+Alternatives? Yes, you can use `class-transform`.
+Purpose of this library is to help you to map your plain javascript
 objects to the instances of classes you have.
 
 This library also great for models exposed in your APIs,
-because it provides a great tooling to control what your models are exposing in your API.
+because it provides a great tooling to control
+what your models are exposing in your API.
 Here is an example how it will look like:
 
 ```typescript
 let response = await fetch("users.json");
 let realUsers = plainToInstance(User, await response.json());
-// now each user in realUsers is an instance of User class
+// Now each value in `realUsers` is a real instance of the `User` class.
 ```
 
-Now you can use `users[0].getName()` and `users[0].isAdult()` methods.
+Now you can use class methods properly.
 
 ## Functions
 
