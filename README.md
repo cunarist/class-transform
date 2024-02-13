@@ -174,7 +174,7 @@ This method transforms a plain javascript object to instance of specific class.
 
 ```typescript
 import { plainToInstance } from "class-transform";
-let users = plainToInstance(User, userJson); // to convert user plain object a single user. also supports arrays
+let users = plainToInstance(User, userPlain); // Also supports arrays
 ```
 
 ### instanceToPlain
@@ -183,7 +183,7 @@ This method transforms your class object back to plain javascript object, that c
 
 ```typescript
 import { instanceToPlain } from "class-transform";
-let photo = instanceToPlain(photo);
+let photoPlain = instanceToPlain(photo);
 ```
 
 ### instanceToInstance
@@ -281,7 +281,7 @@ class Photo {
   filename: string;
 }
 
-let album = plainToInstance(Album, albumJson);
+let album = plainToInstance(Album, albumPlain);
 // now album is Album object with Photo objects inside
 ```
 
@@ -349,7 +349,7 @@ class Album {
   topPhoto: Landscape | Portrait | UnderWater;
 }
 
-let album = plainToInstance(Album, albumJson);
+let album = plainToInstance(Album, albumPlain);
 // now album is Album object with a UnderWater object without `__type` property.
 ```
 
