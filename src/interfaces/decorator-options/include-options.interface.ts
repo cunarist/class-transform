@@ -3,9 +3,9 @@
  */
 export interface IncludeOptions {
   /**
-   * Name of property on the target object to expose the value of this property.
+   * Name of property on the plain object to expose the value of this property.
    */
-  name?: string;
+  plainName?: string;
 
   /**
    * First version where this property should be included.

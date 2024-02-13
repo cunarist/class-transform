@@ -15,11 +15,11 @@ let photoPlain = {
   },
   albums: [
     {
-      id: "1",
+      idPlain: "1",
       name: "My life",
     },
     {
-      id: "2",
+      idPlain: "2",
       name: "My young years",
     },
   ],
@@ -49,11 +49,11 @@ let photosPlain = [
     },
     albums: [
       {
-        id: "1",
+        idPlain: "1",
         name: "My life",
       },
       {
-        id: "2",
+        idPlain: "2",
         name: "My young years",
       },
     ],
@@ -69,11 +69,11 @@ let photosPlain = [
     },
     albums: [
       {
-        id: "1",
+        idPlain: "1",
         name: "My life",
       },
       {
-        id: "2",
+        idPlain: "2",
         name: "My young years",
       },
     ],

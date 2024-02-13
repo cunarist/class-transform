@@ -56,7 +56,7 @@ Album {
   - [Skipping specific properties](#skipping-specific-properties)
   - [Skipping properties by operation](#skipping-properties-by-operation)
   - [Exposing getters and method return values](#exposing-getters-and-method-return-values)
-  - [Changing property names](#changing-property-names)
+  - [Different property name for plain object](#different-property-name-for-plain-object)
   - [Skipping private properties, or some prefixed properties](#skipping-private-properties-or-some-prefixed-properties)
   - [Using groups to control excluded properties](#using-groups-to-control-excluded-properties)
   - [Using versioning to control included and excluded properties](#using-versioning-to-control-included-and-excluded-properties)
@@ -433,30 +433,30 @@ class User {
 }
 ```
 
-## Changing property names
+## Different property name for plain object
 
-If you want to expose some of the properties with a different name,
-you can do that by specifying a `name` option to `@include` decorator:
+If the plain object's property should have a different name,
+you can do that by specifying a `plainName` option in `@include` decorator:
 
 ```typescript
 import { include } from "class-transform";
 
 class User {
-  @include({ name: "uid" })
+  @include({ plainName: "uid" })
   id: number;
   firstName: string;
   lastName: string;
-  @include({ name: "secretKey" })
+  @include({ plainName: "secretKey" })
   password: string;
 
-  @include({ name: "fullName" })
+  @include({ plainName: "fullName" })
   getFullName() {
     return this.firstName + " " + this.lastName;
   }
 }
 ```
 
-Now `password` property will be excluded only during `instanceToPlain` operation. Vice versa, use the `toInstanceOnly` option.
+This is useful when JSON API uses snakecase or weird naming convention.
 
 ## Skipping private properties, or some prefixed properties
 
