@@ -78,16 +78,16 @@ In JavaScript, objects can be classified into two categories:
 
 - Plain objects:
   Objects that are instances of `Object` class.
-  Sometimes they are called **literal** objects, when created via `{}` notation.
+  Sometimes they are called literal objects, when created via `{}` notation.
 - Instance objects:
   Instances of classes with own defined constructor, properties and methods.
   Usually you define them via `class` notation.
 
 So, what is the problem?
 
-Sometimes you want to transform plain javascript object to an instance of the ES6 **class** you have.
-If you are loading data from some JSON API or a JSON file,
-and after you've done `JSON.parse` you have a plain javascript object, not an instance of a class.
+Sometimes you want to transform plain javascript object to an instance of the ES6 class.
+Once you've parsed some data from some JSON API or a JSON file with `JSON.parse`,
+you have a plain javascript object, not an instance of a class.
 
 For example you have a list of users in your `users.json` that you are loading:
 
