@@ -55,8 +55,8 @@ Album {
     - [Providing more than one type option](#providing-more-than-one-type-option)
   - [Skipping specific properties](#skipping-specific-properties)
   - [Skipping properties by operation](#skipping-properties-by-operation)
+  - [Giving different property name for plain objects](#giving-different-property-name-for-plain-objects)
   - [Exposing getters and method return values](#exposing-getters-and-method-return-values)
-  - [Different property name for plain object](#different-property-name-for-plain-object)
   - [Skipping private properties, or some prefixed properties](#skipping-private-properties-or-some-prefixed-properties)
   - [Using groups to control excluded properties](#using-groups-to-control-excluded-properties)
   - [Using versioning to control included and excluded properties](#using-versioning-to-control-included-and-excluded-properties)
@@ -408,6 +408,26 @@ class Direction {
 }
 ```
 
+## Giving different property name for plain objects
+
+If the plain object's property should have a different name,
+you can do that by specifying a `plainName` option in `@include` decorator:
+
+```typescript
+import { include } from "class-transform";
+
+class User {
+  id: number;
+  @include({ plainName: "first_name" })
+  firstName: string;
+  @include({ plainName: "last_name" })
+  lastName: string;
+  password: string;
+}
+```
+
+This is useful when the JSON API uses snakecase or weird naming convention.
+
 ## Exposing getters and method return values
 
 You can expose what your getter or method returns by setting an `@include()` decorator to those getters or methods:
@@ -432,31 +452,6 @@ class User {
   }
 }
 ```
-
-## Different property name for plain object
-
-If the plain object's property should have a different name,
-you can do that by specifying a `plainName` option in `@include` decorator:
-
-```typescript
-import { include } from "class-transform";
-
-class User {
-  @include({ plainName: "uid" })
-  id: number;
-  firstName: string;
-  lastName: string;
-  @include({ plainName: "secretKey" })
-  password: string;
-
-  @include({ plainName: "fullName" })
-  getFullName() {
-    return this.firstName + " " + this.lastName;
-  }
-}
-```
-
-This is useful when JSON API uses snakecase or weird naming convention.
 
 ## Skipping private properties, or some prefixed properties
 
@@ -498,7 +493,6 @@ user.setName("Johny", "Cage");
 user._password = "123";
 
 let userPlain = instanceToPlain(user, { excludePrefixes: ["_"] });
-// here userPlain will be equal to
 // { id: 1, name: "Johny Cage" }
 ```
 
