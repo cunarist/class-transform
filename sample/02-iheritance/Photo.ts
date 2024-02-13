@@ -1,4 +1,4 @@
-import { nested, exclude } from "../../src/decorators";
+import { nested, exclude } from "../../src/index";
 import { Album } from "./Album";
 import { Authorable } from "./Authorable";
 

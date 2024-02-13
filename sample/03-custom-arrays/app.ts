@@ -1,5 +1,3 @@
-import "es6-shim";
-import "reflect-metadata";
 import { instanceToPlain, plainToInstance } from "../../src/index";
 import { Photo } from "./Photo";
 

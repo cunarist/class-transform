@@ -1,4 +1,4 @@
-import { nested, transform } from "../../src/decorators";
+import { nested, transform } from "../../src/index";
 import * as moment from "moment";
 
 export class User {

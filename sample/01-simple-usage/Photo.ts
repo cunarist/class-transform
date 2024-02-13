@@ -1,4 +1,4 @@
-import { nested } from "../../src/decorators";
+import { nested } from "../../src/index";
 import { Album } from "./Album";
 import { User } from "./User";
 
