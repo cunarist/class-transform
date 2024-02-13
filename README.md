@@ -441,7 +441,7 @@ Now when you transform a User, the `password` property will be skipped and not b
 
 ## Skipping depend of operation
 
-You can control on what operation you will exclude a property. Use `toClassOnly` or `toPlainOnly` options:
+You can control on what operation you will exclude a property. Use `toInstanceOnly` or `toPlainOnly` options:
 
 ```typescript
 import { expose } from "class-transform";
@@ -454,7 +454,7 @@ export class User {
 }
 ```
 
-Now `password` property will be excluded only during `instanceToPlain` operation. Vice versa, use the `toClassOnly` option.
+Now `password` property will be excluded only during `instanceToPlain` operation. Vice versa, use the `toInstanceOnly` option.
 
 ## Skipping all properties of the class
 
@@ -644,7 +644,7 @@ export class Photo {
   id: number;
 
   @nested(Date)
-  @transform(({ value }) => moment(value), { toClassOnly: true })
+  @transform(({ value }) => moment(value), { toInstanceOnly: true })
   date: Moment;
 }
 ```

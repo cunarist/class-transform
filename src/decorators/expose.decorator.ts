@@ -4,12 +4,12 @@ import { ExposeOptions } from "../interfaces";
 /**
  * Marks the given class or property as included. By default the property is included in both
  * constructorToPlain and plainToConstructor transformations. It can be limited to only one direction
- * via using the `toPlainOnly` or `toClassOnly` option.
+ * via using the `toPlainOnly` or `toInstanceOnly` option.
  *
  * Can be applied to class definitions and properties.
  */
 export function expose(
-  options: ExposeOptions = {},
+  options: ExposeOptions = {}
 ): PropertyDecorator & ClassDecorator {
   /**
    * NOTE: The `propertyName` property must be marked as optional because

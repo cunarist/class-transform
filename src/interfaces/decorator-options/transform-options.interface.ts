@@ -37,7 +37,7 @@ export interface TransformOptions {
   /**
    * Expose this property only when transforming from plain to class instance.
    */
-  toClassOnly?: boolean;
+  toInstanceOnly?: boolean;
 
   /**
    * Expose this property only when transforming from class instance to plain object.

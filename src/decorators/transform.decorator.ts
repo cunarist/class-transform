@@ -8,7 +8,7 @@ import { TransformFnParams, TransformOptions } from "../interfaces";
  */
 export function transform(
   transformFn: (params: TransformFnParams) => any,
-  options: TransformOptions = {},
+  options: TransformOptions = {}
 ): PropertyDecorator {
   return function (target: any, propertyName: string | Symbol): void {
     defaultMetadataStorage.addTransformMetadata({

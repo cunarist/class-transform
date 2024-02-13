@@ -15,15 +15,15 @@ const classTransformer = new ClassTransformer();
  */
 export function instanceToPlain<T>(
   object: T,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): Record<string, any>;
 export function instanceToPlain<T>(
   object: Array<T>,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): Array<Record<string, any>>;
 export function instanceToPlain<T>(
   object: T | Array<T>,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): Record<string, any> | Record<string, any>[] {
   return classTransformer.instanceToPlain(object, options);
 }
@@ -34,17 +34,17 @@ export function instanceToPlain<T>(
 export function plainToInstance<T, V>(
   cls: ClassConstructor<T>,
   plain: Array<V>,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): Array<T>;
 export function plainToInstance<T, V>(
   cls: ClassConstructor<T>,
   plain: V,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): T;
 export function plainToInstance<T, V>(
   cls: ClassConstructor<T>,
   plain: V | Array<V>,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): T | Array<T> {
   return classTransformer.plainToInstance(cls, plain as any, options);
 }
@@ -54,15 +54,15 @@ export function plainToInstance<T, V>(
  */
 export function instanceToInstance<T>(
   object: T,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): T;
 export function instanceToInstance<T>(
   object: Array<T>,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): Array<T>;
 export function instanceToInstance<T>(
   object: T | Array<T>,
-  options?: ClassTransformOptions,
+  options?: ClassTransformOptions
 ): T | Array<T> {
   return classTransformer.instanceToInstance(object, options);
 }

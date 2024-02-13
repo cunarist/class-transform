@@ -8,6 +8,6 @@ export class User {
 
   @nested(Date)
   @transform((value) => value.toString(), { toPlainOnly: true })
-  @transform((value) => moment(value), { toClassOnly: true })
+  @transform((value) => moment(value), { toInstanceOnly: true })
   date: Date;
 }

@@ -13,13 +13,13 @@ import { TypeOptions } from "../interfaces";
  */
 export function nested(
   classConstructor: new (...args: any[]) => any,
-  options: TypeOptions = {},
+  options: TypeOptions = {}
 ): PropertyDecorator {
   return function (target: any, propertyName: string | Symbol): void {
     const reflectedType = (Reflect as any).getMetadata(
       "design:type",
       target,
-      propertyName,
+      propertyName
     );
     defaultMetadataStorage.addTypeMetadata({
       target: target.constructor,
