@@ -6,7 +6,7 @@ import { ClassTransformOptions } from "../interfaces/class-transform-options.int
 export const defaultOptions: Partial<ClassTransformOptions> = {
   enableCircularCheck: false,
   enableImplicitConversion: false,
-  excludeExtraneousValues: false,
+  excludeExtraneous: false,
   excludePrefixes: undefined,
   exposeDefaultValues: false,
   exposeUnsetFields: true,

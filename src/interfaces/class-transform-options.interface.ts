@@ -10,7 +10,7 @@ export interface ClassTransformOptions {
    * This option requires that each property on the target class has at least one `@include` or `@exclude` decorator
    * assigned from this library.
    */
-  excludeExtraneousValues?: boolean;
+  excludeExtraneous?: boolean;
 
   /**
    * Only properties with given groups gonna be transformed.

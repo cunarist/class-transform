@@ -128,7 +128,7 @@ export class MetadataStorage {
     name: string,
   ): IncludeMetadata {
     return this.getIncludedMetadatas(target).find((metadata) => {
-      return metadata.options && metadata.options.name === name;
+      return metadata.options && metadata.options.plainName === name;
     });
   }
 

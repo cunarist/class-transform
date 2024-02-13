@@ -238,9 +238,9 @@ export class TransformOperationExecutor {
             if (
               includeMetadata &&
               includeMetadata.options &&
-              includeMetadata.options.name
+              includeMetadata.options.plainName
             ) {
-              newValueKey = includeMetadata.options.name;
+              newValueKey = includeMetadata.options.plainName;
             }
           }
         }
@@ -586,7 +586,7 @@ export class TransformOperationExecutor {
      */
     if (
       this.options.ignoreDecorators &&
-      this.options.excludeExtraneousValues &&
+      this.options.excludeExtraneous &&
       target
     ) {
       const includedProperties = defaultMetadataStorage.getIncludedProperties(
@@ -615,15 +615,15 @@ export class TransformOperationExecutor {
           if (
             includeMetadata &&
             includeMetadata.options &&
-            includeMetadata.options.name
+            includeMetadata.options.plainName
           ) {
-            return includeMetadata.options.name;
+            return includeMetadata.options.plainName;
           }
 
           return key;
         });
       }
-      if (this.options.excludeExtraneousValues) {
+      if (this.options.excludeExtraneous) {
         keys = includedProperties;
       } else {
         keys = keys.concat(includedProperties);

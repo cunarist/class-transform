@@ -216,7 +216,7 @@ console.log(plainToInstance(User, userPlain));
 // }
 ```
 
-If this behaviour does not suit your needs, you can use the `excludeExtraneousValues` option
+If this behaviour does not suit your needs, you can use the `excludeExtraneous` option
 in the `plainToInstance` method while _exposing all your class properties_ as a requirement.
 
 ```typescript
@@ -234,9 +234,7 @@ let userPlain = {
   lastName: "Khudoiberdiev",
 };
 
-console.log(
-  plainToInstance(User, userPlain, { excludeExtraneousValues: true }),
-);
+console.log(plainToInstance(User, userPlain, { excludeExtraneous: true }));
 
 // User {
 //   id: undefined,
