@@ -229,13 +229,13 @@ class User {
   lastName: string;
 }
 
-const fromPlainUser = {
+const plainUser = {
   unkownProp: "hello there",
   firstName: "Umed",
   lastName: "Khudoiberdiev",
 };
 
-console.log(plainToInstance(User, fromPlainUser));
+console.log(plainToInstance(User, plainUser));
 
 // User {
 //   unkownProp: 'hello there',
@@ -256,14 +256,14 @@ class User {
   @expose() lastName: string;
 }
 
-const fromPlainUser = {
+const plainUser = {
   unkownProp: "hello there",
   firstName: "Umed",
   lastName: "Khudoiberdiev",
 };
 
 console.log(
-  plainToInstance(User, fromPlainUser, { excludeExtraneousValues: true })
+  plainToInstance(User, plainUser, { excludeExtraneousValues: true })
 );
 
 // User {
