@@ -217,7 +217,7 @@ console.log(plainToInstance(User, userPlain));
 ```
 
 If this behaviour does not suit your needs, you can use the `excludeExtraneous` option
-in the `plainToInstance` method while _exposing all your class properties_ as a requirement.
+in the `plainToInstance` method while _explicitly including all your class properties_ as a requirement.
 
 ```typescript
 import { include, plainToInstance } from "class-transform";
@@ -428,7 +428,7 @@ This is useful when the JSON API uses snakecase or weird naming convention.
 
 ## Exposing getters and method return values
 
-You can expose what your getter or method returns by setting an `@include()` decorator to those getters or methods:
+You can mark that your getter or method returns something by setting an `@include()` decorator to those getters or methods:
 
 ```typescript
 import { include } from "class-transform";
