@@ -133,8 +133,7 @@ class User {
 }
 ```
 
-You are assuming that you are downloading users of type `User`
-from `users.json` file and may want to write the following code:
+To load JSON data, you would write the following code:
 
 ```typescript
 let response = await fetch("users.json");
