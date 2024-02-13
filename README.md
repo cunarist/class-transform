@@ -168,7 +168,7 @@ users[0].isAdult();
 
 ### plainToInstance
 
-This method transforms a plain javascript object to instance of specific class.
+Transforms a plain javascript object to instance of specific class.
 
 ```typescript
 import { plainToInstance } from "class-transform";
@@ -177,7 +177,7 @@ let users = plainToInstance(User, userPlain);
 
 ### instanceToPlain
 
-This method transforms your class object back to plain javascript object, that can be `JSON.stringify`ed later.
+Transforms your class object back to plain javascript object, that can be `JSON.stringify`ed later.
 
 ```typescript
 import { instanceToPlain } from "class-transform";
@@ -186,7 +186,7 @@ let photoPlain = instanceToPlain(photo);
 
 ### instanceToInstance
 
-This method transforms your class object into a new instance of the class object.
+Transforms your class object into a new instance of the class object.
 This may be treated as deep clone of your objects.
 
 ```typescript
