@@ -116,7 +116,7 @@ For example you have a list of users in your `users.json` that you are loading:
 And you have a `User` class:
 
 ```typescript
-export class User {
+class User {
   id: number;
   firstName: string;
   lastName: string;
@@ -270,13 +270,13 @@ And we are trying to convert album plain object to class object:
 ```typescript
 import { nested, plainToInstance } from "class-transform";
 
-export class Album {
+class Album {
   id: number;
   name: string;
   @nested(Photo) photos: Array<Photo>;
 }
 
-export class Photo {
+class Photo {
   id: number;
   filename: string;
 }
@@ -315,24 +315,24 @@ the additional property `__type`. This property is removed during transformation
 ```typescript
 import { nested, plainToInstance } from "class-transform";
 
-export abstract class Photo {
+class Photo {
   id: number;
   filename: string;
 }
 
-export class Landscape extends Photo {
+class Landscape extends Photo {
   panorama: boolean;
 }
 
-export class Portrait extends Photo {
+class Portrait extends Photo {
   person: Person;
 }
 
-export class UnderWater extends Photo {
+class UnderWater extends Photo {
   depth: number;
 }
 
-export class Album {
+class Album {
   id: number;
   name: string;
 
@@ -363,7 +363,7 @@ You can expose what your getter or method return by setting an `@expose()` decor
 ```typescript
 import { expose } from "class-transform";
 
-export class User {
+class User {
   id: number;
   firstName: string;
   lastName: string;
@@ -389,7 +389,7 @@ you can do that by specifying a `name` option to `@expose` decorator:
 ```typescript
 import { expose } from "class-transform";
 
-export class User {
+class User {
   @expose({ name: "uid" })
   id: number;
   firstName: string;
@@ -412,7 +412,7 @@ This can be done using `@exclude` decorator:
 ```typescript
 import { expose } from "class-transform";
 
-export class User {
+class User {
   id: number;
   email: string;
   @exclude()
@@ -429,7 +429,7 @@ You can control on what operation you will exclude a property. Use `toInstanceOn
 ```typescript
 import { expose } from "class-transform";
 
-export class User {
+class User {
   id: number;
   email: string;
   @exclude({ toPlainOnly: true })
@@ -447,7 +447,7 @@ You can skip all properties of the class, and expose only those are needed expli
 import { exclude, expose } from "class-transform";
 
 @exclude()
-export class User {
+class User {
   @expose()
   id: number;
   @expose()
@@ -483,7 +483,7 @@ For example:
 ```typescript
 import { expose, instanceToPlain } from "class-transform";
 
-export class User {
+class User {
   id: number;
   private _firstName: string;
   private _lastName: string;
@@ -517,7 +517,7 @@ You can use groups to control what data will be exposed and what will not be:
 ```typescript
 import { exclude, expose, instanceToPlain } from "class-transform";
 
-export class User {
+class User {
   id: number;
 
   name: string;
@@ -541,7 +541,7 @@ You can control which properties of your model should be exposed or excluded in 
 ```typescript
 import { exclude, expose, instanceToPlain } from "class-transform";
 
-export class User {
+class User {
   id: number;
   name: string;
   @expose({ since: 0.7, until: 1 }) // this means that this property will be exposed for version starting from 0.7 until 1
@@ -566,7 +566,7 @@ You can do it simply by passing a Date object to the `@nested` decorator:
 ```typescript
 import { nested } from "class-transform";
 
-export class User {
+class User {
   id: number;
   email: string;
   password: string;
@@ -585,7 +585,7 @@ This type, you specify in a `@nested()` decorator:
 ```typescript
 import { nested } from "class-transform";
 
-export class Photo {
+class Photo {
   id: number;
   name: string;
   @nested(Album) albums: Array<Album>;
@@ -607,7 +607,7 @@ import { transform } from "class-transform";
 import * as moment from "moment";
 import { Moment } from "moment";
 
-export class Photo {
+class Photo {
   id: number;
 
   @nested(Date)
