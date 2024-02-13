@@ -53,11 +53,10 @@ Album {
   - [Enforcing type-safe instance](#enforcing-type-safe-instance)
   - [Working with nested objects](#working-with-nested-objects)
     - [Providing more than one type option](#providing-more-than-one-type-option)
-  - [Exposing getters and method return values](#exposing-getters-and-method-return-values)
-  - [Exposing properties with different names](#exposing-properties-with-different-names)
   - [Skipping specific properties](#skipping-specific-properties)
-  - [Skipping depend of operation](#skipping-depend-of-operation)
-  - [Skipping all properties of the class](#skipping-all-properties-of-the-class)
+  - [Skipping properties by operation](#skipping-properties-by-operation)
+  - [Exposing getters and method return values](#exposing-getters-and-method-return-values)
+  - [Changing property names](#changing-property-names)
   - [Skipping private properties, or some prefixed properties](#skipping-private-properties-or-some-prefixed-properties)
   - [Using groups to control excluded properties](#using-groups-to-control-excluded-properties)
   - [Using versioning to control included and excluded properties](#using-versioning-to-control-included-and-excluded-properties)
@@ -346,6 +345,75 @@ let album = plainToInstance(Album, albumPlain);
 Hint: The same applies for arrays with different sub types. Moreover you can specify `keepDiscriminatorProperty: true`
 in the options to keep the discriminator property also inside your resulting class.
 
+## Skipping specific properties
+
+Sometimes you want to skip some properties during transformation.
+This can be done using `@exclude` decorator:
+
+```typescript
+import { include } from "class-transform";
+
+class User {
+  id: number;
+  email: string;
+  @exclude()
+  password: string;
+}
+```
+
+Alternatively, you can make all of the class fields exclusive
+and include only those are needed:
+
+```typescript
+import { exclude, include } from "class-transform";
+
+@exclude()
+class User {
+  @include()
+  id: number;
+  @include()
+  email: string;
+  password: string;
+}
+```
+
+Now `id` and `email` will be included, and password will be excluded during transformation.
+Alternatively, you can set exclusion strategy during transformation:
+
+```typescript
+import { instanceToPlain } from "class-transform";
+let photo = instanceToPlain(photo, { strategy: "excludeAll" });
+```
+
+In this case you don't need to `@exclude()` a whole class.
+
+## Skipping properties by operation
+
+You can control on what operation you will include or exclude a property. Use `toInstanceOnly` or `toPlainOnly` options:
+
+```typescript
+class Direction {
+  @exclude({ toInstanceOnly: true })
+  north: boolean;
+  @exclude({ toPlainOnly: true })
+  east: boolean;
+  west: boolean;
+  south: boolean;
+}
+```
+
+```typescript
+@exclude()
+class Direction {
+  north: boolean;
+  east: boolean;
+  @include({ toInstanceOnly: true })
+  west: boolean;
+  @include({ toPlainOnly: true })
+  south: boolean;
+}
+```
+
 ## Exposing getters and method return values
 
 You can expose what your getter or method returns by setting an `@include()` decorator to those getters or methods:
@@ -371,7 +439,7 @@ class User {
 }
 ```
 
-## Exposing properties with different names
+## Changing property names
 
 If you want to expose some of the properties with a different name,
 you can do that by specifying a `name` option to `@include` decorator:
@@ -394,67 +462,7 @@ class User {
 }
 ```
 
-## Skipping specific properties
-
-Sometimes you want to skip some properties during transformation.
-This can be done using `@exclude` decorator:
-
-```typescript
-import { include } from "class-transform";
-
-class User {
-  id: number;
-  email: string;
-  @exclude()
-  password: string;
-}
-```
-
-Now when you transform a User, the `password` property will be skipped and not be included in the transformed result.
-
-## Skipping depend of operation
-
-You can control on what operation you will exclude a property. Use `toInstanceOnly` or `toPlainOnly` options:
-
-```typescript
-import { include } from "class-transform";
-
-class User {
-  id: number;
-  email: string;
-  @exclude({ toPlainOnly: true })
-  password: string;
-}
-```
-
 Now `password` property will be excluded only during `instanceToPlain` operation. Vice versa, use the `toInstanceOnly` option.
-
-## Skipping all properties of the class
-
-You can skip all properties of the class, and expose only those are needed explicitly:
-
-```typescript
-import { exclude, include } from "class-transform";
-
-@exclude()
-class User {
-  @include()
-  id: number;
-  @include()
-  email: string;
-  password: string;
-}
-```
-
-Now `id` and `email` will be included, and password will be excluded during transformation.
-Alternatively, you can set exclusion strategy during transformation:
-
-```typescript
-import { instanceToPlain } from "class-transform";
-let photo = instanceToPlain(photo, { strategy: "excludeAll" });
-```
-
-In this case you don't need to `@exclude()` a whole class.
 
 ## Skipping private properties, or some prefixed properties
 
