@@ -147,9 +147,10 @@ To achieve type safety, you can use `class-transform`.
 Purpose of this library is to help you to convert your plain javascript
 objects to the instances of classes you have.
 
-Here is an example how it will look like:
+Here is an example of how it will look like:
 
 ```typescript
+import { plainToInstance } from "class-transform";
 let response = await fetch("users.json");
 let realUsers: Array<User> = plainToInstance(User, await response.json());
 // Now each value in `realUsers` is an instance of the `User` class.
