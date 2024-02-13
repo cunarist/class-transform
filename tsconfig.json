@@ -1,4 +1,5 @@
 {
+  "exclude": ["build", "node_modules", "sample"],
   "compilerOptions": {
     "module": "ES2015",
     "moduleResolution": "Node",
@@ -14,6 +15,5 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true
-  },
-  "exclude": ["build", "node_modules", "sample", "**/*.spec.ts"]
+  }
 }
