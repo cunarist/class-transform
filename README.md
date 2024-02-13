@@ -114,9 +114,22 @@ For example you have a list of users in your `users.json` that you are loading:
 ]
 ```
 
-And you have a `User` class:
+To load JSON data, you would write the following code. However, it consists solely of plain objects and lacks type safety.
 
 ```typescript
+let response = await fetch("users.json");
+let users: any = await response.json();
+// `users` variable is just an array of plain objects.
+// TypeScript compiler cannot help you with `any` type like this.
+```
+
+To achieve object-oriented programming, you can use `class-transform`.
+Purpose of this library is to help you to convert your plain javascript
+objects to the instances of classes you have.
+
+```typescript
+import { plainToInstance } from "class-transform";
+
 class User {
   id: number;
   firstName: string;
@@ -131,25 +144,7 @@ class User {
     return this.age > 36 && this.age < 60;
   }
 }
-```
 
-To load JSON data, you would write the following code:
-
-```typescript
-let response = await fetch("users.json");
-let users: any = await response.json();
-// `users` variable is just an array of plain objects.
-// TypeScript compiler cannot help you with `any` type like this.
-```
-
-To achieve type safety, you can use `class-transform`.
-Purpose of this library is to help you to convert your plain javascript
-objects to the instances of classes you have.
-
-Here is an example of how it will look like:
-
-```typescript
-import { plainToInstance } from "class-transform";
 let response = await fetch("users.json");
 let realUsers: Array<User> = plainToInstance(User, await response.json());
 // Now each value in `realUsers` is an instance of the `User` class.
