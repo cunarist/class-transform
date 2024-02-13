@@ -156,7 +156,7 @@ let realUsers: Array<User> = plainToInstance(User, await response.json());
 ```
 
 By converting plain objects into class instances,
-it's possible to use the compiler's type checking.
+the compiler's type checking becomes available.
 You can use class methods as well.
 
 ```typescript
