@@ -137,7 +137,7 @@ from `users.json` file and may want to write the following code:
 
 ```typescript
 let response = await fetch("users.json");
-let users = await response.json();
+let users: any = await response.json();
 // `users` variable is just an array of plain objects.
 // TypeScript compiler cannot help you with `any` type like this.
 ```
@@ -153,7 +153,7 @@ Here is an example how it will look like:
 
 ```typescript
 let response = await fetch("users.json");
-let realUsers = plainToInstance(User, await response.json());
+let realUsers: Array<User> = plainToInstance(User, await response.json());
 // Now each value in `realUsers` is an instance of the `User` class.
 ```
 
