@@ -9,7 +9,7 @@
 [![npm version](https://badge.fury.io/js/class-transform.svg)](https://badge.fury.io/js/class-transform)
 
 It's ES6 and Typescript era.
-Nowadays you are working with classes and constructor objects more than ever.
+Nowadays you are working with classes and instances more than ever.
 `class-transform` allows you to transform
 JSON or plain object into typed instance of a class and vice versa.
 This tool is super useful on both frontend and backend.
