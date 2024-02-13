@@ -9,7 +9,7 @@ import { ExcludeOptions } from "../interfaces";
  * Can be applied to class definitions and properties.
  */
 export function exclude(
-  options: ExcludeOptions = {}
+  options: ExcludeOptions = {},
 ): PropertyDecorator & ClassDecorator {
   /**
    * NOTE: The `propertyName` property must be marked as optional because

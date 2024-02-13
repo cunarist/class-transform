@@ -40,7 +40,7 @@ export class MetadataStorage {
     if (!this._transformMetadatas.has(metadata.target)) {
       this._transformMetadatas.set(
         metadata.target,
-        new Map<string, TransformMetadata[]>()
+        new Map<string, TransformMetadata[]>(),
       );
     }
     if (
@@ -60,7 +60,7 @@ export class MetadataStorage {
     if (!this._exposeMetadatas.has(metadata.target)) {
       this._exposeMetadatas.set(
         metadata.target,
-        new Map<string, ExposeMetadata>()
+        new Map<string, ExposeMetadata>(),
       );
     }
     this._exposeMetadatas
@@ -72,7 +72,7 @@ export class MetadataStorage {
     if (!this._excludeMetadatas.has(metadata.target)) {
       this._excludeMetadatas.set(
         metadata.target,
-        new Map<string, ExcludeMetadata>()
+        new Map<string, ExcludeMetadata>(),
       );
     }
     this._excludeMetadatas
@@ -87,12 +87,12 @@ export class MetadataStorage {
   findTransformMetadatas(
     target: Function,
     propertyName: string,
-    transformationType: TransformationType
+    transformationType: TransformationType,
   ): TransformMetadata[] {
     return this.findMetadatas(
       this._transformMetadatas,
       target,
-      propertyName
+      propertyName,
     ).filter((metadata) => {
       if (!metadata.options) return true;
       if (
@@ -125,7 +125,7 @@ export class MetadataStorage {
 
   findExposeMetadataByCustomName(
     target: Function,
-    name: string
+    name: string,
   ): ExposeMetadata {
     return this.getExposedMetadatas(target).find((metadata) => {
       return metadata.options && metadata.options.name === name;
@@ -155,7 +155,7 @@ export class MetadataStorage {
 
   getExposedProperties(
     target: Function,
-    transformationType: TransformationType
+    transformationType: TransformationType,
   ): string[] {
     return this.getExposedMetadatas(target)
       .filter((metadata) => {
@@ -183,7 +183,7 @@ export class MetadataStorage {
 
   getExcludedProperties(
     target: Function,
-    transformationType: TransformationType
+    transformationType: TransformationType,
   ): string[] {
     return this.getExcludedMetadatas(target)
       .filter((metadata) => {
@@ -222,13 +222,13 @@ export class MetadataStorage {
 
   private getMetadata<T extends { target: Function; propertyName: string }>(
     metadatas: Map<Function, Map<string, T>>,
-    target: Function
+    target: Function,
   ): Array<T> {
     const metadataFromTargetMap = metadatas.get(target);
     let metadataFromTarget: Array<T>;
     if (metadataFromTargetMap) {
       metadataFromTarget = Array.from(metadataFromTargetMap.values()).filter(
-        (meta) => meta.propertyName !== undefined
+        (meta) => meta.propertyName !== undefined,
       );
     }
     const metadataFromAncestors: Array<T> = [];
@@ -236,7 +236,7 @@ export class MetadataStorage {
       const ancestorMetadataMap = metadatas.get(ancestor);
       if (ancestorMetadataMap) {
         const metadataFromAncestor = Array.from(
-          ancestorMetadataMap.values()
+          ancestorMetadataMap.values(),
         ).filter((meta) => meta.propertyName !== undefined);
         metadataFromAncestors.push(...metadataFromAncestor);
       }
@@ -247,7 +247,7 @@ export class MetadataStorage {
   private findMetadata<T extends { target: Function; propertyName: string }>(
     metadatas: Map<Function, Map<string, T>>,
     target: Function,
-    propertyName: string
+    propertyName: string,
   ): T {
     const metadataFromTargetMap = metadatas.get(target);
     if (metadataFromTargetMap) {
@@ -271,7 +271,7 @@ export class MetadataStorage {
   private findMetadatas<T extends { target: Function; propertyName: string }>(
     metadatas: Map<Function, Map<string, Array<T>>>,
     target: Function,
-    propertyName: string
+    propertyName: string,
   ): Array<T> {
     const metadataFromTargetMap = metadatas.get(target);
     let metadataFromTarget: Array<T>;
@@ -284,7 +284,7 @@ export class MetadataStorage {
       if (ancestorMetadataMap) {
         if (ancestorMetadataMap.has(propertyName)) {
           metadataFromAncestorsTarget.push(
-            ...ancestorMetadataMap.get(propertyName)
+            ...ancestorMetadataMap.get(propertyName),
           );
         }
       }

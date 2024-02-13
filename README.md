@@ -246,7 +246,7 @@ let userPlain = {
 };
 
 console.log(
-  plainToInstance(User, userPlain, { excludeExtraneousValues: true })
+  plainToInstance(User, userPlain, { excludeExtraneousValues: true }),
 );
 
 // User {
@@ -657,12 +657,12 @@ class MyPayload {
 let result1 = plainToInstance(
   MyPayload,
   { prop: 1234 },
-  { enableImplicitConversion: true }
+  { enableImplicitConversion: true },
 );
 let result2 = plainToInstance(
   MyPayload,
   { prop: 1234 },
-  { enableImplicitConversion: false }
+  { enableImplicitConversion: false },
 );
 
 /**

@@ -9,7 +9,7 @@ import { ExposeOptions } from "../interfaces";
  * Can be applied to class definitions and properties.
  */
 export function expose(
-  options: ExposeOptions = {}
+  options: ExposeOptions = {},
 ): PropertyDecorator & ClassDecorator {
   /**
    * NOTE: The `propertyName` property must be marked as optional because
