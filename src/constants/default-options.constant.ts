@@ -12,7 +12,6 @@ export const defaultOptions: Partial<ClassTransformOptions> = {
   exposeUnsetFields: true,
   groups: undefined,
   ignoreDecorators: false,
-  strategy: undefined,
   targetMaps: undefined,
   version: undefined,
 };

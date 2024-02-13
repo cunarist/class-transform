@@ -563,11 +563,11 @@ export class TransformOperationExecutor {
   ): string[] {
     // determine exclusion strategy
     let strategy = defaultMetadataStorage.getStrategy(target);
-    if (strategy === "none") strategy = this.options.strategy || "exposeAll"; // exposeAll is default strategy
+    if (strategy === "none") strategy = "inclusive"; // inclusive is the default strategy
 
     // get all keys that need to expose
     let keys: any[] = [];
-    if (strategy === "exposeAll" || isMap) {
+    if (strategy === "inclusive" || isMap) {
       if (object instanceof Map) {
         keys = Array.from(object.keys());
       } else {

@@ -1,8 +1,8 @@
-import { exclude } from "class-transform";
+import { exclude, include } from "class-transform";
 
+@exclude()
 export class Album {
+  @include()
   id: string;
-
-  @exclude()
   name: string;
 }

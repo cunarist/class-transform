@@ -136,13 +136,13 @@ export class MetadataStorage {
     return this.findMetadata(this._typeMetadatas, target, propertyName);
   }
 
-  getStrategy(target: Function): "excludeAll" | "exposeAll" | "none" {
+  getStrategy(target: Function): "exclusive" | "inclusive" | "none" {
     const excludeMap = this._excludeMetadatas.get(target);
     const exclude = excludeMap && excludeMap.get(undefined);
     const exposeMap = this._exposeMetadatas.get(target);
     const expose = exposeMap && exposeMap.get(undefined);
     if ((exclude && expose) || (!exclude && !expose)) return "none";
-    return exclude ? "excludeAll" : "exposeAll";
+    return exclude ? "exclusive" : "inclusive";
   }
 
   getIncludedMetadatas(target: Function): IncludeMetadata[] {

@@ -361,7 +361,7 @@ class User {
 }
 ```
 
-Alternatively, you can make the class fields exclusive by default
+Alternatively, you can make the class fields exclusive
 and include only those are needed:
 
 ```typescript
@@ -377,15 +377,9 @@ class User {
 }
 ```
 
-Now `id` and `email` will be included, and password will be excluded during transformation.
-Alternatively, you can set exclusion strategy during transformation:
-
-```typescript
-import { instanceToPlain } from "class-transform";
-let photo = instanceToPlain(photo, { strategy: "excludeAll" });
-```
-
-In this case you don't need to `@exclude()` a whole class.
+In both scenarios, `id` and `email` will be included,
+and password will be excluded during transformation.
+Fields are inclusive unless you decorate the whole class with `@exclude`.
 
 ## Skipping properties by operation
 
