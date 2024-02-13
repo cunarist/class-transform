@@ -348,7 +348,7 @@ in the options to keep the discriminator property also inside your resulting cla
 
 ## Exposing getters and method return values
 
-You can expose what your getter or method return by setting an `@expose()` decorator to those getters or methods:
+You can expose what your getter or method returns by setting an `@expose()` decorator to those getters or methods:
 
 ```typescript
 import { expose } from "class-transform";
