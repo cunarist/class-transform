@@ -84,9 +84,9 @@ In JavaScript, objects can be classified into two categories:
 
 So, what is the problem?
 
-Sometimes you want to transform plain javascript object to an instance of the ES6 class.
+Sometimes you want to transform plain JavaScript object to an instance of the ES6 class.
 Once you've parsed some data from some JSON API or a JSON file with `JSON.parse`,
-you have a plain javascript object, not an instance of a class.
+you have a plain JavaScript object, not an instance of a class.
 
 For example you have a list of users in your `users.json` that you are loading:
 
@@ -123,7 +123,7 @@ let users: any = await response.json();
 ```
 
 To achieve object-oriented programming, you can use `class-transform`.
-Purpose of this library is to help you to convert your plain javascript
+Purpose of this library is to help you to convert your plain JavaScript
 objects to the instances of classes you have.
 
 ```typescript
@@ -159,7 +159,7 @@ Using classes for JSON can be advantageous over TypeScript's `interface` and `ty
 
 ### plainToInstance
 
-Transforms a plain javascript object to instance of specific class.
+Transforms a plain JavaScript object to instance of specific class.
 
 ```typescript
 import { plainToInstance } from "class-transform";
@@ -168,7 +168,7 @@ let users = plainToInstance(User, userPlain);
 
 ### instanceToPlain
 
-Transforms your class object back to plain javascript object, that can be `JSON.stringify`ed later.
+Transforms your class object back to plain JavaScript object, that can be `JSON.stringify`ed later.
 
 ```typescript
 import { instanceToPlain } from "class-transform";
@@ -545,8 +545,8 @@ let user5 = instanceToPlain(user, { version: 2.1 }); // will contain id, name an
 
 ## Сonverting date strings into Date objects
 
-Sometimes you have a Date in your plain javascript object received in a string format.
-And you want to create a real javascript Date object from it.
+Sometimes you have a Date in your plain JavaScript object received in a string format.
+And you want to create a real JavaScript Date object from it.
 You can do it simply by passing a Date object to the `@nest` decorator:
 
 ```typescript
