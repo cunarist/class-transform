@@ -25,7 +25,7 @@ export class ClassTransformer {
     options?: ClassTransformOptions,
   ): Record<string, any> | Record<string, any>[] {
     const executor = new TransformOperationExecutor(
-      TransformationType.CLASS_TO_PLAIN,
+      TransformationType.INSTANCE_TO_PLAIN,
       {
         ...defaultOptions,
         ...options,
@@ -60,7 +60,7 @@ export class ClassTransformer {
     options?: ClassTransformOptions,
   ): T | Array<T> {
     const executor = new TransformOperationExecutor(
-      TransformationType.PLAIN_TO_CLASS,
+      TransformationType.PLAIN_TO_INSTANCE,
       {
         ...defaultOptions,
         ...options,
@@ -89,7 +89,7 @@ export class ClassTransformer {
     options?: ClassTransformOptions,
   ): T | Array<T> {
     const executor = new TransformOperationExecutor(
-      TransformationType.CLASS_TO_CLASS,
+      TransformationType.INSTANCE_TO_INSTANCE,
       {
         ...defaultOptions,
         ...options,

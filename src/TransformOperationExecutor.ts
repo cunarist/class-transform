@@ -42,7 +42,7 @@ export class TransformOperationExecutor {
     if (Array.isArray(value) || value instanceof Set) {
       const newValue =
         arrayType &&
-        this.transformationType === TransformationType.PLAIN_TO_CLASS
+        this.transformationType === TransformationType.PLAIN_TO_INSTANCE
           ? instantiateArrayType(arrayType)
           : [];
       (value as any[]).forEach((subValue, index) => {
@@ -57,7 +57,9 @@ export class TransformOperationExecutor {
             targetType.options.discriminator.property &&
             targetType.options.discriminator.subTypes
           ) {
-            if (this.transformationType === TransformationType.PLAIN_TO_CLASS) {
+            if (
+              this.transformationType === TransformationType.PLAIN_TO_INSTANCE
+            ) {
               realTargetType = targetType.options.discriminator.subTypes.find(
                 (subType) =>
                   subType.name ===
@@ -74,10 +76,15 @@ export class TransformOperationExecutor {
                 delete subValue[targetType.options.discriminator.property];
             }
 
-            if (this.transformationType === TransformationType.CLASS_TO_CLASS) {
+            if (
+              this.transformationType ===
+              TransformationType.INSTANCE_TO_INSTANCE
+            ) {
               realTargetType = subValue.constructor;
             }
-            if (this.transformationType === TransformationType.CLASS_TO_PLAIN) {
+            if (
+              this.transformationType === TransformationType.INSTANCE_TO_PLAIN
+            ) {
               subValue[targetType.options.discriminator.property] =
                 targetType.options.discriminator.subTypes.find(
                   (subType) => subType.value === subValue.constructor,
@@ -101,7 +108,7 @@ export class TransformOperationExecutor {
             newValue.push(value);
           }
         } else if (
-          this.transformationType === TransformationType.CLASS_TO_CLASS
+          this.transformationType === TransformationType.INSTANCE_TO_INSTANCE
         ) {
           if (newValue instanceof Set) {
             newValue.add(subValue);
@@ -164,7 +171,7 @@ export class TransformOperationExecutor {
       if (
         !targetType &&
         value.constructor !==
-          Object /* && TransformationType === TransformationType.CLASS_TO_PLAIN*/
+          Object /* && TransformationType === TransformationType.INSTANCE_TO_PLAIN*/
       )
         if (!Array.isArray(value) && value.constructor === Array) {
           // Somebody attempts to convert special Array like object to Array, eg:
@@ -186,8 +193,8 @@ export class TransformOperationExecutor {
       let newValue: any = source ? source : {};
       if (
         !source &&
-        (this.transformationType === TransformationType.PLAIN_TO_CLASS ||
-          this.transformationType === TransformationType.CLASS_TO_CLASS)
+        (this.transformationType === TransformationType.PLAIN_TO_INSTANCE ||
+          this.transformationType === TransformationType.INSTANCE_TO_INSTANCE)
       ) {
         if (isMap) {
           newValue = new Map();
@@ -208,7 +215,9 @@ export class TransformOperationExecutor {
         let newValueKey = key,
           propertyName = key;
         if (!this.options.ignoreDecorators && targetType) {
-          if (this.transformationType === TransformationType.PLAIN_TO_CLASS) {
+          if (
+            this.transformationType === TransformationType.PLAIN_TO_INSTANCE
+          ) {
             const exposeMetadata =
               defaultMetadataStorage.findExposeMetadataByCustomName(
                 targetType as Function,
@@ -219,8 +228,8 @@ export class TransformOperationExecutor {
               newValueKey = exposeMetadata.propertyName;
             }
           } else if (
-            this.transformationType === TransformationType.CLASS_TO_PLAIN ||
-            this.transformationType === TransformationType.CLASS_TO_CLASS
+            this.transformationType === TransformationType.INSTANCE_TO_PLAIN ||
+            this.transformationType === TransformationType.INSTANCE_TO_INSTANCE
           ) {
             const exposeMetadata = defaultMetadataStorage.findExposeMetadata(
               targetType as Function,
@@ -238,7 +247,7 @@ export class TransformOperationExecutor {
 
         // get a subvalue
         let subValue: any = undefined;
-        if (this.transformationType === TransformationType.PLAIN_TO_CLASS) {
+        if (this.transformationType === TransformationType.PLAIN_TO_INSTANCE) {
           /**
            * This section is added for the following report:
            * https://github.com/cunarist/class-transform/issues/596
@@ -276,7 +285,8 @@ export class TransformOperationExecutor {
             ) {
               if (!(value[valueKey] instanceof Array)) {
                 if (
-                  this.transformationType === TransformationType.PLAIN_TO_CLASS
+                  this.transformationType ===
+                  TransformationType.PLAIN_TO_INSTANCE
                 ) {
                   type = metadata.options.discriminator.subTypes.find(
                     (subType) => {
@@ -304,12 +314,14 @@ export class TransformOperationExecutor {
                   }
                 }
                 if (
-                  this.transformationType === TransformationType.CLASS_TO_CLASS
+                  this.transformationType ===
+                  TransformationType.INSTANCE_TO_INSTANCE
                 ) {
                   type = subValue.constructor;
                 }
                 if (
-                  this.transformationType === TransformationType.CLASS_TO_PLAIN
+                  this.transformationType ===
+                  TransformationType.INSTANCE_TO_PLAIN
                 ) {
                   if (subValue) {
                     subValue[metadata.options.discriminator.property] =
@@ -335,7 +347,7 @@ export class TransformOperationExecutor {
               .forEach((map) => (type = map.properties[propertyName]));
           } else if (
             this.options.enableImplicitConversion &&
-            this.transformationType === TransformationType.PLAIN_TO_CLASS
+            this.transformationType === TransformationType.PLAIN_TO_INSTANCE
           ) {
             // if we have no registererd type via the @nested() decorator then we check if we have any
             // type declarations in reflect-metadata (type declaration is emited only if some decorator is added to the property.)
@@ -356,12 +368,12 @@ export class TransformOperationExecutor {
           ? this.getReflectedType(targetType as Function, propertyName)
           : undefined;
 
-        // const subValueKey = TransformationType === TransformationType.PLAIN_TO_CLASS && newKeyName ? newKeyName : key;
+        // const subValueKey = TransformationType === TransformationType.PLAIN_TO_INSTANCE && newKeyName ? newKeyName : key;
         const subSource = source ? source[valueKey] : undefined;
 
         // if its deserialization then type if required
         // if we uncomment this types like string[] will not work
-        // if (this.transformationType === TransformationType.PLAIN_TO_CLASS && !type && subValue instanceof Object && !(subValue instanceof Date))
+        // if (this.transformationType === TransformationType.PLAIN_TO_INSTANCE && !type && subValue instanceof Object && !(subValue instanceof Date))
         //     throw new Error(`Cannot determine type for ${(targetType as any).name }.${propertyName}, did you forget to specify a @nested?`);
 
         // if newValue is a source object that has method that match newKeyName then skip it
@@ -371,24 +383,27 @@ export class TransformOperationExecutor {
             newValueKey,
           );
           if (
-            (this.transformationType === TransformationType.PLAIN_TO_CLASS ||
-              this.transformationType === TransformationType.CLASS_TO_CLASS) &&
+            (this.transformationType === TransformationType.PLAIN_TO_INSTANCE ||
+              this.transformationType ===
+                TransformationType.INSTANCE_TO_INSTANCE) &&
             // eslint-disable-next-line @typescript-eslint/unbound-method
             ((descriptor && !descriptor.set) ||
               newValue[newValueKey] instanceof Function)
           )
-            //  || TransformationType === TransformationType.CLASS_TO_CLASS
+            //  || TransformationType === TransformationType.INSTANCE_TO_INSTANCE
             continue;
         }
 
         if (!this.options.enableCircularCheck || !this.isCircular(subValue)) {
           const transformKey =
-            this.transformationType === TransformationType.PLAIN_TO_CLASS
+            this.transformationType === TransformationType.PLAIN_TO_INSTANCE
               ? newValueKey
               : key;
           let finalValue;
 
-          if (this.transformationType === TransformationType.CLASS_TO_PLAIN) {
+          if (
+            this.transformationType === TransformationType.INSTANCE_TO_PLAIN
+          ) {
             // Get original value
             finalValue = value[transformKey];
             // Apply custom transformation
@@ -442,7 +457,7 @@ export class TransformOperationExecutor {
             }
           }
         } else if (
-          this.transformationType === TransformationType.CLASS_TO_CLASS
+          this.transformationType === TransformationType.INSTANCE_TO_INSTANCE
         ) {
           let finalValue = subValue;
           finalValue = this.applyCustomTransformations(
@@ -591,7 +606,7 @@ export class TransformOperationExecutor {
         target,
         this.transformationType,
       );
-      if (this.transformationType === TransformationType.PLAIN_TO_CLASS) {
+      if (this.transformationType === TransformationType.PLAIN_TO_INSTANCE) {
         exposedProperties = exposedProperties.map((key) => {
           const exposeMetadata = defaultMetadataStorage.findExposeMetadata(
             target,

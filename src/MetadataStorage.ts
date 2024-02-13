@@ -103,12 +103,12 @@ export class MetadataStorage {
 
       if (metadata.options.toInstanceOnly === true) {
         return (
-          transformationType === TransformationType.CLASS_TO_CLASS ||
-          transformationType === TransformationType.PLAIN_TO_CLASS
+          transformationType === TransformationType.INSTANCE_TO_INSTANCE ||
+          transformationType === TransformationType.PLAIN_TO_INSTANCE
         );
       }
       if (metadata.options.toPlainOnly === true) {
-        return transformationType === TransformationType.CLASS_TO_PLAIN;
+        return transformationType === TransformationType.INSTANCE_TO_PLAIN;
       }
 
       return true;
@@ -168,12 +168,12 @@ export class MetadataStorage {
 
         if (metadata.options.toInstanceOnly === true) {
           return (
-            transformationType === TransformationType.CLASS_TO_CLASS ||
-            transformationType === TransformationType.PLAIN_TO_CLASS
+            transformationType === TransformationType.INSTANCE_TO_INSTANCE ||
+            transformationType === TransformationType.PLAIN_TO_INSTANCE
           );
         }
         if (metadata.options.toPlainOnly === true) {
-          return transformationType === TransformationType.CLASS_TO_PLAIN;
+          return transformationType === TransformationType.INSTANCE_TO_PLAIN;
         }
 
         return true;
@@ -196,12 +196,12 @@ export class MetadataStorage {
 
         if (metadata.options.toInstanceOnly === true) {
           return (
-            transformationType === TransformationType.CLASS_TO_CLASS ||
-            transformationType === TransformationType.PLAIN_TO_CLASS
+            transformationType === TransformationType.INSTANCE_TO_INSTANCE ||
+            transformationType === TransformationType.PLAIN_TO_INSTANCE
           );
         }
         if (metadata.options.toPlainOnly === true) {
-          return transformationType === TransformationType.CLASS_TO_PLAIN;
+          return transformationType === TransformationType.INSTANCE_TO_PLAIN;
         }
 
         return true;
