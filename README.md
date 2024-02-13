@@ -35,8 +35,8 @@ Album {
 }
 ```
 
-> This library is a fork of the original
-> [`class-transformer`](https://github.com/typestack/class-transformer) package.
+> This library is a fork of
+> [`class-transformer`](https://github.com/typestack/class-transformer).
 > Its goal is to enhance API usability through continuous updates.
 > This project will be maintained and will always accept pull requests.
 > Please note that the API is still subject to changes.
