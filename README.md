@@ -671,10 +671,7 @@ The `@transform` decorator is given more arguments to let you configure how you 
 
 ## Working with generics
 
-Generics are not supported because TypeScript does not have good reflection abilities yet.
-Once TypeScript team provide us better runtime type reflection tools, generics will be implemented.
-There are some tweaks however you can use, that maybe can solve your problem.
-[Check out the sample code.](https://github.com/cunarist/class-transform/tree/main/sample/sample4-generics)
+Generics are not supported because TypeScript does not have good reflection abilities.
 
 ## Implicit type conversion
 
