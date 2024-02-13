@@ -44,34 +44,34 @@ Album {
 
 - [class-transform](#class-transform)
   - [Table of contents](#table-of-contents)
-  - [About class-transform(#table-of-contents)](#about-class-transformtable-of-contents)
-  - [Functions(#table-of-contents)](#functionstable-of-contents)
-    - [plainToInstance(#table-of-contents)](#plaintoinstancetable-of-contents)
-    - [instanceToPlain(#table-of-contents)](#instancetoplaintable-of-contents)
-    - [instanceToInstance(#table-of-contents)](#instancetoinstancetable-of-contents)
-  - [Enforcing type-safe instance(#table-of-contents)](#enforcing-type-safe-instancetable-of-contents)
-  - [Working with nested objects(#table-of-contents)](#working-with-nested-objectstable-of-contents)
-    - [Providing more than one type option(#table-of-contents)](#providing-more-than-one-type-optiontable-of-contents)
-  - [Exposing getters and method return values(#table-of-contents)](#exposing-getters-and-method-return-valuestable-of-contents)
-  - [Exposing properties with different names(#table-of-contents)](#exposing-properties-with-different-namestable-of-contents)
-  - [Skipping specific properties(#table-of-contents)](#skipping-specific-propertiestable-of-contents)
-  - [Skipping depend of operation(#table-of-contents)](#skipping-depend-of-operationtable-of-contents)
-  - [Skipping all properties of the class(#table-of-contents)](#skipping-all-properties-of-the-classtable-of-contents)
-  - [Skipping private properties, or some prefixed properties(#table-of-contents)](#skipping-private-properties-or-some-prefixed-propertiestable-of-contents)
-  - [Using groups to control excluded properties(#table-of-contents)](#using-groups-to-control-excluded-propertiestable-of-contents)
-  - [Using versioning to control exposed and excluded properties(#table-of-contents)](#using-versioning-to-control-exposed-and-excluded-propertiestable-of-contents)
-  - [Сonverting date strings into Date objects(#table-of-contents)](#сonverting-date-strings-into-date-objectstable-of-contents)
-  - [Working with arrays(#table-of-contents)](#working-with-arraystable-of-contents)
-  - [Additional data transformation(#table-of-contents)](#additional-data-transformationtable-of-contents)
-    - [Basic usage(#table-of-contents)](#basic-usagetable-of-contents)
-    - [Advanced usage(#table-of-contents)](#advanced-usagetable-of-contents)
-  - [Working with generics(#table-of-contents)](#working-with-genericstable-of-contents)
-  - [Implicit type conversion(#table-of-contents)](#implicit-type-conversiontable-of-contents)
-  - [How does it handle circular references?(#table-of-contents)](#how-does-it-handle-circular-referencestable-of-contents)
-  - [Samples(#table-of-contents)](#samplestable-of-contents)
-  - [Release notes(#table-of-contents)](#release-notestable-of-contents)
+  - [About class-transform](#about-class-transform)
+  - [Functions](#functions)
+    - [plainToInstance](#plaintoinstance)
+    - [instanceToPlain](#instancetoplain)
+    - [instanceToInstance](#instancetoinstance)
+  - [Enforcing type-safe instance](#enforcing-type-safe-instance)
+  - [Working with nested objects](#working-with-nested-objects)
+    - [Providing more than one type option](#providing-more-than-one-type-option)
+  - [Exposing getters and method return values](#exposing-getters-and-method-return-values)
+  - [Exposing properties with different names](#exposing-properties-with-different-names)
+  - [Skipping specific properties](#skipping-specific-properties)
+  - [Skipping depend of operation](#skipping-depend-of-operation)
+  - [Skipping all properties of the class](#skipping-all-properties-of-the-class)
+  - [Skipping private properties, or some prefixed properties](#skipping-private-properties-or-some-prefixed-properties)
+  - [Using groups to control excluded properties](#using-groups-to-control-excluded-properties)
+  - [Using versioning to control exposed and excluded properties](#using-versioning-to-control-exposed-and-excluded-properties)
+  - [Сonverting date strings into Date objects](#сonverting-date-strings-into-date-objects)
+  - [Working with arrays](#working-with-arrays)
+  - [Additional data transformation](#additional-data-transformation)
+    - [Basic usage](#basic-usage)
+    - [Advanced usage](#advanced-usage)
+  - [Working with generics](#working-with-generics)
+  - [Implicit type conversion](#implicit-type-conversion)
+  - [How does it handle circular references?](#how-does-it-handle-circular-references)
+  - [Samples](#samples)
+  - [Release notes](#release-notes)
 
-## About class-transform(#table-of-contents)
+## About class-transform
 
 In JavaScript there are two types of objects:
 
@@ -168,9 +168,9 @@ let realUsers = plainToInstance(User, await response.json());
 
 Now you can use `users[0].getName()` and `users[0].isAdult()` methods.
 
-## Functions(#table-of-contents)
+## Functions
 
-### plainToInstance(#table-of-contents)
+### plainToInstance
 
 This method transforms a plain javascript object to instance of specific class.
 
@@ -179,7 +179,7 @@ import { plainToInstance } from "class-transform";
 let users = plainToInstance(User, userJson); // to convert user plain object a single user. also supports arrays
 ```
 
-### instanceToPlain(#table-of-contents)
+### instanceToPlain
 
 This method transforms your class object back to plain javascript object, that can be `JSON.stringify` later.
 
@@ -188,7 +188,7 @@ import { instanceToPlain } from "class-transform";
 let photo = instanceToPlain(photo);
 ```
 
-### instanceToInstance(#table-of-contents)
+### instanceToInstance
 
 This method transforms your class object into a new instance of the class object.
 This may be treated as deep clone of your objects.
@@ -200,7 +200,7 @@ let photo = instanceToInstance(photo);
 
 You can also use an `ignoreDecorators` option in transformation options to ignore all decorators your classes are using.
 
-## Enforcing type-safe instance(#table-of-contents)
+## Enforcing type-safe instance
 
 The default behaviour of the `plainToInstance` method is to set _all_ properties from the plain object,
 even those which are not specified in the class.
@@ -258,7 +258,7 @@ console.log(
 // }
 ```
 
-## Working with nested objects(#table-of-contents)
+## Working with nested objects
 
 When you are trying to transform objects that have nested objects,
 it's required to known what type of object you are trying to transform.
@@ -287,7 +287,7 @@ let album = plainToInstance(Album, albumJson);
 // now album is Album object with Photo objects inside
 ```
 
-### Providing more than one type option(#table-of-contents)
+### Providing more than one type option
 
 In case the nested object can be of different types, you can provide an additional options object,
 that specifies a discriminator. The discriminator option must define a `property` that holds the subtype
@@ -358,7 +358,7 @@ let album = plainToInstance(Album, albumJson);
 Hint: The same applies for arrays with different sub types. Moreover you can specify `keepDiscriminatorProperty: true`
 in the options to keep the discriminator property also inside your resulting class.
 
-## Exposing getters and method return values(#table-of-contents)
+## Exposing getters and method return values
 
 You can expose what your getter or method return by setting an `@expose()` decorator to those getters or methods:
 
@@ -383,7 +383,7 @@ export class User {
 }
 ```
 
-## Exposing properties with different names(#table-of-contents)
+## Exposing properties with different names
 
 If you want to expose some of the properties with a different name,
 you can do that by specifying a `name` option to `@expose` decorator:
@@ -406,7 +406,7 @@ export class User {
 }
 ```
 
-## Skipping specific properties(#table-of-contents)
+## Skipping specific properties
 
 Sometimes you want to skip some properties during transformation.
 This can be done using `@exclude` decorator:
@@ -424,7 +424,7 @@ export class User {
 
 Now when you transform a User, the `password` property will be skipped and not be included in the transformed result.
 
-## Skipping depend of operation(#table-of-contents)
+## Skipping depend of operation
 
 You can control on what operation you will exclude a property. Use `toClassOnly` or `toPlainOnly` options:
 
@@ -441,7 +441,7 @@ export class User {
 
 Now `password` property will be excluded only during `instanceToPlain` operation. Vice versa, use the `toClassOnly` option.
 
-## Skipping all properties of the class(#table-of-contents)
+## Skipping all properties of the class
 
 You can skip all properties of the class, and expose only those are needed explicitly:
 
@@ -468,7 +468,7 @@ let photo = instanceToPlain(photo, { strategy: "excludeAll" });
 
 In this case you don't need to `@exclude()` a whole class.
 
-## Skipping private properties, or some prefixed properties(#table-of-contents)
+## Skipping private properties, or some prefixed properties
 
 If you name your private properties with a prefix, lets say with `_`,
 then you can exclude such properties from transformation too:
@@ -512,7 +512,7 @@ const plainUser = instanceToPlain(user, { excludePrefixes: ["_"] });
 // { id: 1, name: "Johny Cage" }
 ```
 
-## Using groups to control excluded properties(#table-of-contents)
+## Using groups to control excluded properties
 
 You can use groups to control what data will be exposed and what will not be:
 
@@ -535,7 +535,7 @@ let user1 = instanceToPlain(user, { groups: ["user"] }); // will contain id, nam
 let user2 = instanceToPlain(user, { groups: ["admin"] }); // will contain id, name and email
 ```
 
-## Using versioning to control exposed and excluded properties(#table-of-contents)
+## Using versioning to control exposed and excluded properties
 
 If you are building an API that has different versions, class-transform has extremely useful tools for that.
 You can control which properties of your model should be exposed or excluded in what version. Example:
@@ -559,7 +559,7 @@ let user4 = instanceToPlain(user, { version: 2 }); // will contain id and name
 let user5 = instanceToPlain(user, { version: 2.1 }); // will contain id, name and password
 ```
 
-## Сonverting date strings into Date objects(#table-of-contents)
+## Сonverting date strings into Date objects
 
 Sometimes you have a Date in your plain javascript object received in a string format.
 And you want to create a real javascript Date object from it.
@@ -579,7 +579,7 @@ export class User {
 Same technique can be used with `Number`, `String`, `Boolean`
 primitive types when you want to convert your values into these types.
 
-## Working with arrays(#table-of-contents)
+## Working with arrays
 
 When you are using arrays you must provide a type of the object that array contains.
 This type, you specify in a `@nested()` decorator:
@@ -612,9 +612,9 @@ export class Photo {
 
 Library will handle proper transformation automatically.
 
-## Additional data transformation(#table-of-contents)
+## Additional data transformation
 
-### Basic usage(#table-of-contents)
+### Basic usage
 
 You can perform additional data transformation using `@transform` decorator.
 For example, you want to make your `Date` object to be a `moment` object when you are
@@ -638,7 +638,7 @@ Now when you call `plainToInstance` and send a plain representation of the Photo
 it will convert a date value in your photo object to moment date.
 `@transform` decorator also supports groups and versioning.
 
-### Advanced usage(#table-of-contents)
+### Advanced usage
 
 The `@transform` decorator is given more arguments to let you configure how you want the transformation to be done.
 
@@ -654,14 +654,14 @@ The `@transform` decorator is given more arguments to let you configure how you 
 | `type`    | The transformation type.                                |
 | `options` | The options object passed to the transformation method. |
 
-## Working with generics(#table-of-contents)
+## Working with generics
 
 Generics are not supported because TypeScript does not have good reflection abilities yet.
 Once TypeScript team provide us better runtime type reflection tools, generics will be implemented.
 There are some tweaks however you can use, that maybe can solve your problem.
-[Checkout this example.](https://github.com/pleerock/class-transform/tree/master/sample/sample4-generics)
+[Checkout this example.](https://github.com/pleerock/class-transform/tree/main/sample/sample4-generics)
 
-## Implicit type conversion(#table-of-contents)
+## Implicit type conversion
 
 > **NOTE** If you use class-validator together with class-transform you propably DON'T want to enable this function.
 
@@ -692,18 +692,18 @@ const result2 = plainToInstance(
  */
 ```
 
-## How does it handle circular references?(#table-of-contents)
+## How does it handle circular references?
 
 Circular references are ignored.
 For example, if you are transforming class `User` that contains property `photos` with type of `Photo`,
 and `Photo` contains link `user` to its parent `User`, then `user` will be ignored during transformation.
 Circular references are not ignored only during `instanceToInstance` operation.
 
-## Samples(#table-of-contents)
+## Samples
 
-Take a look on samples in [./sample](https://github.com/pleerock/class-transform/tree/master/sample) for more examples of
+Take a look on samples in [./sample](https://github.com/pleerock/class-transform/tree/main/sample) for more examples of
 usages.
 
-## Release notes(#table-of-contents)
+## Release notes
 
-See information about breaking changes and release notes [here](https://github.com/cunarist/class-transform/blob/master/CHANGELOG.md).
+See information about breaking changes and release notes [here](https://github.com/cunarist/class-transform/tree/main/CHANGELOG.md).
