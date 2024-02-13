@@ -3,7 +3,7 @@ import { Photo } from "./Photo";
 
 // check deserialization
 
-let photoJson = {
+let photoPlain = {
   id: "1",
   filename: "myphoto.jpg",
   description: "about my photo",
@@ -25,18 +25,18 @@ let photoJson = {
   ],
 };
 
-let photo = plainToInstance(Photo, photoJson);
+let photo = plainToInstance(Photo, photoPlain);
 console.log("deserialized object: ", photo);
 
 // now check serialization
 
-let newPhotoJson = instanceToPlain(photo);
-console.log("serialized object: ", newPhotoJson);
+let newPhotoPlain = instanceToPlain(photo);
+console.log("serialized object: ", newPhotoPlain);
 
 // try to deserialize an array
 console.log("-------------------------------");
 
-let photosJson = [
+let photosPlain = [
   {
     id: "1",
     filename: "myphoto.jpg",
@@ -80,10 +80,10 @@ let photosJson = [
   },
 ];
 
-let photos = plainToInstance(Photo, photosJson);
+let photos = plainToInstance(Photo, photosPlain);
 console.log("deserialized array: ", photos);
 
 // now check array serialization
 
-let newPhotosJson = instanceToPlain(photos);
-console.log("serialized array: ", newPhotosJson);
+let newPhotosPlain = instanceToPlain(photos);
+console.log("serialized array: ", newPhotosPlain);

@@ -212,13 +212,13 @@ class User {
   lastName: string;
 }
 
-const plainUser = {
+let userPlain = {
   unkownProp: "hello there",
   firstName: "Umed",
   lastName: "Khudoiberdiev",
 };
 
-console.log(plainToInstance(User, plainUser));
+console.log(plainToInstance(User, userPlain));
 
 // User {
 //   unkownProp: 'hello there',
@@ -239,14 +239,14 @@ class User {
   @expose() lastName: string;
 }
 
-const plainUser = {
+let userPlain = {
   unkownProp: "hello there",
   firstName: "Umed",
   lastName: "Khudoiberdiev",
 };
 
 console.log(
-  plainToInstance(User, plainUser, { excludeExtraneousValues: true })
+  plainToInstance(User, userPlain, { excludeExtraneousValues: true })
 );
 
 // User {
@@ -500,13 +500,13 @@ class User {
   }
 }
 
-const user = new User();
+let user = new User();
 user.id = 1;
 user.setName("Johny", "Cage");
 user._password = "123";
 
-const plainUser = instanceToPlain(user, { excludePrefixes: ["_"] });
-// here plainUser will be equal to
+let userPlain = instanceToPlain(user, { excludePrefixes: ["_"] });
+// here userPlain will be equal to
 // { id: 1, name: "Johny Cage" }
 ```
 
@@ -654,12 +654,12 @@ class MyPayload {
   prop: string;
 }
 
-const result1 = plainToInstance(
+let result1 = plainToInstance(
   MyPayload,
   { prop: 1234 },
   { enableImplicitConversion: true }
 );
-const result2 = plainToInstance(
+let result2 = plainToInstance(
   MyPayload,
   { prop: 1234 },
   { enableImplicitConversion: false }
