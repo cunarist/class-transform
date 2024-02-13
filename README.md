@@ -351,7 +351,7 @@ Sometimes you want to skip some properties during transformation.
 This can be done using `@exclude` decorator:
 
 ```typescript
-import { include } from "class-transform";
+import { exclude } from "class-transform";
 
 class User {
   id: number;
