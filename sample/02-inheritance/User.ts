@@ -1,13 +1,13 @@
-import { nested } from "class-transform";
+import { nest } from "class-transform";
 
 export class User {
-  @nested(Number)
+  @nest(Number)
   id: number;
 
   firstName: string;
 
   lastName: string;
 
-  @nested(Date)
+  @nest(Date)
   registrationDate: Date;
 }

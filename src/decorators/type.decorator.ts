@@ -11,7 +11,7 @@ import { TypeOptions } from "../interfaces";
  * For class properties of primitive types,
  * this decorator is not needed.
  */
-export function nested(
+export function nest(
   classConstructor: new (...args: any[]) => any,
   options: TypeOptions = {},
 ): PropertyDecorator {

@@ -1,4 +1,4 @@
-import { nested } from "class-transform";
+import { nest } from "class-transform";
 import { Album } from "./Album";
 import { User } from "./User";
 
@@ -7,8 +7,8 @@ export class Photo {
   filename: string;
   description: string;
   tags: Array<string>;
-  @nested(User) author: User;
-  @nested(Album) albums: Array<Album>;
+  @nest(User) author: User;
+  @nest(Album) albums: Array<Album>;
 
   get name() {
     return this.id + "_" + this.filename;

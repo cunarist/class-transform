@@ -1,4 +1,4 @@
-import { nested, exclude } from "class-transform";
+import { nest, exclude } from "class-transform";
 import { Album } from "./Album";
 import { Authorable } from "./Authorable";
 
@@ -7,5 +7,5 @@ export class Photo extends Authorable {
   filename: string;
   description: string;
   @exclude() authorEmail: string; // this decoration will ignore skipping inherited from Authorable class
-  @nested(Album) albums: Array<Album>;
+  @nest(Album) albums: Array<Album>;
 }

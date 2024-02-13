@@ -1,4 +1,4 @@
-import { nested, exclude } from "class-transform";
+import { nest, exclude } from "class-transform";
 import { User } from "./User";
 
 export class Authorable {
@@ -7,6 +7,6 @@ export class Authorable {
   @exclude()
   authorEmail: string;
 
-  @nested(User)
+  @nest(User)
   author: User;
 }

@@ -252,18 +252,18 @@ When you are trying to transform objects that have nested objects,
 it's necessary to know which type you should transform the object into.
 Since TypeScript does not yet have robust reflection abilities,
 we need to explicitly specify the type of object each property contains.
-This is accomplished using the `@nested` decorator.
+This is accomplished using the `@nest` decorator.
 
 Lets say we have an album with photos.
 And we are trying to convert album plain object to class object:
 
 ```typescript
-import { nested, plainToInstance } from "class-transform";
+import { nest, plainToInstance } from "class-transform";
 
 class Album {
   id: number;
   name: string;
-  @nested(Photo) photos: Array<Photo>;
+  @nest(Photo) photos: Array<Photo>;
 }
 
 class Photo {
@@ -303,7 +303,7 @@ the additional property `__type`. This property is removed during transformation
 ```
 
 ```typescript
-import { nested, plainToInstance } from "class-transform";
+import { nest, plainToInstance } from "class-transform";
 
 class Photo {
   id: number;
@@ -326,7 +326,7 @@ class Album {
   id: number;
   name: string;
 
-  @nested(Photo, {
+  @nest(Photo, {
     discriminator: {
       property: "__type",
       subTypes: [
@@ -551,16 +551,16 @@ let user5 = instanceToPlain(user, { version: 2.1 }); // will contain id, name an
 
 Sometimes you have a Date in your plain javascript object received in a string format.
 And you want to create a real javascript Date object from it.
-You can do it simply by passing a Date object to the `@nested` decorator:
+You can do it simply by passing a Date object to the `@nest` decorator:
 
 ```typescript
-import { nested } from "class-transform";
+import { nest } from "class-transform";
 
 class User {
   id: number;
   email: string;
   password: string;
-  @nested(Date) registrationDate: Date;
+  @nest(Date) registrationDate: Date;
 }
 ```
 
@@ -570,15 +570,15 @@ primitive types when you want to convert your values into these types.
 ## Working with arrays
 
 When you are using arrays you must provide a type of the object that array contains.
-This type, you specify in a `@nested()` decorator:
+This type, you specify in a `@nest()` decorator:
 
 ```typescript
-import { nested } from "class-transform";
+import { nest } from "class-transform";
 
 class Photo {
   id: number;
   name: string;
-  @nested(Album) albums: Array<Album>;
+  @nest(Album) albums: Array<Album>;
 }
 ```
 
@@ -600,7 +600,7 @@ import { Moment } from "moment";
 class Photo {
   id: number;
 
-  @nested(Date)
+  @nest(Date)
   @transform(({ value }) => moment(value), { toInstanceOnly: true })
   date: Moment;
 }

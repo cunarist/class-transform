@@ -1,5 +1,5 @@
 /**
- * Allows to specify a map of Types in the object without using @nested decorator.
+ * Allows to specify a map of Types in the object without using @nest decorator.
  * This is useful when you have external classes.
  */
 export interface TargetMap {

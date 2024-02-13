@@ -1,7 +1,7 @@
 import { DiscriminatorDescriptor } from "./type-discriminator-descriptor.interface";
 
 /**
- * Possible transformation options for the @nested decorator.
+ * Possible transformation options for the @nest decorator.
  */
 export interface TypeOptions {
   /**

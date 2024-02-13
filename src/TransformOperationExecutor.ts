@@ -349,7 +349,7 @@ export class TransformOperationExecutor {
             this.options.enableImplicitConversion &&
             this.transformationType === TransformationType.PLAIN_TO_INSTANCE
           ) {
-            // if we have no registererd type via the @nested() decorator then we check if we have any
+            // if we have no registererd type via the @nest() decorator then we check if we have any
             // type declarations in reflect-metadata (type declaration is emited only if some decorator is added to the property.)
             const reflectedType = (Reflect as any).getMetadata(
               "design:type",
@@ -374,7 +374,7 @@ export class TransformOperationExecutor {
         // if its deserialization then type if required
         // if we uncomment this types like string[] will not work
         // if (this.transformationType === TransformationType.PLAIN_TO_INSTANCE && !type && subValue instanceof Object && !(subValue instanceof Date))
-        //     throw new Error(`Cannot determine type for ${(targetType as any).name }.${propertyName}, did you forget to specify a @nested?`);
+        //     throw new Error(`Cannot determine type for ${(targetType as any).name }.${propertyName}, did you forget to specify a @nest?`);
 
         // if newValue is a source object that has method that match newKeyName then skip it
         if (newValue.constructor.prototype) {
