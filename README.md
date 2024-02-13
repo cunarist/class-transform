@@ -523,7 +523,7 @@ let user2 = instanceToPlain(user, { groups: ["admin"] });
 
 ## Using versioning to control included and excluded properties
 
-If you are building an API that has different versions, class-transform has extremely useful tools for that.
+If you are building an API that has different versions, `class-transform` has extremely useful tools for that.
 You can control which properties of your model should be included or excluded in what version. Example:
 
 ```typescript
@@ -634,7 +634,7 @@ Generics are not supported because TypeScript does not have good reflection abil
 
 ## Implicit type conversion
 
-> **NOTE** If you use class-validator together with class-transform you propably DON'T want to enable this function.
+> **NOTE** If you use class-validator together with `class-transform`, you propably DON'T want to enable this function.
 
 Enables automatic conversion between built-in types based on type information provided by Typescript. Disabled by default.
 
