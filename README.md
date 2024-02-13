@@ -397,7 +397,7 @@ class User {
 ## Skipping specific properties
 
 Sometimes you want to skip some properties during transformation.
-This can be done using `@exclude` decorator:
+This can be done using `@conceal` decorator:
 
 ```typescript
 import { expose } from "class-transform";
@@ -405,7 +405,7 @@ import { expose } from "class-transform";
 class User {
   id: number;
   email: string;
-  @exclude()
+  @conceal()
   password: string;
 }
 ```
@@ -422,7 +422,7 @@ import { expose } from "class-transform";
 class User {
   id: number;
   email: string;
-  @exclude({ toPlainOnly: true })
+  @conceal({ toPlainOnly: true })
   password: string;
 }
 ```
@@ -434,9 +434,9 @@ Now `password` property will be excluded only during `instanceToPlain` operation
 You can skip all properties of the class, and expose only those are needed explicitly:
 
 ```typescript
-import { exclude, expose } from "class-transform";
+import { conceal, expose } from "class-transform";
 
-@exclude()
+@conceal()
 class User {
   @expose()
   id: number;
@@ -454,7 +454,7 @@ import { instanceToPlain } from "class-transform";
 let photo = instanceToPlain(photo, { strategy: "excludeAll" });
 ```
 
-In this case you don't need to `@exclude()` a whole class.
+In this case you don't need to `@conceal()` a whole class.
 
 ## Skipping private properties, or some prefixed properties
 
@@ -505,7 +505,7 @@ let userPlain = instanceToPlain(user, { excludePrefixes: ["_"] });
 You can use groups to control what data will be exposed and what will not be:
 
 ```typescript
-import { exclude, expose, instanceToPlain } from "class-transform";
+import { conceal, expose, instanceToPlain } from "class-transform";
 
 class User {
   id: number;
@@ -529,7 +529,7 @@ If you are building an API that has different versions, class-transform has extr
 You can control which properties of your model should be exposed or excluded in what version. Example:
 
 ```typescript
-import { exclude, expose, instanceToPlain } from "class-transform";
+import { conceal, expose, instanceToPlain } from "class-transform";
 
 class User {
   id: number;

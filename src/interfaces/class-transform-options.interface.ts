@@ -13,7 +13,7 @@ export interface ClassTransformOptions {
   /**
    * Indicates if extraneous properties should be excluded from the value when converting a plain value to a class.
    *
-   * This option requires that each property on the target class has at least one `@expose` or `@exclude` decorator
+   * This option requires that each property on the target class has at least one `@expose` or `@conceal` decorator
    * assigned from this library.
    */
   excludeExtraneousValues?: boolean;
@@ -36,7 +36,7 @@ export interface ClassTransformOptions {
   excludePrefixes?: Array<string>;
 
   /**
-   * If set to true then class transformer will ignore the effect of all @expose and @exclude decorators.
+   * If set to true then class transformer will ignore the effect of all @expose and @conceal decorators.
    * This option is useful if you want to kinda clone your object but do not apply decorators affects.
    *
    * __NOTE:__ You may still have to add the decorators to make other options work.

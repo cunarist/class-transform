@@ -8,7 +8,7 @@ import { ExcludeOptions } from "../interfaces";
  *
  * Can be applied to class definitions and properties.
  */
-export function exclude(
+export function conceal(
   options: ExcludeOptions = {},
 ): PropertyDecorator & ClassDecorator {
   /**

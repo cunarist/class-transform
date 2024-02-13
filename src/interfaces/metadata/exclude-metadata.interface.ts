@@ -1,7 +1,7 @@
 import { ExcludeOptions } from "..";
 
 /**
- * This object represents metadata assigned to a property via the @exclude decorator.
+ * This object represents metadata assigned to a property via the @conceal decorator.
  */
 export interface ExcludeMetadata {
   target: Function;
@@ -14,7 +14,7 @@ export interface ExcludeMetadata {
   propertyName: string | undefined;
 
   /**
-   * Options passed to the @exclude operator for this property.
+   * Options passed to the @conceal operator for this property.
    */
   options: ExcludeOptions;
 }

@@ -1,5 +1,5 @@
 /**
- * Possible transformation options for the @exclude decorator.
+ * Possible transformation options for the @conceal decorator.
  */
 export interface ExcludeOptions {
   /**
