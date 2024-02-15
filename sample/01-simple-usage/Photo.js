@@ -11,6 +11,9 @@ export class Photo {
   tags = Exposed.strings();
   author = Exposed.struct(User);
   albums = Exposed.structs(Album);
+  year = 1970;
+  month = 1;
+  day = 1;
 
   get name() {
     return this.id + "_" + this.filename;

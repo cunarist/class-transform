@@ -3,7 +3,10 @@
 import { plainToInstance, instanceToPlain } from "class-transform";
 import { Photo } from "./Photo.js";
 
-// check deserialization
+const divider = "----------------------------------------";
+console.log(divider);
+
+// Check typing.
 
 let photoPlain = {
   id: "1",
@@ -25,19 +28,21 @@ let photoPlain = {
       name: "My young years",
     },
   ],
+  metadata: "I like it",
 };
 
 let photo = plainToInstance(Photo, photoPlain);
+photo.year = 2020;
 console.log(photo);
+console.log(divider);
 
-// now check serialization
+// Check untyping.
 
 let newPhotoPlain = instanceToPlain(photo);
 console.log(newPhotoPlain);
+console.log(divider);
 
-// try to deserialize an array
-console.log("-------------------------------");
-
+// Type an array.
 let photosPlain = [
   {
     id: "1",
@@ -84,8 +89,10 @@ let photosPlain = [
 
 let photos = plainToInstance(Photo, photosPlain);
 console.log(photos);
+console.log(divider);
 
-// now check array serialization
+// Check array untyping.
 
 let newPhotosPlain = instanceToPlain(photos);
 console.log(newPhotosPlain);
+console.log(divider);
