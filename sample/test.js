@@ -2,11 +2,11 @@
 
 class Nested {
   /**
-   * @param {new (...args) => any} type
+   * @param {new () => any} type
    * @param {boolean} isArray
    */
   constructor(type, isArray) {
-    /** @type {new (...args) => any} */
+    /** @type {new () => any} */
     this.type = type;
     /** @type {boolean} */
     this.isArray = isArray;
@@ -14,20 +14,20 @@ class Nested {
 
   /**
    * @template T
-   * @param {new (...args) => T} type
+   * @param {new () => T} type
    * @returns {T | null}
    */
-  static type(type) {
+  static struct(type) {
     // @ts-ignore
     return new Nested(type, false);
   }
 
   /**
    * @template T
-   * @param {new (...args) => T} type
+   * @param {new () => T} type
    * @returns {Array<T> | null}
    */
-  static types(type) {
+  static structs(type) {
     // @ts-ignore
     return new Nested(type, true);
   }
@@ -114,6 +114,65 @@ function nest(object) {
   return object;
 }
 
+/**
+ * @template T
+ * @param {new () => T} Type
+ * @param {Object} plainObject
+ * @returns {T}
+ */
+function plainToInstance(Type, plainObject) {
+  /** @type {Object} */
+  const instance = new Type();
+
+  for (const [key, value] of Object.entries(plainObject)) {
+    const nested = instance[key];
+
+    if (!(nested instanceof Nested)) {
+      // If the property is not `Nested`, do not assign the value from plain object
+      continue;
+    }
+
+    if (value instanceof Array) {
+      // If the property is an array
+      if (nested.isArray) {
+        // If it's an array in the nested structure, assign the value directly
+        const array = [];
+        instance[key] = array;
+        for (const eachValue of value) {
+          if (nested.type === Number) {
+            array.push(Number(eachValue));
+          } else if (nested.type === Boolean) {
+            array.push(Boolean(eachValue));
+          } else if (nested.type === String) {
+            array.push(String(eachValue));
+          } else {
+            array.push(plainToInstance(nested.type, eachValue));
+          }
+        }
+      } else {
+        // If it's not an array in the nested structure, ignore the incoming value
+        instance[key] = null;
+      }
+    } else {
+      if (nested.isArray) {
+        instance[key] = [];
+      } else {
+        if (nested.type === Number) {
+          instance[key] = Number(value);
+        } else if (nested.type === Boolean) {
+          instance[key] = Boolean(value);
+        } else if (nested.type === String) {
+          instance[key] = String(value);
+        } else {
+          instance[key] = plainToInstance(nested.type, value);
+        }
+      }
+    }
+  }
+
+  return instance;
+}
+
 class Inner {
   a = Nested.number();
   b = Nested.numbers();
@@ -126,11 +185,27 @@ class Mine {
   d = Nested.booleans();
   e = Nested.string();
   f = Nested.strings();
-  g = Nested.type(Inner);
-  h = Nested.types(Inner);
+  g = Nested.struct(Inner);
+  h = Nested.structs(Inner);
+  i = new Date();
 }
 
-const result = nest(new Mine());
-console.log(result);
+let result = nest(new Mine());
 result.f?.push("HI");
 console.log(result);
+
+let plainObject = {
+  a: 3,
+  b: [4, "2.6", 6],
+  c: true,
+  d: [true, 0, 0.2, 0.5, false],
+  e: "Hello",
+  f: ["Hehe", "Love", false],
+  g: { a: 3, b: [6, 6, false] },
+  h: [
+    { a: 3, b: [6, 6, false] },
+    { a: 3, b: ["STR"] },
+  ],
+};
+let resultFromPlain = plainToInstance(Mine, plainObject);
+console.log(resultFromPlain);
