@@ -17,8 +17,8 @@
     "class-to-object"
   ],
   "scripts": {
-    "fix": "npx prettier --write \"**/*.{ts,md}\"",
-    "check": "npx prettier --check \"**/*.{ts,md}\""
+    "fix": "npx prettier --write \"**/*.{js,md}\"",
+    "check": "npx prettier --check \"**/*.{js,md}\""
   },
   "devDependencies": {
     "prettier": "^3.2.5"
