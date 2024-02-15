@@ -1,49 +1,26 @@
 {
   "name": "class-transform",
   "version": "0.7.0-dev.6",
-  "description": "Decorator-based transformation between plain JavaScript objects and class instances",
+  "description": "Transformation between plain JavaScript objects and class instances",
   "author": "Cunarist",
   "license": "MIT",
   "type": "module",
-  "main": "./build/index.js",
-  "types": "./build/index.d.ts",
+  "main": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/cunarist/class-transform.git"
   },
   "tags": [
-    "typescript",
+    "type",
+    "javascript",
     "object-to-class",
     "class-to-object"
   ],
   "scripts": {
-    "build": "npx tsc",
-    "prettier:fix": "prettier --write \"**/*.{ts,md}\"",
-    "prettier:check": "prettier --check \"**/*.{ts,md}\""
-  },
-  "dependencies": {
-    "reflect-metadata": "^0.2.1"
+    "fix": "npx prettier --write \"**/*.{ts,md}\"",
+    "check": "npx prettier --check \"**/*.{ts,md}\""
   },
   "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.17",
-    "husky": "^9.0.10",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5",
-    "tsx": "^4.7.1",
-    "typescript": "^5.3.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.md": [
-      "npm run prettier:fix"
-    ],
-    "*.ts": [
-      "npm run prettier:fix"
-    ]
+    "prettier": "^3.2.5"
   }
 }

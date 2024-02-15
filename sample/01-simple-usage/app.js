@@ -1,5 +1,7 @@
+// @ts-check
+
 import { plainToInstance, instanceToPlain } from "class-transform";
-import { Photo } from "./Photo";
+import { Photo } from "./Photo.js";
 
 // check deserialization
 
@@ -15,23 +17,23 @@ let photoPlain = {
   },
   albums: [
     {
-      idPlain: "1",
+      id: "1",
       name: "My life",
     },
     {
-      idPlain: "2",
+      id: "2",
       name: "My young years",
     },
   ],
 };
 
 let photo = plainToInstance(Photo, photoPlain);
-console.log("deserialized object: ", photo);
+console.log(photo);
 
 // now check serialization
 
 let newPhotoPlain = instanceToPlain(photo);
-console.log("serialized object: ", newPhotoPlain);
+console.log(newPhotoPlain);
 
 // try to deserialize an array
 console.log("-------------------------------");
@@ -49,11 +51,11 @@ let photosPlain = [
     },
     albums: [
       {
-        idPlain: "1",
+        id: "1",
         name: "My life",
       },
       {
-        idPlain: "2",
+        id: "2",
         name: "My young years",
       },
     ],
@@ -69,11 +71,11 @@ let photosPlain = [
     },
     albums: [
       {
-        idPlain: "1",
+        id: "1",
         name: "My life",
       },
       {
-        idPlain: "2",
+        id: "2",
         name: "My young years",
       },
     ],
@@ -81,9 +83,9 @@ let photosPlain = [
 ];
 
 let photos = plainToInstance(Photo, photosPlain);
-console.log("deserialized array: ", photos);
+console.log(photos);
 
 // now check array serialization
 
 let newPhotosPlain = instanceToPlain(photos);
-console.log("serialized array: ", newPhotosPlain);
+console.log(newPhotosPlain);
