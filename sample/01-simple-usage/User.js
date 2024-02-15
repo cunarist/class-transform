@@ -1,9 +1,9 @@
 // @ts-check
 
-import { Nested } from "class-transform";
+import { Exposed } from "class-transform";
 
 export class User {
-  id = Nested.number();
-  firstName = Nested.string();
-  lastName = Nested.string();
+  id = Exposed.number();
+  firstName = Exposed.string();
+  lastName = Exposed.string();
 }

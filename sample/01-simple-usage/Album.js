@@ -1,8 +1,8 @@
 // @ts-check
 
-import { Nested } from "class-transform";
+import { Exposed } from "class-transform";
 
 export class Album {
-  id = Nested.number();
-  name = Nested.string();
+  id = Exposed.number();
+  name = Exposed.string();
 }
