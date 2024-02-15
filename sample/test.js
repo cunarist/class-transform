@@ -173,6 +173,54 @@ function plainToInstance(Type, plainObject) {
   return instance;
 }
 
+/**
+ * @param {any} instance - The instance to convert to a plain object.
+ * @returns {Object}
+ */
+function instanceToPlain(instance) {
+  const plainObject = {};
+
+  for (const [key, value] of Object.entries(instance)) {
+    if (value instanceof Nested) {
+      // If the property is a Nested object
+      plainObject[key] = null;
+      continue;
+    }
+
+    if (value instanceof Array) {
+      const array = [];
+      plainObject[key] = array;
+      for (const eachValue of value) {
+        if (typeof eachValue == "number") {
+          array.push(eachValue);
+        } else if (typeof eachValue == "boolean") {
+          array.push(eachValue);
+        } else if (typeof eachValue == "string") {
+          array.push(eachValue);
+        } else if (typeof eachValue == "object") {
+          array.push(instanceToPlain(eachValue));
+        } else {
+          array.push(eachValue);
+        }
+      }
+    } else {
+      if (typeof value == "number") {
+        plainObject[key] = value;
+      } else if (typeof value == "boolean") {
+        plainObject[key] = value;
+      } else if (typeof value == "string") {
+        plainObject[key] = value;
+      } else if (typeof value == "object") {
+        plainObject[key] = instanceToPlain(value);
+      } else {
+        plainObject[key] = value;
+      }
+    }
+  }
+
+  return plainObject;
+}
+
 class Inner {
   a = Nested.number();
   b = Nested.numbers();
@@ -194,7 +242,7 @@ let result = nest(new Mine());
 result.f?.push("HI");
 console.log(result);
 
-let plainObject = {
+let plain = {
   a: 3,
   b: [4, "2.6", 6],
   c: true,
@@ -206,6 +254,10 @@ let plainObject = {
     { a: 3, b: [6, 6, false] },
     { a: 3, b: ["STR"] },
   ],
+  z: "DUMMY",
 };
-let resultFromPlain = plainToInstance(Mine, plainObject);
-console.log(resultFromPlain);
+let typed = plainToInstance(Mine, plain);
+console.log(typed);
+
+let plainNew = instanceToPlain(typed);
+console.log(plainNew);
