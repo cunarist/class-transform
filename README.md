@@ -41,9 +41,10 @@ Album {
   - [Table of contents](#table-of-contents)
   - [About this library](#about-this-library)
   - [Functions](#functions)
-    - [plainToInstance](#plaintoinstance)
-    - [instanceToPlain](#instancetoplain)
-    - [instanceToInstance](#instancetoinstance)
+    - [`plainToInstance`](#plaintoinstance)
+    - [`instanceToPlain`](#instancetoplain)
+    - [`exposeFields`](#exposefields)
+  - [Exposed field types](#exposed-field-types)
   - [Enforcing type-safe instance](#enforcing-type-safe-instance)
   - [Working with nested objects](#working-with-nested-objects)
     - [Providing more than one type option](#providing-more-than-one-type-option)
@@ -107,79 +108,70 @@ For example you have a list of users in your `users.json` that you are loading:
 ]
 ```
 
-To load JSON data, you would write the following code. However, it consists solely of plain objects and lacks type safety.
+To load JSON data, you would write the following code.
+However, it consists solely of plain objects and lacks type safety.
 
-```typescript
+```javascript
 let response = await fetch("users.json");
-let users: any = await response.json();
+let users = await response.json();
 // `users` variable is just an array of plain objects.
-// TypeScript compiler cannot help you with `any` type like this.
+// Type checkers cannot help you with `any` type like this.
 ```
 
 To achieve object-oriented programming, you can use `class-transform`.
 Purpose of this library is to help you to convert your plain JavaScript
 objects to the instances of classes you have.
 
-```typescript
-import { plainToInstance } from "class-transform";
+```javascript
+import { Exposed, plainToInstance } from "class-transform";
 
 class User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  age: number;
-  getName() {
-    return this.firstName + " " + this.lastName;
-  }
-  isAdult() {
-    return this.age > 36 && this.age < 60;
-  }
+  id = Exposed.number();
+  firstName = Exposed.string();
+  lastName = Exposed.string();
+  age = Exposed.number();
 }
 
 let response = await fetch("users.json");
-let realUsers: Array<User> = plainToInstance(User, await response.json());
-// Now each value in `realUsers` is an instance of the `User` class.
-
-realUsers[0].getName();
-realUsers[0].isAdult();
+let realUsers = plainToInstance(User, await response.json());
+// Now each value in `realUsers` array is an instance of `User`.
 // By converting plain objects into class instances,
-// the compiler's type checking becomes available.
-// You can use class methods as well.
+// type checking becomes available.
+// You can use proper class methods as well.
 ```
 
-Using classes for JSON can be advantageous over TypeScript's `interface` and `type` statements because they are preserved after compilation, enabling true object-oriented programming for type-safe runtime behaviors.
+If you're using TypeScript,
+using classes for JSON can be advantageous over `interface` and `type` statements
+because they are preserved after compilation,
+enabling true object-oriented programming for type-safe runtime behaviors.
 
 ## Functions
 
-### plainToInstance
+### `plainToInstance`
 
 Transforms a plain JavaScript object to instance of specific class.
 
-```typescript
+```javascript
 import { plainToInstance } from "class-transform";
 let users = plainToInstance(User, userPlain);
 ```
 
-### instanceToPlain
+### `instanceToPlain`
 
-Transforms your class object back to plain JavaScript object, that can be `JSON.stringify`ed later.
+Transforms your class object back to plain JavaScript object that can be `JSON.stringify`ed later.
 
-```typescript
+```javascript
 import { instanceToPlain } from "class-transform";
 let photoPlain = instanceToPlain(photo);
 ```
 
-### instanceToInstance
+### `exposeFields`
 
-Transforms your instance into a new instance of the same class.
-This may be treated as deep clone of your objects.
+TBW
 
-```typescript
-import { instanceToInstance } from "class-transform";
-let photo = instanceToInstance(photo);
-```
+## Exposed field types
 
-You can also use an `ignoreDecorators` option in transformation options to ignore all decorators your classes are using.
+TBW
 
 ## Enforcing type-safe instance
 
