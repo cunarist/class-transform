@@ -44,8 +44,8 @@ Album {
   - [Exposed field types](#exposed-field-types)
   - [Type safety](#type-safety)
   - [Working with nested structures](#working-with-nested-structures)
-  - [Constucting an instance manually](#constucting-an-instance-manually)
   - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
+  - [Constucting an instance manually](#constucting-an-instance-manually)
   - [Сonverting date strings into Date objects](#сonverting-date-strings-into-date-objects)
   - [Working with arrays](#working-with-arrays)
   - [Additional data transformation](#additional-data-transformation)
@@ -245,6 +245,22 @@ let album = plainToInstance(Album, albumPlain);
 // Now `album` is `Album` instance with `Photo` instances inside.
 ```
 
+## Using different property name in plain objects
+
+If the plain object's property should have a different name,
+you can do that by using a `Exposed.alias` method before specifying the type.
+
+```typescript
+import { Exposed } from "class-transform";
+
+class User {
+  firstName: Exposed.alias("first_name").string();
+  lastName: Exposed.alias("last_name").string();
+}
+```
+
+This is useful when the JSON API uses snakecase or some other naming conventions.
+
 ## Constucting an instance manually
 
 Because fields that are marked with `Exposed`
@@ -278,22 +294,6 @@ console.log(album);
 //   },
 // }
 ```
-
-## Using different property name in plain objects
-
-If the plain object's property should have a different name,
-you can do that by using a `Exposed.alias` method before specifying the type.
-
-```typescript
-import { Exposed } from "class-transform";
-
-class User {
-  firstName: Exposed.alias("first_name").string();
-  lastName: Exposed.alias("last_name").string();
-}
-```
-
-This is useful when the JSON API uses snakecase or some other naming conventions.
 
 ## Сonverting date strings into Date objects
 

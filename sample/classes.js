@@ -1,8 +1,17 @@
 // @ts-check
 
 import { Exposed } from "class-transform";
-import { Album } from "./Album.js";
-import { User } from "./User.js";
+
+export class Album {
+  id = Exposed.number();
+  name = Exposed.string();
+}
+
+export class User {
+  id = Exposed.number();
+  firstName = Exposed.string();
+  lastName = Exposed.string();
+}
 
 export class Photo {
   id = Exposed.number();
