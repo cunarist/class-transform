@@ -305,7 +305,7 @@ import { Exposed, plainToInstance } from "class-transform";
 
 class User {
   firstName = Exposed.default("Olivia").string();
-  lastName = Exposed.alias("Davis").string();
+  lastName = Exposed.default("Davis").string();
 }
 
 let plain = { firstName: "John" };
