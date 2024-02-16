@@ -254,8 +254,9 @@ console.log(plainNew);
 // }
 ```
 
-If a value is missing, `class-transform` will fill it with `null` or a blank array,
-depending on the field type. If a field is not `Exposed`,
+If a value is missing, `class-transform` will fill it with
+`null`, blank array, or an empty child instance
+depending on the field type. If the field is not `Exposed`,
 the value will not be included in the transformation at all.
 
 Each type method has a return type that represents the data type,
