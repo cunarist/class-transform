@@ -20,17 +20,14 @@ jobs:
       matrix:
         node-version: ["16", "18", "20"]
       fail-fast: false
-    defaults:
-      run:
-        working-directory: ./sample
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-        working-directory: ../
       - run: npx tsc
-        working-directory: ../
       - run: npm install
+        working-directory: ./sample
       - run: node index.js
+        working-directory: ./sample
