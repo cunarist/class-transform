@@ -285,7 +285,6 @@ class Album {
 }
 
 let album = plainToInstance(Album, albumPlain);
-// Now `album` is an `Album` instance with `Photo` array inside.
 ```
 
 ## Using different property name in plain objects
