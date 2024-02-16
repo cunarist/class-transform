@@ -23,4 +23,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm uninstall class-transform
       - run: npm install class-transform
-      - run: npx tsc
+      - run: node index.js
