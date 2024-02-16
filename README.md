@@ -255,7 +255,7 @@ after construction to use them properly,
 if the class includes `Exposed` fields.
 
 ```javascript
-import { nullifyExposed } from "class-transform";
+import { Exposed, nullifyExposed } from "class-transform";
 
 class Album {
   id = Exposed.number();
