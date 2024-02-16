@@ -254,7 +254,7 @@ depending on the field type. If a field is not `Exposed`,
 the value will not be included in the transformation at all.
 
 Each type method has a return type that represents the data type,
-allowing TypeScript's type checker do its job.
+allowing TypeScript's type checker to do its job.
 It also works well with `"strict": true` of `tsconfig.json`.
 If you're using JavaScript, you can add `// @ts-check` at the top of your file
 to utilize TypeScript's type checker.
