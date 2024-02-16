@@ -178,7 +178,7 @@ There are also methods for specifying options.
 - `Exposed.alias`: Alias name in plain objects
 - `Exposed.default`: The default value
 
-Please note that the type method should come at the _last_ of the method chain.
+Please note that the type method should come at the _end_ of the method chain.
 
 ```javascript
 class MyType {
