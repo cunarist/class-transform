@@ -6,6 +6,7 @@
   "license": "MIT",
   "type": "module",
   "main": "./lib/index.js",
+  "types": "./build/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/cunarist/class-transform.git"
@@ -17,10 +18,12 @@
     "class-to-object"
   ],
   "scripts": {
+    "build": "npx tsc",
     "fix": "npx prettier --write \"**/*.{js,md}\"",
     "check": "npx prettier --check \"**/*.{js,md}\""
   },
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
   }
 }
