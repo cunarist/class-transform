@@ -2,7 +2,9 @@
 
 import {
   plainToInstance,
+  plainsToInstances,
   instanceToPlain,
+  instancesToPlains,
   nullifyExposed,
 } from "class-transform";
 import { Photo, TimeRange } from "./classes.js";
@@ -52,12 +54,6 @@ let newPhotoPlain = instanceToPlain(photo);
 console.log(newPhotoPlain);
 console.log(divider);
 
-// Check stringifying.
-
-let photojson = JSON.stringify(newPhotoPlain, null, 2);
-console.log(photojson);
-console.log(divider);
-
 // Type an array.
 let photosPlain = [
   {
@@ -99,15 +95,21 @@ let photosPlain = [
     ],
   },
 ];
+let photosJson = JSON.stringify(photosPlain, null, 2);
 
-let photos = plainToInstance(Photo, photosPlain);
+let photos = plainsToInstances(Photo, JSON.parse(photosJson));
 console.log(photos);
+console.log(divider);
+
+for (const photo of photos) {
+  console.log(photo.filename);
+}
 console.log(divider);
 
 // Check array untyping.
 
-let newPhotosPlain = instanceToPlain(photos);
-console.log(newPhotosPlain);
+let photosPlainNew = instancesToPlains(photos);
+console.log(photosPlainNew);
 console.log(divider);
 
 let plain = {

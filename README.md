@@ -98,8 +98,8 @@ However, it consists solely of plain objects and lacks type safety.
 
 ```javascript
 let response = await fetch("users.json");
-let users = await response.json();
-// `users` variable is just an array of plain objects.
+let usersPlain = await response.json();
+// `usersPlain` variable is just an array of plain objects.
 // Type checkers cannot help you with `any` type like this.
 ```
 
@@ -108,7 +108,7 @@ Purpose of this library is to help you to convert your plain objects
 to the instances of classes you have.
 
 ```javascript
-import { Exposed, plainToInstance } from "class-transform";
+import { Exposed, plainsToInstances } from "class-transform";
 
 class User {
   id = Exposed.number();
@@ -118,8 +118,8 @@ class User {
 }
 
 let response = await fetch("users.json");
-let realUsers = plainToInstance(User, await response.json());
-// Now each value in `realUsers` array is an instance of `User`.
+let users = plainsToInstances(User, await response.json());
+// Now each value in `users` array is an instance of `User`.
 // By converting plain objects into class instances,
 // type checking becomes available.
 // You can use proper class methods as well.
@@ -143,7 +143,14 @@ Detailed information about each function is written as doc comments.
 
 ```javascript
 import { plainToInstance } from "class-transform";
-let users = plainToInstance(User, userPlain);
+let user = plainToInstance(User, userPlain);
+```
+
+`plainsToInstances`:
+
+```javascript
+import { plainsToInstances } from "class-transform";
+let users = plainsToInstances(User, usersPlain);
 ```
 
 `instanceToPlain`:
@@ -151,6 +158,13 @@ let users = plainToInstance(User, userPlain);
 ```javascript
 import { instanceToPlain } from "class-transform";
 let photoPlain = instanceToPlain(photo);
+```
+
+`instancesToPlains`:
+
+```javascript
+import { instancesToPlains } from "class-transform";
+let photosPlain = instancesToPlains(photos);
 ```
 
 `nullifyExposed`:
@@ -178,7 +192,8 @@ There are also methods for specifying options.
 - `Exposed.alias`: Alias name in plain objects
 - `Exposed.default`: The default value
 
-Please note that the type method should come at the _end_ of the method chain.
+You can combine the effects of each method by chaining methods.
+Please note that the type method should come at the _end_ of the chain.
 
 ```javascript
 class MyType {
@@ -237,6 +252,12 @@ console.log(userPlainNew);
 If a value is missing, `class-transform` will fill it with `null` or a blank array,
 depending on the field type. If a field is not `Exposed`,
 the value will not be included in the transformation at all.
+
+Each type method has a return type that represents the data type,
+allowing TypeScript's type checker do its job.
+It also works well with `"strict": true` of `tsconfig.json`.
+If you're using JavaScript, you can add `// @ts-check` at the top of your file
+to utilize TypeScript's type checker.
 
 ## Working with nested structures
 
