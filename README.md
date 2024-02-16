@@ -259,7 +259,8 @@ class Photo {
 class Album {
   id = Exposed.number();
   name = Exposed.string();
-  photos = Exposed.structs(Photo);
+  photo = Exposed.struct(Photo); // Photo
+  photos = Exposed.structs(Photo); // Array<Photo>
 }
 
 let album = plainToInstance(Album, albumPlain);
