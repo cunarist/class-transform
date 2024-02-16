@@ -1,9 +1,19 @@
 // @ts-check
 
-import { plainToInstance, instanceToPlain } from "class-transform";
+import {
+  plainToInstance,
+  instanceToPlain,
+  nullifyExposed,
+} from "class-transform";
 import { Photo } from "./Photo.js";
 
 const divider = "----------------------------------------";
+console.log(divider);
+
+// Check replacing fields.
+
+let photoEmpty = nullifyExposed(new Photo());
+console.log(photoEmpty);
 console.log(divider);
 
 // Check typing.
@@ -40,6 +50,12 @@ console.log(divider);
 
 let newPhotoPlain = instanceToPlain(photo);
 console.log(newPhotoPlain);
+console.log(divider);
+
+// Check stringifying.
+
+let photojson = JSON.stringify(newPhotoPlain, null, 2);
+console.log(photojson);
 console.log(divider);
 
 // Type an array.

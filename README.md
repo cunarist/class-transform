@@ -41,20 +41,11 @@ Album {
   - [Table of contents](#table-of-contents)
   - [About this library](#about-this-library)
   - [Functions](#functions)
-    - [`plainToInstance`](#plaintoinstance)
-    - [`instanceToPlain`](#instancetoplain)
-    - [`exposeFields`](#exposefields)
   - [Exposed field types](#exposed-field-types)
-  - [Enforcing type-safe instance](#enforcing-type-safe-instance)
-  - [Working with nested objects](#working-with-nested-objects)
-    - [Providing more than one type option](#providing-more-than-one-type-option)
-  - [Skipping specific properties](#skipping-specific-properties)
-  - [Skipping properties by operation](#skipping-properties-by-operation)
+  - [Type safety](#type-safety)
+  - [Working with nested structures](#working-with-nested-structures)
   - [Giving different property name for plain objects](#giving-different-property-name-for-plain-objects)
   - [Exposing getters and method return values](#exposing-getters-and-method-return-values)
-  - [Skipping private properties, or some prefixed properties](#skipping-private-properties-or-some-prefixed-properties)
-  - [Using groups to control excluded properties](#using-groups-to-control-excluded-properties)
-  - [Using versioning to control included and excluded properties](#using-versioning-to-control-included-and-excluded-properties)
   - [Сonverting date strings into Date objects](#сonverting-date-strings-into-date-objects)
   - [Working with arrays](#working-with-arrays)
   - [Additional data transformation](#additional-data-transformation)
@@ -140,51 +131,65 @@ let realUsers = plainToInstance(User, await response.json());
 // You can use proper class methods as well.
 ```
 
-If you're using TypeScript,
+Even inside TypeScript codebases,
 using classes for JSON can be advantageous over `interface` and `type` statements
 because they are preserved after compilation,
 enabling true object-oriented programming for type-safe runtime behaviors.
 
 ## Functions
 
-### `plainToInstance`
+Detailed information about each function is written as doc comments.
 
-Transforms a plain JavaScript object to instance of specific class.
+`nullifyExposed`:
+
+```javascript
+let user = nullifyExposed(new User());
+```
+
+`plainToInstance`:
 
 ```javascript
 import { plainToInstance } from "class-transform";
 let users = plainToInstance(User, userPlain);
 ```
 
-### `instanceToPlain`
-
-Transforms your class object back to plain JavaScript object that can be `JSON.stringify`ed later.
+`instanceToPlain`:
 
 ```javascript
 import { instanceToPlain } from "class-transform";
 let photoPlain = instanceToPlain(photo);
 ```
 
-### `exposeFields`
-
-TBW
-
 ## Exposed field types
 
-TBW
+All field functions provide proper type hints to the IDE.
 
-## Enforcing type-safe instance
+- `Exposed.number`: `number` or `null`, default `null`
+- `Exposed.numbers`: `Array<number>`, default `[]`
+- `Exposed.boolean`: `boolean` or `null`, default `null`
+- `Exposed.booleans`: `Array<boolean>`, default `[]`
+- `Exposed.string`: `string` or `null`, default `null`
+- `Exposed.strings`: `Array<string>`, default `[]`
+- `Exposed.struct`: `T`, default `T {}`
+- `Exposed.structs`: `Array<T>`, default `[]`
 
-The default behaviour of the `plainToInstance` method is to set _all_ properties from the plain object,
-even those which are not specified in the class.
+## Type safety
 
-```typescript
-import { plainToInstance } from "class-transform";
+Type safety is always enforced.
+
+`class-transform` only shares class fields
+that are set as `Exposed` with plain objects.
+Fields that are not `Exposed` will be ignored.
+This applies to both `plainToInstance` and `instanceToPlain`.
+
+```javascript
+import { Exposed, plainToInstance, instanceToPlain } from "class-transform";
 
 class User {
-  id: number;
-  firstName: string;
-  lastName: string;
+  id = Exposed.number();
+  firstName = Exposed.string();
+  lastName = Exposed.string();
+  isKind = true;
 }
 
 let userPlain = {
@@ -193,203 +198,50 @@ let userPlain = {
   lastName: "Khudoiberdiev",
 };
 
-console.log(plainToInstance(User, userPlain));
-
+let userInstance = plainToInstance(User, userPlain);
+console.log(userInstance);
 // User {
-//   unkownProp: 'hello there',
+//   id: null,
+//   firstName: 'Umed',
+//   lastName: 'Khudoiberdiev',
+//   isKind: true
+// }
+
+let userPlainNew = instanceToPlain(userInstance);
+console.log(userPlainNew);
+// {
+//   id: null,
 //   firstName: 'Umed',
 //   lastName: 'Khudoiberdiev',
 // }
 ```
 
-If this behaviour does not suit your needs, you can use the `excludeExtraneous` option
-in the `plainToInstance` method while _explicitly including all your class properties_ as a requirement.
-
-```typescript
-import { include, plainToInstance } from "class-transform";
-
-class User {
-  @include() id: number;
-  @include() firstName: string;
-  @include() lastName: string;
-}
-
-let userPlain = {
-  unkownProp: "hello there",
-  firstName: "Umed",
-  lastName: "Khudoiberdiev",
-};
-
-console.log(plainToInstance(User, userPlain, { excludeExtraneous: true }));
-
-// User {
-//   id: undefined,
-//   firstName: 'Umed',
-//   lastName: 'Khudoiberdiev'
-// }
-```
-
-## Working with nested objects
+## Working with nested structures
 
 When you are trying to transform objects that have nested objects,
 it's necessary to know which type you should transform the object into.
-Since TypeScript does not yet have robust reflection abilities,
-we need to explicitly specify the type of object each property contains.
-This is accomplished using the `@nest` decorator.
+You need to explicitly specify the type of object each property contains
+by passing the class itself into `Exposed.struct` or `Exposed.structs`.
 
 Lets say we have an album with photos.
 And we are trying to convert album plain object to class object:
 
-```typescript
-import { nest, plainToInstance } from "class-transform";
-
-class Album {
-  id: number;
-  name: string;
-  @nest(Photo) photos: Array<Photo>;
-}
+```javascript
+import { Exposed, plainToInstance } from "class-transform";
 
 class Photo {
-  id: number;
-  filename: string;
-}
-
-let album = plainToInstance(Album, albumPlain);
-// now album is Album object with Photo objects inside
-```
-
-### Providing more than one type option
-
-In case the nested object can be of different types, you can provide an additional options object,
-that specifies a discriminator. The discriminator option must define a `property` that holds the subtype
-name for the object and the possible `subTypes` that the nested object can converted to. A sub type
-has a `value`, that holds the constructor of the Type and the `name`, that can match with the `property`
-of the discriminator.
-
-Lets say we have an album that has a top photo. But this photo can be of certain different types.
-And we are trying to convert album plain object to class object. The plain object input has to define
-the additional property `__type`. This property is removed during transformation by default:
-
-**JSON input**:
-
-```json
-{
-  "id": 1,
-  "name": "foo",
-  "topPhoto": {
-    "id": 9,
-    "filename": "cool_whale.jpg",
-    "depth": 1245,
-    "__type": "underwater"
-  }
-}
-```
-
-```typescript
-import { nest, plainToInstance } from "class-transform";
-
-class Photo {
-  id: number;
-  filename: string;
-}
-
-class Landscape extends Photo {
-  panorama: boolean;
-}
-
-class Portrait extends Photo {
-  person: Person;
-}
-
-class UnderWater extends Photo {
-  depth: number;
+  id = Exposed.number();
+  filename = Exposed.string();
 }
 
 class Album {
-  id: number;
-  name: string;
-
-  @nest(Photo, {
-    discriminator: {
-      property: "__type",
-      subTypes: [
-        { value: Landscape, name: "landscape" },
-        { value: Portrait, name: "portrait" },
-        { value: UnderWater, name: "underwater" },
-      ],
-    },
-  })
-  topPhoto: Landscape | Portrait | UnderWater;
+  id = Exposed.number();
+  name = Exposed.string();
+  photos = Exposed.structs(Photo);
 }
 
 let album = plainToInstance(Album, albumPlain);
-// now album is Album object with a UnderWater object without `__type` property.
-```
-
-Hint: The same applies for arrays with different sub types. Moreover you can specify `keepDiscriminator: true`
-in the options to keep the discriminator property also inside your resulting class.
-
-## Skipping specific properties
-
-Sometimes you want to skip some properties during transformation.
-This can be done using `@exclude` decorator:
-
-```typescript
-import { exclude } from "class-transform";
-
-class User {
-  id: number;
-  email: string;
-  @exclude()
-  password: string;
-}
-```
-
-Alternatively, you can make the class fields exclusive
-and include only those are needed:
-
-```typescript
-import { exclude, include } from "class-transform";
-
-@exclude()
-class User {
-  @include()
-  id: number;
-  @include()
-  email: string;
-  password: string;
-}
-```
-
-In both scenarios, `id` and `email` will be included,
-and `password` will be excluded during transformation.
-Fields are inclusive unless you decorate the whole class with `@exclude`.
-
-## Skipping properties by operation
-
-You can control on what operation you will include or exclude a property. Use `toInstanceOnly` or `toPlainOnly` options:
-
-```typescript
-class Direction {
-  @exclude({ toInstanceOnly: true })
-  north: boolean;
-  @exclude({ toPlainOnly: true })
-  east: boolean;
-  west: boolean;
-  south: boolean;
-}
-```
-
-```typescript
-@exclude()
-class Direction {
-  north: boolean;
-  east: boolean;
-  @include({ toInstanceOnly: true })
-  west: boolean;
-  @include({ toPlainOnly: true })
-  south: boolean;
-}
+// Now `album` is `Album` instance with `Photo` instances inside.
 ```
 
 ## Giving different property name for plain objects
@@ -435,104 +287,6 @@ class User {
     return this.firstName + " " + this.lastName;
   }
 }
-```
-
-## Skipping private properties, or some prefixed properties
-
-If you name your private properties with a prefix, lets say with `_`,
-then you can exclude such properties from transformation too:
-
-```typescript
-import { instanceToPlain } from "class-transform";
-let photo = instanceToPlain(photo, { excludePrefixes: ["_"] });
-```
-
-This will skip all properties that start with `_` prefix.
-You can pass any number of prefixes and all properties that begin with these prefixes will be ignored.
-For example:
-
-```typescript
-import { include, instanceToPlain } from "class-transform";
-
-class User {
-  id: number;
-  private _firstName: string;
-  private _lastName: string;
-  _password: string;
-
-  setName(firstName: string, lastName: string) {
-    this._firstName = firstName;
-    this._lastName = lastName;
-  }
-
-  @include()
-  get name() {
-    return this._firstName + " " + this._lastName;
-  }
-}
-
-let user = new User();
-user.id = 1;
-user.setName("Johny", "Cage");
-user._password = "123";
-
-let userPlain = instanceToPlain(user, { excludePrefixes: ["_"] });
-// { id: 1, name: "Johny Cage" }
-```
-
-## Using groups to control excluded properties
-
-You can use groups to control what data will be included and what will not be:
-
-```typescript
-import { exclude, include, instanceToPlain } from "class-transform";
-
-class User {
-  id: number;
-
-  name: string;
-
-  @include({ groups: ["user", "admin"] })
-  // This means that this data will be included only to users and admins
-  email: string;
-
-  @include({ groups: ["user"] })
-  // This means that this data will be included only to users
-  password: string;
-}
-
-let user1 = instanceToPlain(user, { groups: ["user"] });
-// will contain id, name, email and password
-let user2 = instanceToPlain(user, { groups: ["admin"] });
-// will contain id, name and email
-```
-
-## Using versioning to control included and excluded properties
-
-If you are building an API that has different versions, `class-transform` has extremely useful tools for that.
-You can control which properties of your model should be included or excluded in what version. Example:
-
-```typescript
-import { exclude, include, instanceToPlain } from "class-transform";
-
-class User {
-  id: number;
-  name: string;
-  @include({ since: 0.7, until: 1 })
-  // This means that this property will be included
-  // for version starting from 0.7 until 1
-  email: string;
-  @include({ since: 2.1 })
-  // This means that this property will be included
-  // for version starting from 2.1
-  password: string;
-}
-
-let user1 = instanceToPlain(user, { version: 0.5 }); // will contain id and name
-let user2 = instanceToPlain(user, { version: 0.7 }); // will contain id, name and email
-let user3 = instanceToPlain(user, { version: 1 }); // will contain id and name
-let user4 = instanceToPlain(user, { version: 2 }); // will contain id and name
-let user5 = instanceToPlain(user, { version: 2.1 }); // will contain id, name and password
 ```
 
 ## Сonverting date strings into Date objects
