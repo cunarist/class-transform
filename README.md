@@ -298,8 +298,8 @@ Please note that the type method should come at last.
 import { Exposed, plainToInstance, instanceToPlain } from "class-transform";
 
 class User {
-  firstName = Exposed.alias("first_name").string();
-  lastName = Exposed.alias("last_name").string();
+  firstName = Exposed.alias("first_name_raw").string();
+  lastName = Exposed.alias("last_name_raw").string();
 }
 
 let plain = { first_name_raw: "John", last_name_raw: "Davis" };
