@@ -250,8 +250,9 @@ let album = plainToInstance(Album, albumPlain);
 
 Because fields that are marked with `Exposed`
 don't actually have a valid value upon creation,
-you need to explicitly wrap them with `nullifyExposed` after construction
-to use them properly.
+you need to explicitly wrap the instance with `nullifyExposed`
+after construction to use them properly,
+if the class includes `Exposed` fields.
 
 ```javascript
 import { nullifyExposed } from "class-transform";
