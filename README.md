@@ -3,7 +3,7 @@
 [![Continuous Integration](https://github.com/cunarist/class-transform/workflows/CI/badge.svg)](https://github.com/cunarist/class-transform/actions/workflows/continuous_integration.yml)
 [![NPM Version](https://img.shields.io/npm/v/class-transform)](https://badge.fury.io/js/class-transform)
 
-Class syntax was introduced in ES6.
+Class syntax was introduced to JavaScript in ES6.
 Nowadays you are working with typed instances more than ever.
 `class-transform` allows you to transform
 JSON or plain object into typed instance of a class and vice versa.
