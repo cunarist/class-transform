@@ -6,7 +6,7 @@ import { User } from "./User.js";
 
 export class Photo {
   id = Exposed.number();
-  filename = Exposed.string();
+  filename = Exposed.alias("rawFilename").string();
   description = Exposed.string();
   tags = Exposed.strings();
   author = Exposed.struct(User);

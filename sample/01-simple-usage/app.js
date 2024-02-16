@@ -20,7 +20,7 @@ console.log(divider);
 
 let photoPlain = {
   id: "1",
-  filename: "myphoto.jpg",
+  rawFilename: "myphoto.jpg",
   description: "about my photo",
   tags: ["me", "iam"],
   author: {
@@ -62,8 +62,7 @@ console.log(divider);
 let photosPlain = [
   {
     id: "1",
-    filename: "myphoto.jpg",
-    description: "about my photo",
+    rawFilename: "myphoto.jpg",
     author: {
       id: "2",
       firstName: "Johny",
@@ -83,7 +82,7 @@ let photosPlain = [
   },
   {
     id: "2",
-    filename: "hisphoto.jpg",
+    rawFilename: "hisphoto.jpg",
     description: "about his photo",
     author: {
       id: "2",

@@ -44,9 +44,8 @@ Album {
   - [Exposed field types](#exposed-field-types)
   - [Type safety](#type-safety)
   - [Working with nested structures](#working-with-nested-structures)
-  - [Constucting an instance](#constucting-an-instance)
-  - [Giving different property name for plain objects](#giving-different-property-name-for-plain-objects)
-  - [Exposing getters and method return values](#exposing-getters-and-method-return-values)
+  - [Constucting an instance manually](#constucting-an-instance-manually)
+  - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
   - [Сonverting date strings into Date objects](#сonverting-date-strings-into-date-objects)
   - [Working with arrays](#working-with-arrays)
   - [Additional data transformation](#additional-data-transformation)
@@ -246,7 +245,7 @@ let album = plainToInstance(Album, albumPlain);
 // Now `album` is `Album` instance with `Photo` instances inside.
 ```
 
-## Constucting an instance
+## Constucting an instance manually
 
 Because fields that are marked with `Exposed`
 don't actually have a valid value upon creation,
@@ -257,65 +256,44 @@ if the class includes `Exposed` fields.
 ```javascript
 import { Exposed, nullifyExposed } from "class-transform";
 
+class Photo {
+  id = Exposed.number();
+  filename = Exposed.string();
+}
+
 class Album {
   id = Exposed.number();
-  name = Exposed.string();
-  photos = Exposed.structs(Photo);
+  name = Exposed.strings();
+  photos = Exposed.struct(Photo);
 }
 
 let album = nullifyExposed(new Album());
 console.log(album);
-// {
+// Album {
 //   id: null,
-//   name: null,
-//   photos: null,
+//   name: [],
+//   photos: Photo {
+//     id: null,
+//     filename: null,
+//   },
 // }
 ```
 
-## Giving different property name for plain objects
+## Using different property name in plain objects
 
 If the plain object's property should have a different name,
-you can do that by specifying a `plainName` option in `@include` decorator:
+you can do that by using a `Exposed.alias` method before specifying the type.
 
 ```typescript
-import { include } from "class-transform";
+import { Exposed } from "class-transform";
 
 class User {
-  id: number;
-  @include({ plainName: "first_name" })
-  firstName: string;
-  @include({ plainName: "last_name" })
-  lastName: string;
-  password: string;
+  firstName: Exposed.alias("first_name").string();
+  lastName: Exposed.alias("last_name").string();
 }
 ```
 
-This is useful when the JSON API uses snakecase or weird naming convention.
-
-## Exposing getters and method return values
-
-You can mark that your getter or method returns something by setting an `@include()` decorator to those getters or methods:
-
-```typescript
-import { include } from "class-transform";
-
-class User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  password: string;
-
-  @include()
-  get name() {
-    return this.firstName + " " + this.lastName;
-  }
-
-  @include()
-  getFullName() {
-    return this.firstName + " " + this.lastName;
-  }
-}
-```
+This is useful when the JSON API uses snakecase or some other naming conventions.
 
 ## Сonverting date strings into Date objects
 
