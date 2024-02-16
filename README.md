@@ -176,7 +176,7 @@ let photosPlain = instancesToPlains(photos);
 ```javascript
 import { nullifyExposed } from "class-transform";
 let user = nullifyExposed(new User());
-// Initialize all `Exposed` values with `null
+// Initialize all `Exposed` values with `null`
 ```
 
 ## Exposed field types
