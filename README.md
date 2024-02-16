@@ -1,5 +1,3 @@
-# `class-transform`
-
 [![Continuous Integration](https://github.com/cunarist/class-transform/workflows/CI/badge.svg)](https://github.com/cunarist/class-transform/actions/workflows/continuous_integration.yml)
 [![NPM Version](https://img.shields.io/npm/v/class-transform)](https://badge.fury.io/js/class-transform)
 
@@ -37,19 +35,18 @@ Album {
 
 ## Table of contents
 
-- [`class-transform`](#class-transform)
-  - [Table of contents](#table-of-contents)
-  - [About this library](#about-this-library)
-  - [Samples](#samples)
-  - [Functions](#functions)
-  - [Exposed field types](#exposed-field-types)
-  - [Strong type safety](#strong-type-safety)
-  - [Working with nested structures](#working-with-nested-structures)
-  - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
-  - [Providing a default value](#providing-a-default-value)
-  - [Constructing an instance manually](#constructing-an-instance-manually)
-  - [Using advanced types](#using-advanced-types)
-  - [Implicit type conversion](#implicit-type-conversion)
+- [Table of contents](#table-of-contents)
+- [About this library](#about-this-library)
+- [Samples](#samples)
+- [Functions](#functions)
+- [Exposed field types](#exposed-field-types)
+- [Strong type safety](#strong-type-safety)
+- [Working with nested structures](#working-with-nested-structures)
+- [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
+- [Providing a default value](#providing-a-default-value)
+- [Constructing an instance manually](#constructing-an-instance-manually)
+- [Using advanced types](#using-advanced-types)
+- [Implicit type conversion](#implicit-type-conversion)
 
 ## About this library
 
@@ -98,8 +95,8 @@ However, it consists solely of plain objects and lacks type safety.
 
 ```javascript
 let response = await fetch("users.json");
-let usersPlain = await response.json();
-// `usersPlain` variable is just an array of plain objects.
+let plain = await response.json();
+// `plain` variable is just an array of plain objects.
 // Type checkers cannot help you with `any` type like this.
 ```
 
@@ -118,8 +115,8 @@ class User {
 }
 
 let response = await fetch("users.json");
-let users = plainsToInstances(User, await response.json());
-// Now each value in `users` array is an instance of `User`.
+let instances = plainsToInstances(User, await response.json());
+// Now each value in `instances` array is an instance of `User`.
 // By converting plain objects into class instances,
 // type checking becomes available.
 // You can use proper class methods as well.
@@ -143,21 +140,24 @@ Detailed information about each function is written as doc comments.
 
 ```javascript
 import { plainToInstance } from "class-transform";
-let user = plainToInstance(User, userPlain);
+let instance = plainToInstance(SomeType, plain);
+// `Object` to `SomeType`
 ```
 
 `plainsToInstances`:
 
 ```javascript
 import { plainsToInstances } from "class-transform";
-let users = plainsToInstances(User, usersPlain);
+let users = plainsToInstances(SomeType, plains);
+// `Array<Object>` to `Array<SomeType>`
 ```
 
 `instanceToPlain`:
 
 ```javascript
 import { instanceToPlain } from "class-transform";
-let photoPlain = instanceToPlain(photo);
+let plain = instanceToPlain(instance);
+// `SomeType` to `Object`
 ```
 
 `instancesToPlains`:
@@ -165,6 +165,7 @@ let photoPlain = instanceToPlain(photo);
 ```javascript
 import { instancesToPlains } from "class-transform";
 let photosPlain = instancesToPlains(photos);
+// `Array<SomeType>` to `Array<Object>`
 ```
 
 `nullifyExposed`:
@@ -172,6 +173,7 @@ let photosPlain = instancesToPlains(photos);
 ```javascript
 import { nullifyExposed } from "class-transform";
 let user = nullifyExposed(new User());
+// Initialize all `Exposed` values with `null
 ```
 
 ## Exposed field types
@@ -196,7 +198,7 @@ You can combine the effects of each method by chaining methods.
 Please note that the type method should come at the _end_ of the chain.
 
 ```javascript
-class MyType {
+class SomeType {
   myField = Exposed.alias("my_field").default(36).number();
 }
 ```
@@ -223,14 +225,14 @@ class User {
   isKind = true;
 }
 
-let userPlain = {
-  unkownProp: "hello there",
+let plain = {
+  unkownProp: "Hello there",
   firstName: "Umed",
   lastName: "Khudoiberdiev",
 };
 
-let userInstance = plainToInstance(User, userPlain);
-console.log(userInstance);
+let instance = plainToInstance(User, plain);
+console.log(instance);
 // User {
 //   id: null,
 //   firstName: 'Umed',
@@ -239,8 +241,8 @@ console.log(userInstance);
 //   isKind: true
 // }
 
-let userPlainNew = instanceToPlain(userInstance);
-console.log(userPlainNew);
+let plainNew = instanceToPlain(instance);
+console.log(plainNew);
 // {
 //   id: null,
 //   firstName: 'Umed',
@@ -284,7 +286,7 @@ class Album {
   photos = Exposed.structs(Photo); // Array<Photo>
 }
 
-let album = plainToInstance(Album, albumPlain);
+let instance = plainToInstance(Album, plain);
 ```
 
 ## Using different property name in plain objects
@@ -360,8 +362,8 @@ class Album {
   hardCover = true;
 }
 
-let album = nullifyExposed(new Album());
-console.log(album);
+let instance = nullifyExposed(new Album());
+console.log(instance);
 // Album {
 //   id: null,
 //   name: [],
@@ -415,14 +417,14 @@ Automatic conversion is provided for fields of primitive types.
 ```javascript
 import { Exposed, plainToInstance } from "class-transform";
 
-class MyType {
+class  {
   prop = Exposed.number();
   otherProp = Exposed.string();
 }
 
 let plain = { prop: "1234", otherProp: 5678 };
 
-let instance = plainToInstance(MyType, plain);
+let instance = plainToInstance(, plain);
 console.log(instance);
-// MyType { prop: 1234, otherProp: '5678' }
+//  { prop: 1234, otherProp: '5678' }
 ```
