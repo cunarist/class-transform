@@ -118,6 +118,6 @@ let plain = {
 };
 
 let instance = plainToInstance(TimeRange, plain);
-console.log(instance.getStart());
-console.log(instance.getEnd());
+console.log(instance.start);
+console.log(instance.end);
 console.log(divider);

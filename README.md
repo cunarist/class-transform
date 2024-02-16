@@ -311,7 +311,7 @@ Basically, it's recommended to store only primitive types for fields
 to ensure clean transformation.
 
 However, sometimes more advanced types might be needed.
-In such cases, you can use class methods
+In such cases, you can use getter and setter methods
 to process the data from the basic values in the class.
 
 ```javascript
@@ -320,10 +320,10 @@ import { Exposed, plainToInstance } from "class-transform";
 class TimeRange {
   startTimestamp = Exposed.string();
   endTimestamp = Exposed.number();
-  getStart() {
+  get start() {
     return new Date(this.startTimestamp ?? 0);
   }
-  getEnd() {
+  get end() {
     return new Date(this.endTimestamp ?? 0);
   }
 }
@@ -334,8 +334,8 @@ let plain = {
 };
 
 let instance = plainToInstance(TimeRange, plain);
-console.log(instance.getStart());
-console.log(instance.getEnd());
+console.log(instance.start);
+console.log(instance.end);
 // 2024-02-12T03:30:00.000Z
 // 2021-02-16T12:10:00.000Z
 ```

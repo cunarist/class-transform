@@ -37,10 +37,10 @@ export class Photo {
 export class TimeRange {
   startTimestamp = Exposed.string();
   endTimestamp = Exposed.number();
-  getStart() {
+  get start() {
     return new Date(this.endTimestamp ?? 0);
   }
-  getEnd() {
+  get end() {
     return new Date(this.endTimestamp ?? 0);
   }
 }
