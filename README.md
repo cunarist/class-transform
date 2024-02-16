@@ -1,3 +1,5 @@
+# `class-transform`
+
 [![Continuous Integration](https://github.com/cunarist/class-transform/workflows/CI/badge.svg)](https://github.com/cunarist/class-transform/actions/workflows/continuous_integration.yml)
 [![NPM Version](https://img.shields.io/npm/v/class-transform)](https://badge.fury.io/js/class-transform)
 
@@ -35,18 +37,19 @@ Album {
 
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
-- [About this library](#about-this-library)
-- [Samples](#samples)
-- [Functions](#functions)
-- [Exposed field types](#exposed-field-types)
-- [Strong type safety](#strong-type-safety)
-- [Working with nested structures](#working-with-nested-structures)
-- [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
-- [Providing a default value](#providing-a-default-value)
-- [Constructing an instance manually](#constructing-an-instance-manually)
-- [Using advanced types](#using-advanced-types)
-- [Implicit type conversion](#implicit-type-conversion)
+- [`class-transform`](#class-transform)
+  - [Table of contents](#table-of-contents)
+  - [About this library](#about-this-library)
+  - [Samples](#samples)
+  - [Functions](#functions)
+  - [Exposed field types](#exposed-field-types)
+  - [Strong type safety](#strong-type-safety)
+  - [Working with nested structures](#working-with-nested-structures)
+  - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
+  - [Providing a default value](#providing-a-default-value)
+  - [Constructing an instance manually](#constructing-an-instance-manually)
+  - [Using advanced types](#using-advanced-types)
+  - [Implicit type conversion](#implicit-type-conversion)
 
 ## About this library
 
