@@ -33,3 +33,14 @@ export class Photo {
     return this.albums;
   }
 }
+
+export class TimeRange {
+  startTimestamp = Exposed.string();
+  endTimestamp = Exposed.number();
+  getStart() {
+    return new Date(this.endTimestamp ?? 0);
+  }
+  getEnd() {
+    return new Date(this.endTimestamp ?? 0);
+  }
+}

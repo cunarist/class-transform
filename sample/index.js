@@ -5,7 +5,7 @@ import {
   instanceToPlain,
   nullifyExposed,
 } from "class-transform";
-import { Photo } from "./classes.js";
+import { Photo, TimeRange } from "./classes.js";
 
 const divider = "----------------------------------------";
 console.log(divider);
@@ -110,4 +110,14 @@ console.log(divider);
 
 let newPhotosPlain = instanceToPlain(photos);
 console.log(newPhotosPlain);
+console.log(divider);
+
+let plain = {
+  startTimestamp: "February 12, 2024 12:30:00",
+  endTimestamp: 1613477400000,
+};
+
+let instance = plainToInstance(TimeRange, plain);
+console.log(instance.getStart());
+console.log(instance.getEnd());
 console.log(divider);

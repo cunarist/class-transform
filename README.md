@@ -7,7 +7,7 @@ Class syntax was introduced to JavaScript in ES6.
 Nowadays you are working with typed instances more than ever.
 `class-transform` allows you to transform
 JSON or plain object into typed instance of a class and vice versa.
-This tool is super useful on both frontend and backend.
+This tool is very helpful for both the frontend and backend.
 
 ```javascript
 // Plain - no type information
@@ -40,22 +40,15 @@ Album {
 - [`class-transform`](#class-transform)
   - [Table of contents](#table-of-contents)
   - [About this library](#about-this-library)
+  - [Samples](#samples)
   - [Functions](#functions)
   - [Exposed field types](#exposed-field-types)
-  - [Type safety](#type-safety)
+  - [Strong type safety](#strong-type-safety)
   - [Working with nested structures](#working-with-nested-structures)
   - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
   - [Constucting an instance manually](#constucting-an-instance-manually)
-  - [Сonverting date strings into Date objects](#сonverting-date-strings-into-date-objects)
-  - [Working with arrays](#working-with-arrays)
-  - [Additional data transformation](#additional-data-transformation)
-    - [Basic usage](#basic-usage)
-    - [Advanced usage](#advanced-usage)
-  - [Working with generics](#working-with-generics)
+  - [Using advanced types](#using-advanced-types)
   - [Implicit type conversion](#implicit-type-conversion)
-  - [How does it handle circular references?](#how-does-it-handle-circular-references)
-  - [Samples](#samples)
-  - [Release notes](#release-notes)
 
 ## About this library
 
@@ -110,8 +103,8 @@ let users = await response.json();
 ```
 
 To achieve object-oriented programming, you can use `class-transform`.
-Purpose of this library is to help you to convert your plain JavaScript
-objects to the instances of classes you have.
+Purpose of this library is to help you to convert your plain objects
+to the instances of classes you have.
 
 ```javascript
 import { Exposed, plainToInstance } from "class-transform";
@@ -136,16 +129,14 @@ using classes for JSON can be advantageous over `interface` and `type` statement
 because they are preserved after compilation,
 enabling true object-oriented programming for type-safe runtime behaviors.
 
+## Samples
+
+Take a look on [samples](https://github.com/cunarist/class-transform/tree/main/sample)
+for more examples of usages.
+
 ## Functions
 
 Detailed information about each function is written as doc comments.
-
-`nullifyExposed`:
-
-```javascript
-import { nullifyExposed } from "class-transform";
-let user = nullifyExposed(new User());
-```
 
 `plainToInstance`:
 
@@ -161,9 +152,16 @@ import { instanceToPlain } from "class-transform";
 let photoPlain = instanceToPlain(photo);
 ```
 
+`nullifyExposed`:
+
+```javascript
+import { nullifyExposed } from "class-transform";
+let user = nullifyExposed(new User());
+```
+
 ## Exposed field types
 
-All field functions provide proper type hints to the IDE.
+All field functions provide proper type hints to TypeScript type checker.
 
 - `Exposed.number`: `number` or `null`, default `null`
 - `Exposed.numbers`: `Array<number>`, default `[]`
@@ -174,11 +172,13 @@ All field functions provide proper type hints to the IDE.
 - `Exposed.struct`: `T`, default `T {}`
 - `Exposed.structs`: `Array<T>`, default `[]`
 
-## Type safety
+## Strong type safety
 
-Type safety is always enforced.
+Strong type safety is always guaranteed.
+A class instance will always have the
+exact set of values that match its fields, with the exact types.
 
-`class-transform` only shares class fields
+`class-transform` only transforms class fields
 that are set as `Exposed` with plain objects.
 Fields that are not `Exposed` will be ignored.
 This applies to both `plainToInstance` and `instanceToPlain`.
@@ -190,6 +190,7 @@ class User {
   id = Exposed.number();
   firstName = Exposed.string();
   lastName = Exposed.string();
+  favorites = Exposed.strings();
   isKind = true;
 }
 
@@ -205,6 +206,7 @@ console.log(userInstance);
 //   id: null,
 //   firstName: 'Umed',
 //   lastName: 'Khudoiberdiev',
+//   favorites: [],
 //   isKind: true
 // }
 
@@ -213,18 +215,23 @@ console.log(userPlainNew);
 // {
 //   id: null,
 //   firstName: 'Umed',
-//   lastName: 'Khudoiberdiev',
+//   lastName: 'Khudoiberdiev'
+//   favorites: [],
 // }
 ```
+
+If a value is missing, `class-transform` will fill it with `null` or a blank array,
+depending on the field type. If a field is not `Exposed`,
+the value will not be included in the transformation at all.
 
 ## Working with nested structures
 
 When you are trying to transform objects that have nested objects,
 it's necessary to know which type you should transform the object into.
-You need to explicitly specify the type of object each property contains
+You need to explicitly specify the type of field
 by passing the class itself into `Exposed.struct` or `Exposed.structs`.
 
-Lets say we have an album with photos.
+Let's say we have an album with photos.
 And we are trying to convert album plain object to class object:
 
 ```javascript
@@ -242,15 +249,16 @@ class Album {
 }
 
 let album = plainToInstance(Album, albumPlain);
-// Now `album` is `Album` instance with `Photo` instances inside.
+// Now `album` is `Album` instance with `Photo` array inside.
 ```
 
 ## Using different property name in plain objects
 
 If the plain object's property should have a different name,
-you can do that by using a `Exposed.alias` method before specifying the type.
+you can do that by using a `Exposed.alias` method.
+Please note that the type method should come at last.
 
-```typescript
+```javascript
 import { Exposed } from "class-transform";
 
 class User {
@@ -266,7 +274,7 @@ This is useful when the JSON API uses snakecase or some other naming conventions
 Because fields that are marked with `Exposed`
 don't actually have a valid value upon creation,
 you need to explicitly wrap the instance with `nullifyExposed`
-after construction to use them properly,
+after construction to use it properly,
 if the class includes `Exposed` fields.
 
 ```javascript
@@ -281,6 +289,7 @@ class Album {
   id = Exposed.number();
   name = Exposed.strings();
   photos = Exposed.struct(Photo);
+  hardCover = true;
 }
 
 let album = nullifyExposed(new Album());
@@ -292,135 +301,60 @@ console.log(album);
 //     id: null,
 //     filename: null,
 //   },
+//   hardCover = true
 // }
 ```
 
-## Сonverting date strings into Date objects
+## Using advanced types
 
-Sometimes you have a Date in your plain JavaScript object received in a string format.
-And you want to create a real JavaScript Date object from it.
-You can do it simply by passing a Date object to the `@nest` decorator:
+Basically, it's recommended to store only primitive types for fields
+to ensure clean transformation.
 
-```typescript
-import { nest } from "class-transform";
+However, sometimes more advanced types might be needed.
+In such cases, you can use class methods
+to process the data from the basic values in the class.
 
-class User {
-  id: number;
-  email: string;
-  password: string;
-  @nest(Date) registrationDate: Date;
+```javascript
+import { Exposed, plainToInstance } from "class-transform";
+
+class TimeRange {
+  startTimestamp = Exposed.string();
+  endTimestamp = Exposed.number();
+  getStart() {
+    return new Date(this.startTimestamp ?? 0);
+  }
+  getEnd() {
+    return new Date(this.endTimestamp ?? 0);
+  }
 }
+
+let plain = {
+  startTimestamp: "February 12, 2024 12:30:00",
+  endTimestamp: 1613477400000,
+};
+
+let instance = plainToInstance(TimeRange, plain);
+console.log(instance.getStart());
+console.log(instance.getEnd());
+// 2024-02-12T03:30:00.000Z
+// 2021-02-16T12:10:00.000Z
 ```
-
-Same technique can be used with `Number`, `String`, `Boolean`
-primitive types when you want to convert your values into these types.
-
-## Working with arrays
-
-When you are using arrays you must provide a type of the object that array contains.
-This type, you specify in a `@nest()` decorator:
-
-```typescript
-import { nest } from "class-transform";
-
-class Photo {
-  id: number;
-  name: string;
-  @nest(Album) albums: Array<Album>;
-}
-```
-
-This library will handle the transformation automatically.
-
-## Additional data transformation
-
-### Basic usage
-
-You can perform additional data transformation using `@transform` decorator.
-For example, you want to make your `Date` object to be a `moment` object when you are
-transforming object from plain to class:
-
-```typescript
-import { transform } from "class-transform";
-import * as moment from "moment";
-import { Moment } from "moment";
-
-class Photo {
-  id: number;
-
-  @nest(Date)
-  @transform(({ value }) => moment(value), { toInstanceOnly: true })
-  date: Moment;
-}
-```
-
-Now when you call `plainToInstance` and send a plain representation of the Photo object,
-it will convert a date value in your photo object to moment date.
-`@transform` decorator also supports groups and versioning.
-
-### Advanced usage
-
-The `@transform` decorator is given more arguments to let you configure how you want the transformation to be done.
-
-```ts
-@transform(({ value, key, obj, type }) => value)
-```
-
-| Argument  | Description                                             |
-| --------- | ------------------------------------------------------- |
-| `value`   | The property value before the transformation.           |
-| `key`     | The name of the transformed property.                   |
-| `obj`     | The transformation source object.                       |
-| `type`    | The transformation type.                                |
-| `options` | The options object passed to the transformation method. |
-
-## Working with generics
-
-Generics are not supported because TypeScript does not have good reflection abilities.
 
 ## Implicit type conversion
 
-> **NOTE** If you use class-validator together with `class-transform`, you propably DON'T want to enable this function.
+Automatic conversion is provided for fields of primitive types.
 
-Enables automatic conversion between built-in types based on type information provided by Typescript. Disabled by default.
+```javascript
+import { Exposed, plainToInstance } from "class-transform";
 
-```ts
-import { IsString } from "class-validator";
-
-class MyPayload {
-  @IsString()
-  prop: string;
+class MyType {
+  prop: Exposed.number();
+  otherProp: Exposed.string();
 }
 
-let result1 = plainToInstance(
-  MyPayload,
-  { prop: 1234 },
-  { enableImplicitConversion: true },
-);
-let result2 = plainToInstance(
-  MyPayload,
-  { prop: 1234 },
-  { enableImplicitConversion: false },
-);
+let plain = { prop: "1234", otherProp: 5678 };
 
-/**
- *  result1 will be `{ prop: "1234" }` - notice how the prop value has been converted to string.
- *  result2 will be `{ prop: 1234 }` - default behaviour
- */
+let instance = plainToInstance(MyType, plain);
+console.log(instance);
+// MyType { prop: 1234, otherProp: '5678' }
 ```
-
-## How does it handle circular references?
-
-Circular references are ignored.
-For example, if you are transforming class `User` that contains property `photos` with type of `Photo`,
-and `Photo` contains link `user` to its parent `User`, then `user` will be ignored during transformation.
-Circular references are not ignored only during `instanceToInstance` operation.
-
-## Samples
-
-Take a look on [samples](https://github.com/cunarist/class-transform/tree/main/sample) for more examples of
-usages.
-
-## Release notes
-
-See information about breaking changes and release notes [here](https://github.com/cunarist/class-transform/tree/main/CHANGELOG.md).
