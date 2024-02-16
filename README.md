@@ -98,8 +98,8 @@ However, it consists solely of plain objects and lacks type safety.
 
 ```javascript
 let response = await fetch("users.json");
-let plain = await response.json();
-// `plain` variable is just an array of plain objects.
+let plains = await response.json();
+// `plains` variable is just an array of plain objects.
 // Type checkers cannot help you with `any` type like this.
 ```
 
