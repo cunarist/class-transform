@@ -276,18 +276,18 @@ Please note that the type method should come at last.
 import { Exposed, plainToInstance, instanceToPlain } from "class-transform";
 
 class User {
-  firstName: Exposed.alias("first_name").string();
-  lastName: Exposed.alias("last_name").string();
+  firstName = Exposed.alias("first_name").string();
+  lastName = Exposed.alias("last_name").string();
 }
 
 let plain = { first_name_raw: "John", last_name_raw: "Davis" };
 
 let instance = plainToInstance(User, plain);
-console.log(instance)
+console.log(instance);
 // User { firstName: 'John', lastName: 'Davis' }
 
 let plainNew = instanceToPlain(instance);
-console.log(plainNew)
+console.log(plainNew);
 // { first_name_raw: 'John', last_name_raw: 'Davis' }
 ```
 
@@ -303,14 +303,14 @@ Simply use `Exposed.default`.
 import { Exposed, plainToInstance } from "class-transform";
 
 class User {
-  firstName: Exposed.default("Olivia").string();
-  lastName: Exposed.alias("Davis").string();
+  firstName = Exposed.default("Olivia").string();
+  lastName = Exposed.alias("Davis").string();
 }
 
 let plain = { firstName: "John" };
 
 let instance = plainToInstance(User, plain);
-console.log(instance)
+console.log(instance);
 // User { firstName: 'John', lastName: 'Davis' }
 ```
 
@@ -395,8 +395,8 @@ Automatic conversion is provided for fields of primitive types.
 import { Exposed, plainToInstance } from "class-transform";
 
 class MyType {
-  prop: Exposed.number();
-  otherProp: Exposed.string();
+  prop = Exposed.number();
+  otherProp = Exposed.string();
 }
 
 let plain = { prop: "1234", otherProp: 5678 };
