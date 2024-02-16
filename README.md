@@ -44,6 +44,7 @@ Album {
   - [Exposed field types](#exposed-field-types)
   - [Type safety](#type-safety)
   - [Working with nested structures](#working-with-nested-structures)
+  - [Constucting an instance](#constucting-an-instance)
   - [Giving different property name for plain objects](#giving-different-property-name-for-plain-objects)
   - [Exposing getters and method return values](#exposing-getters-and-method-return-values)
   - [Сonverting date strings into Date objects](#сonverting-date-strings-into-date-objects)
@@ -143,6 +144,7 @@ Detailed information about each function is written as doc comments.
 `nullifyExposed`:
 
 ```javascript
+import { nullifyExposed } from "class-transform";
 let user = nullifyExposed(new User());
 ```
 
@@ -242,6 +244,18 @@ class Album {
 
 let album = plainToInstance(Album, albumPlain);
 // Now `album` is `Album` instance with `Photo` instances inside.
+```
+
+## Constucting an instance
+
+Because fields that are marked with `Exposed`
+don't actually have a valid value upon creation,
+you need to explicitly wrap them with `nullifyExposed` after construction
+to use them properly.
+
+```javascript
+import { nullifyExposed } from "class-transform";
+let album = nullifyExposed(new Album());
 ```
 
 ## Giving different property name for plain objects
