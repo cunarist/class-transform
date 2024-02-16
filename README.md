@@ -92,7 +92,7 @@ For example you have a list of users in your `users.json` that you are loading:
 ]
 ```
 
-To load JSON data, you would write the following code.
+To load the JSON data, you would write the following code.
 However, it consists solely of plain objects and lacks type safety.
 
 ```javascript
