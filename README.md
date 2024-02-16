@@ -256,7 +256,20 @@ if the class includes `Exposed` fields.
 
 ```javascript
 import { nullifyExposed } from "class-transform";
+
+class Album {
+  id = Exposed.number();
+  name = Exposed.string();
+  photos = Exposed.structs(Photo);
+}
+
 let album = nullifyExposed(new Album());
+console.log(album);
+// {
+//   id: null,
+//   name: null,
+//   photos: null,
+// }
 ```
 
 ## Giving different property name for plain objects
