@@ -86,8 +86,6 @@ let photosPlain = [
     description: "about his photo",
     author: {
       id: "2",
-      firstName: "Johny",
-      lastName: "Cage",
     },
     albums: [
       {

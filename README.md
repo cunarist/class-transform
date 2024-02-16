@@ -46,7 +46,8 @@ Album {
   - [Strong type safety](#strong-type-safety)
   - [Working with nested structures](#working-with-nested-structures)
   - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
-  - [Constucting an instance manually](#constucting-an-instance-manually)
+  - [Providing a default value](#providing-a-default-value)
+  - [Constructing an instance manually](#constructing-an-instance-manually)
   - [Using advanced types](#using-advanced-types)
   - [Implicit type conversion](#implicit-type-conversion)
 
@@ -172,6 +173,19 @@ All field functions provide proper type hints to TypeScript type checker.
 - `Exposed.struct`: `T`, default `T {}`
 - `Exposed.structs`: `Array<T>`, default `[]`
 
+There are also methods for specifying options.
+
+- `Exposed.alias`: Alias name in plain objects
+- `Exposed.default`: The default value
+
+Please note that the type method should come at the _last_ of the method chain.
+
+```javascript
+class MyType {
+  myField = Exposed.alias("my_field").default(36).number();
+}
+```
+
 ## Strong type safety
 
 Strong type safety is always guaranteed.
@@ -249,7 +263,7 @@ class Album {
 }
 
 let album = plainToInstance(Album, albumPlain);
-// Now `album` is `Album` instance with `Photo` array inside.
+// Now `album` is an `Album` instance with `Photo` array inside.
 ```
 
 ## Using different property name in plain objects
@@ -259,17 +273,50 @@ you can do that by using a `Exposed.alias` method.
 Please note that the type method should come at last.
 
 ```javascript
-import { Exposed } from "class-transform";
+import { Exposed, plainToInstance, instanceToPlain } from "class-transform";
 
 class User {
   firstName: Exposed.alias("first_name").string();
   lastName: Exposed.alias("last_name").string();
 }
+
+let plain = { first_name_raw: "John", last_name_raw: "Davis" };
+
+let instance = plainToInstance(User, plain);
+console.log(instance)
+// User { firstName: 'John', lastName: 'Davis' }
+
+let plainNew = instanceToPlain(instance);
+console.log(plainNew)
+// { first_name_raw: 'John', last_name_raw: 'Davis' }
 ```
 
 This is useful when the JSON API uses snakecase or some other naming conventions.
 
-## Constucting an instance manually
+## Providing a default value
+
+If a field didn't receive some proper value,
+it can get a default value instead of being filled with `null`.
+Simply use `Exposed.default`.
+
+```javascript
+import { Exposed, plainToInstance } from "class-transform";
+
+class User {
+  firstName: Exposed.default("Olivia").string();
+  lastName: Exposed.alias("Davis").string();
+}
+
+let plain = { firstName: "John" };
+
+let instance = plainToInstance(User, plain);
+console.log(instance)
+// User { firstName: 'John', lastName: 'Davis' }
+```
+
+Default value can only be of `number`, `boolean`, and `string` types. Implicit type conversion happens under the hood, resulting in a completely type-safe instance.
+
+## Constructing an instance manually
 
 Because fields that are marked with `Exposed`
 don't actually have a valid value upon creation,
@@ -301,14 +348,14 @@ console.log(album);
 //     id: null,
 //     filename: null,
 //   },
-//   hardCover = true
+//   hardCover: true
 // }
 ```
 
 ## Using advanced types
 
 Basically, it's recommended to store only primitive types for fields
-to ensure clean transformation.
+to maintain clean structure and transformation.
 
 However, sometimes more advanced types might be needed.
 In such cases, you can use getter and setter methods

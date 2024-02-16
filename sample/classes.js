@@ -9,8 +9,8 @@ export class Album {
 
 export class User {
   id = Exposed.number();
-  firstName = Exposed.string();
-  lastName = Exposed.string();
+  firstName = Exposed.default(5050).string();
+  lastName = Exposed.default("PLACEHOLDER").string();
 }
 
 export class Photo {
@@ -37,9 +37,11 @@ export class Photo {
 export class TimeRange {
   startTimestamp = Exposed.string();
   endTimestamp = Exposed.number();
+
   get start() {
     return new Date(this.endTimestamp ?? 0);
   }
+
   get end() {
     return new Date(this.endTimestamp ?? 0);
   }
