@@ -29,4 +29,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
+        working-directory: ../
+      - run: npx tsc
+        working-directory: ../
+      - run: npm install
       - run: node index.js
