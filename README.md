@@ -35,6 +35,10 @@ Album {
 }
 ```
 
+Started as a fork of [class-transformer](https://github.com/typestack/class-transformer),
+this library aims to simplify the API, modernize code, and enhance type safety.
+Both JavaScript and TypeScript are fully supported.
+
 ## Table of contents
 
 - [`class-transform`](#class-transform)
