@@ -6,7 +6,7 @@
 Class syntax was introduced to JavaScript in ES6.
 Nowadays you are working with typed instances more than ever.
 `class-transform` allows you to transform
-JSON or plain object into typed instance of a class and vice versa.
+JSON or plain object into strongly typed instance of a class and vice versa.
 This tool is very helpful for both the frontend and backend.
 
 ```javascript
