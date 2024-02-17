@@ -2,6 +2,7 @@
 
 [![Continuous Integration](https://github.com/cunarist/class-transform/workflows/CI/badge.svg)](https://github.com/cunarist/class-transform/actions/workflows/continuous_integration.yml)
 [![NPM Version](https://img.shields.io/npm/v/class-transform)](https://badge.fury.io/js/class-transform)
+[![Minified Size](https://img.shields.io/bundlejs/size/class-transform)](https://bundlejs.com/?q=class-transform)
 
 Class syntax was introduced to JavaScript in ES6.
 Nowadays you are working with typed instances more than ever.
