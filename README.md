@@ -51,9 +51,9 @@ Both JavaScript and TypeScript are fully supported.
   - [Working with nested structures](#working-with-nested-structures)
   - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
   - [Providing a default value](#providing-a-default-value)
-  - [Constructing an instance manually](#constructing-an-instance-manually)
   - [Using advanced types](#using-advanced-types)
   - [Implicit type conversion](#implicit-type-conversion)
+  - [Constructing an instance manually](#constructing-an-instance-manually)
 
 ## About this library
 
@@ -351,42 +351,6 @@ console.log(instance);
 
 Default value can only be of `number`, `boolean`, and `string` types. Implicit type conversion happens under the hood, resulting in a completely type-safe instance.
 
-## Constructing an instance manually
-
-Because fields that are marked with `Exposed`
-don't actually have a valid value upon creation,
-you need to explicitly wrap the instance with `nullifyExposed`
-after construction to use it properly,
-if the class includes `Exposed` fields.
-
-```javascript
-import { Exposed, nullifyExposed } from "class-transform";
-
-class Photo {
-  id = Exposed.number();
-  filename = Exposed.string();
-}
-
-class Album {
-  id = Exposed.number();
-  names = Exposed.strings();
-  photo = Exposed.struct(Photo);
-  hardCover = true;
-}
-
-let instance = nullifyExposed(new Album());
-console.log(instance);
-// Album {
-//   id: null,
-//   names: [],
-//   photo: Photo {
-//     id: null,
-//     filename: null,
-//   },
-//   hardCover: true
-// }
-```
-
 ## Using advanced types
 
 Basically, it's recommended to store only primitive types for fields
@@ -439,4 +403,40 @@ let plain = { prop: "1234", otherProp: 5678 };
 let instance = plainToInstance(SomeType, plain);
 console.log(instance);
 //  { prop: 1234, otherProp: '5678' }
+```
+
+## Constructing an instance manually
+
+Because fields that are marked with `Exposed`
+don't actually have a valid value upon creation,
+you need to explicitly wrap the instance with `nullifyExposed`
+after construction to use it properly,
+if the class includes `Exposed` fields.
+
+```javascript
+import { Exposed, nullifyExposed } from "class-transform";
+
+class Photo {
+  id = Exposed.number();
+  filename = Exposed.string();
+}
+
+class Album {
+  id = Exposed.number();
+  names = Exposed.strings();
+  photo = Exposed.struct(Photo);
+  hardCover = true;
+}
+
+let instance = nullifyExposed(new Album());
+console.log(instance);
+// Album {
+//   id: null,
+//   names: [],
+//   photo: Photo {
+//     id: null,
+//     filename: null,
+//   },
+//   hardCover: true
+// }
 ```
