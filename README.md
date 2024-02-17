@@ -421,12 +421,13 @@ import { Exposed, initExposed } from "class-transform";
 
 class Photo {
   id = Exposed.number();
-  filename = Exposed.string();
+  filename = Exposed.string("HI.jpg"); // Default value
 }
 
 class Album {
   id = Exposed.number();
-  names = Exposed.strings();
+  name = Exposed.string();
+  tags = Exposed.strings();
   photo = Exposed.struct(Photo);
   hardCover = true;
 }
@@ -435,10 +436,11 @@ let instance = initExposed(new Album());
 console.log(instance);
 // Album {
 //   id: null,
-//   names: [],
+//   name: null,
+//   tags: [],
 //   photo: Photo {
 //     id: null,
-//     filename: null,
+//     filename: 'HI.jpg',
 //   },
 //   hardCover: true
 // }
