@@ -9,13 +9,13 @@ export class Album {
 
 export class User {
   id = Exposed.number();
-  firstName = Exposed.default(5050).string();
-  lastName = Exposed.default("PLACEHOLDER").string();
+  firstName = Exposed.string(5050);
+  lastName = Exposed.string("PLACEHOLDER");
 }
 
 export class Photo {
   id = Exposed.number();
-  filename = Exposed.alias("rawFilename").string();
+  filename = Exposed.alias("rawFilename").string("BASE-FILENAME");
   description = Exposed.string();
   tags = Exposed.strings();
   author = Exposed.struct(User);
