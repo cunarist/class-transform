@@ -155,7 +155,7 @@ let instance = plainToInstance(SomeType, plain);
 
 ```javascript
 import { plainsToInstances } from "class-transform";
-let users = plainsToInstances(SomeType, plains);
+let instances = plainsToInstances(SomeType, plains);
 // `Array<Object>` to `Array<SomeType>`
 ```
 
@@ -171,7 +171,7 @@ let plain = instanceToPlain(instance);
 
 ```javascript
 import { instancesToPlains } from "class-transform";
-let photosPlain = instancesToPlains(photos);
+let plains = instancesToPlains(photos);
 // `Array<SomeType>` to `Array<Object>`
 ```
 
@@ -179,7 +179,7 @@ let photosPlain = instancesToPlains(photos);
 
 ```javascript
 import { nullifyExposed } from "class-transform";
-let user = nullifyExposed(new User());
+let instance = nullifyExposed(new SomeType());
 // Initialize all `Exposed` values with `null`
 ```
 
@@ -238,6 +238,7 @@ let plain = {
   lastName: "Khudoiberdiev",
 };
 
+// An instance always guarantees the exact shape and types.
 let instance = plainToInstance(User, plain);
 console.log(instance);
 // User {
@@ -248,6 +249,7 @@ console.log(instance);
 //   isKind: true
 // }
 
+// Transformation is done exactly on `Exposed` fields.
 let plainNew = instanceToPlain(instance);
 console.log(plainNew);
 // {
@@ -263,7 +265,7 @@ If a value is missing, `class-transform` will fill it with
 depending on the field type. If the field is not `Exposed`,
 the value will not be included in the transformation at all.
 
-Each type method has a return type that represents the data type,
+Each type method has a return type that represents the data,
 allowing TypeScript's type checker to do its job.
 It also works well with `"strict": true` of `tsconfig.json`.
 If you're using JavaScript, you can add `// @ts-check` at the top of your file
@@ -334,7 +336,7 @@ Simply use `Exposed.default`.
 import { Exposed, plainToInstance } from "class-transform";
 
 class User {
-  firstName = Exposed.default("Olivia").string();
+  firstName = Exposed.string();
   lastName = Exposed.default("Davis").string();
 }
 
@@ -366,7 +368,7 @@ class Photo {
 class Album {
   id = Exposed.number();
   name = Exposed.strings();
-  photos = Exposed.struct(Photo);
+  photo = Exposed.struct(Photo);
   hardCover = true;
 }
 
@@ -375,7 +377,7 @@ console.log(instance);
 // Album {
 //   id: null,
 //   name: [],
-//   photos: Photo {
+//   photo: Photo {
 //     id: null,
 //     filename: null,
 //   },
