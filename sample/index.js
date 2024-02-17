@@ -48,8 +48,8 @@ console.log(divider);
 
 // Check untyping.
 
-let newPhotoPlain = instanceToPlain(photo);
-console.log(newPhotoPlain);
+let photoPlainNew = instanceToPlain(photo);
+console.log(photoPlainNew);
 console.log(divider);
 
 // Type an array.

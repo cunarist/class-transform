@@ -298,6 +298,25 @@ class Album {
 }
 
 let instance = plainToInstance(Album, plain);
+console.log(instance);
+// Album {
+//   id: ...,
+//   name: ...,
+//   photo: Photo {
+//     id: ...,
+//     filename: ...,
+//   },
+//   photos: [
+//     Photo {
+//       id: ...,
+//       filename: ...,
+//     },
+//     Photo {
+//       id: ...,
+//       filename: ...,
+//     }
+//   }
+// }
 ```
 
 ## Using different property name in plain objects
@@ -368,7 +387,7 @@ class Photo {
 
 class Album {
   id = Exposed.number();
-  name = Exposed.strings();
+  names = Exposed.strings();
   photo = Exposed.struct(Photo);
   hardCover = true;
 }
@@ -377,7 +396,7 @@ let instance = nullifyExposed(new Album());
 console.log(instance);
 // Album {
 //   id: null,
-//   name: [],
+//   names: [],
 //   photo: Photo {
 //     id: null,
 //     filename: null,
@@ -428,14 +447,14 @@ Automatic conversion is provided for fields of primitive types.
 ```javascript
 import { Exposed, plainToInstance } from "class-transform";
 
-class  {
+class SomeType {
   prop = Exposed.number();
   otherProp = Exposed.string();
 }
 
 let plain = { prop: "1234", otherProp: 5678 };
 
-let instance = plainToInstance(, plain);
+let instance = plainToInstance(SomeType, plain);
 console.log(instance);
 //  { prop: 1234, otherProp: '5678' }
 ```
