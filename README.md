@@ -307,8 +307,8 @@ console.log(instance);
 ## Using different property name in plain objects
 
 If the plain object's property should have a different name,
-you can do that by using a `Exposed.alias` method.
-Please note that the type method should come at last.
+you can do that by using `Exposed.alias` method.
+Please note that the type method should come at the end.
 
 ```javascript
 import { Exposed, plainToInstance, instanceToPlain } from "class-transform";
