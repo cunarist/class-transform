@@ -14,7 +14,7 @@ export class User {
 }
 
 export class Photo {
-  id = Exposed.number();
+  id = Exposed.number(0);
   filename = Exposed.alias("rawFilename").string("BASE-FILENAME");
   description = Exposed.string();
   tags = Exposed.strings();

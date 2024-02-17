@@ -147,7 +147,7 @@ for more examples of usages.
 | `plainsToInstances` | `Array<Object>` to `Array<SomeType>`  |
 | `instanceToPlain`   | `SomeType` to `Object`                |
 | `instancesToPlains` | `Array<SomeType>` to `Array<Object>`  |
-| `nullifyExposed`    | Init all `Exposed` values with `null` |
+| `initExposed`       | Init all `Exposed` with default value |
 
 ```javascript
 import { plainToInstance } from "class-transform";
@@ -155,8 +155,8 @@ let instance = plainToInstance(SomeType, { ... });
 ```
 
 ```javascript
-import { nullifyExposed } from "class-transform";
-let instance = nullifyExposed(new SomeType());
+import { initExposed } from "class-transform";
+let instance = initExposed(new SomeType());
 ```
 
 Detailed information about each function is written as doc comments.
@@ -409,12 +409,12 @@ console.log(instance);
 
 Because fields that are marked with `Exposed`
 don't actually have a valid value upon creation,
-you need to explicitly wrap the instance with `nullifyExposed`
+you need to explicitly wrap the instance with `initExposed`
 after construction to use it properly,
 if the class includes `Exposed` fields.
 
 ```javascript
-import { Exposed, nullifyExposed } from "class-transform";
+import { Exposed, initExposed } from "class-transform";
 
 class Photo {
   id = Exposed.number();
@@ -428,7 +428,7 @@ class Album {
   hardCover = true;
 }
 
-let instance = nullifyExposed(new Album());
+let instance = initExposed(new Album());
 console.log(instance);
 // Album {
 //   id: null,

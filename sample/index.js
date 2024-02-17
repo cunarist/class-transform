@@ -3,7 +3,7 @@ import {
   plainsToInstances,
   instanceToPlain,
   instancesToPlains,
-  nullifyExposed,
+  initExposed,
 } from "class-transform";
 import { Photo, TimeRange } from "./classes.js";
 
@@ -12,7 +12,7 @@ console.log(divider);
 
 // Check replacing fields.
 
-let photoEmpty = nullifyExposed(new Photo());
+let photoEmpty = initExposed(new Photo());
 console.log(photoEmpty);
 console.log(divider);
 
