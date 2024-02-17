@@ -52,6 +52,7 @@ Both JavaScript and TypeScript are fully supported.
   - [Working with nested structures](#working-with-nested-structures)
   - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
   - [Providing an initial value](#providing-an-initial-value)
+  - [Skipping by direction](#skipping-by-direction)
   - [Using advanced types](#using-advanced-types)
   - [Implicit type conversion](#implicit-type-conversion)
   - [Constructing an instance manually](#constructing-an-instance-manually)
@@ -182,16 +183,18 @@ All field methods provide proper type hints to TypeScript type checker.
 
 There are also methods for specifying options.
 
-| Option method   | Role                           |
-| --------------- | ------------------------------ |
-| `Exposed.alias` | Property name in plain objects |
+| Option method            | Role                           |
+| ------------------------ | ------------------------------ |
+| `Exposed.alias`          | Property name in plain objects |
+| `Exposed.toInstanceOnly` | Include only to instance       |
+| `Exposed.toPlainOnly`    | Include only to plain          |
 
 You can combine the effects of each method by chaining methods.
 Please note that the type method should come at the _end_ of the chain.
 
 ```javascript
 class SomeType {
-  myField = Exposed.alias("my_field").number(36);
+  myField = Exposed.toPlainOnly().alias("my_field").number(36);
 }
 ```
 
@@ -356,6 +359,27 @@ console.log(instance);
 Even when you provide an initial value of a wrong type,
 implicit type conversion happens under the hood,
 resulting in a completely type-safe instance.
+
+## Skipping by direction
+
+You can control on which operation you will include a field.
+Use `Exposed.toInstanceOnly` or `Exposed.toPlainOnly` method.
+
+```typescript
+import { Exclude } from "class-transformer";
+
+class User {
+  id: Exposed.number();
+  email: Exposed.string();
+  password: Exposed.toPlainOnly().string();
+}
+```
+
+Now `password` field will be included
+only during the `instanceToPlain` operation.
+
+- `toPlainOnly`: `null` or initial value on `plainToInstance`
+- `toInstanceOnly`: Drop on `instanceToPlain`
 
 ## Using advanced types
 

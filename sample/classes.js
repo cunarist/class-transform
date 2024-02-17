@@ -16,13 +16,12 @@ export class User {
 export class Photo {
   id = Exposed.number(0);
   filename = Exposed.alias("rawFilename").string("BASE-FILENAME");
+  metadata = Exposed.toPlainOnly().string();
   description = Exposed.string();
-  tags = Exposed.strings();
+  tags = Exposed.toInstanceOnly().strings();
   author = Exposed.struct(User);
   albums = Exposed.structs(Album);
   year = 1970;
-  month = 1;
-  day = 1;
 
   get name() {
     return this.id + "_" + this.filename;

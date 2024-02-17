@@ -25,7 +25,16 @@ try {
 }
 
 let photoEmpty = initExposed(Photo);
+photoEmpty.metadata = "blank";
 console.log(photoEmpty);
+console.log(divider);
+
+let photoPlainEmpty = instanceToPlain(photoEmpty);
+console.log(photoPlainEmpty);
+console.log(divider);
+
+let photoEmptyNew = plainToInstance(Photo, photoPlainEmpty);
+console.log(photoEmptyNew);
 console.log(divider);
 
 // Check typing.
