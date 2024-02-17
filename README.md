@@ -165,16 +165,19 @@ Detailed information about each function is written as doc comments.
 
 All field methods provide proper type hints to TypeScript type checker.
 
-| Field method       | Type                | Default |
-| ------------------ | ------------------- | ------- |
-| `Exposed.number`   | `number` or `null`  | `null`  |
-| `Exposed.numbers`  | `Array<number>`     | `[]`    |
-| `Exposed.boolean`  | `boolean` or `null` | `null`  |
-| `Exposed.booleans` | `Array<boolean>`    | `[]`    |
-| `Exposed.string`   | `string` or `null`  | `null`  |
-| `Exposed.strings`  | `Array<string>`     | `[]`    |
-| `Exposed.struct`   | `T`                 | `T {}`  |
-| `Exposed.structs`  | `Array<T>`          | `[]`    |
+| Field method       | Type hint         | Default |
+| ------------------ | ----------------- | ------- |
+| `Exposed.number`   | `number \| null`  | `null`  |
+|                    | `number`          | given   |
+| `Exposed.numbers`  | `Array<number>`   | `[]`    |
+| `Exposed.boolean`  | `boolean \| null` | `null`  |
+|                    | `boolean`         | given   |
+| `Exposed.booleans` | `Array<boolean>`  | `[]`    |
+| `Exposed.string`   | `string \| null`  | `null`  |
+|                    | `string `         | given   |
+| `Exposed.strings`  | `Array<string>`   | `[]`    |
+| `Exposed.struct`   | `T`               | `T {}`  |
+| `Exposed.structs`  | `Array<T>`        | `[]`    |
 
 There are also methods for specifying options.
 
@@ -187,7 +190,7 @@ Please note that the type method should come at the _end_ of the chain.
 
 ```javascript
 class SomeType {
-  myField = Exposed.alias("my_field").default(36).number();
+  myField = Exposed.alias("my_field").number(36);
 }
 ```
 
@@ -338,7 +341,7 @@ import { Exposed, plainToInstance } from "class-transform";
 
 class User {
   firstName = Exposed.string();
-  lastName = Exposed.default("Davis").string();
+  lastName = Exposed.string("Davis");
 }
 
 let plain = { firstName: "John" };
@@ -348,7 +351,7 @@ console.log(instance);
 // User { firstName: 'John', lastName: 'Davis' }
 ```
 
-Default value can only be of `number`, `boolean`, and `string` types. Implicit type conversion happens under the hood, resulting in a completely type-safe instance.
+Even when you provide a default value of a wrong type, implicit type conversion happens under the hood, resulting in a completely type-safe instance.
 
 ## Using advanced types
 
