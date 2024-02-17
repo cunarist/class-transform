@@ -141,8 +141,6 @@ for more examples of usages.
 
 ## Functions
 
-Detailed information about each function is written as doc comments.
-
 `plainToInstance`:
 
 ```javascript
@@ -183,23 +181,29 @@ let instance = nullifyExposed(new SomeType());
 // Initialize all `Exposed` values with `null`
 ```
 
+Detailed information about each function is written as doc comments.
+
 ## Exposed field types
 
-All field functions provide proper type hints to TypeScript type checker.
+All field methods provide proper type hints to TypeScript type checker.
 
-- `Exposed.number`: `number` or `null`, default `null`
-- `Exposed.numbers`: `Array<number>`, default `[]`
-- `Exposed.boolean`: `boolean` or `null`, default `null`
-- `Exposed.booleans`: `Array<boolean>`, default `[]`
-- `Exposed.string`: `string` or `null`, default `null`
-- `Exposed.strings`: `Array<string>`, default `[]`
-- `Exposed.struct`: `T`, default `T {}`
-- `Exposed.structs`: `Array<T>`, default `[]`
+| Field method       | Type                | Default |
+| ------------------ | ------------------- | ------- |
+| `Exposed.number`   | `number` or `null`  | `null`  |
+| `Exposed.numbers`  | `Array<number>`     | `[]`    |
+| `Exposed.boolean`  | `boolean` or `null` | `null`  |
+| `Exposed.booleans` | `Array<boolean>`    | `[]`    |
+| `Exposed.string`   | `string` or `null`  | `null`  |
+| `Exposed.strings`  | `Array<string>`     | `[]`    |
+| `Exposed.struct`   | `T`                 | `T {}`  |
+| `Exposed.structs`  | `Array<T>`          | `[]`    |
 
 There are also methods for specifying options.
 
-- `Exposed.alias`: Alias name in plain objects
-- `Exposed.default`: The default value
+| Option method     | Role                        |
+| ----------------- | --------------------------- |
+| `Exposed.alias`   | Alias name in plain objects |
+| `Exposed.default` | The default value           |
 
 You can combine the effects of each method by chaining methods.
 Please note that the type method should come at the _end_ of the chain.
