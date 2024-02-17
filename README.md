@@ -340,8 +340,8 @@ Simply use `Exposed.default`.
 import { Exposed, plainToInstance } from "class-transform";
 
 class User {
-  firstName = Exposed.string();
-  lastName = Exposed.string("Davis");
+  firstName = Exposed.string(); // string | null
+  lastName = Exposed.string("Davis"); // string
 }
 
 let plain = { firstName: "John" };
