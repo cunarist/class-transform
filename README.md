@@ -268,7 +268,8 @@ the value will not be included in the transformation at all.
 Each type method has a return type that represents the data,
 allowing TypeScript's type checker to do its job.
 It also works well with `"strict": true` of `tsconfig.json`.
-If you're using JavaScript, you can add `// @ts-check` at the top of your file
+If you're using JavaScript, you can add `// @ts-check` at the top of your file,
+or set `tsconfig.json`'s `compilerOptions.checkJs` to `true`,
 to utilize TypeScript's type checker.
 
 ## Working with nested structures
