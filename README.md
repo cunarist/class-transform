@@ -447,3 +447,6 @@ console.log(instance);
 //   hardCover: true
 // }
 ```
+
+If you try to create an instance with `Exposed`
+by using `new SomeType()` syntax, `NotExposingError` will be thrown.
