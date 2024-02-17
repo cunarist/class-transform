@@ -332,9 +332,10 @@ This is useful when the JSON API uses snakecase or some other naming conventions
 
 ## Providing a default value
 
-If a field didn't receive some proper value,
+When a field didn't receive some proper value,
 it can get a default value instead of being filled with `null`.
-Simply use `Exposed.default`.
+Simply provide the default value to the type method.
+By doing so, `null` will be removed from the field's type hint.
 
 ```javascript
 import { Exposed, plainToInstance } from "class-transform";
