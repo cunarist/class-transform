@@ -46,7 +46,7 @@ Both JavaScript and TypeScript are fully supported.
   - [About this library](#about-this-library)
   - [Samples](#samples)
   - [Functions](#functions)
-  - [Exposed field types](#exposed-field-types)
+  - [Methods for exposing fields](#methods-for-exposing-fields)
   - [Strong type safety](#strong-type-safety)
   - [Working with nested structures](#working-with-nested-structures)
   - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
@@ -141,49 +141,27 @@ for more examples of usages.
 
 ## Functions
 
-`plainToInstance`:
+| Function            | Summary                               |
+| ------------------- | ------------------------------------- |
+| `plainToInstance`   | `Object` to `SomeType`                |
+| `plainsToInstances` | `Array<Object>` to `Array<SomeType>`  |
+| `instanceToPlain`   | `SomeType` to `Object`                |
+| `instancesToPlains` | `Array<SomeType>` to `Array<Object>`  |
+| `nullifyExposed`    | Init all `Exposed` values with `null` |
 
 ```javascript
 import { plainToInstance } from "class-transform";
-let instance = plainToInstance(SomeType, plain);
-// `Object` to `SomeType`
+let instance = plainToInstance(SomeType, { ... });
 ```
-
-`plainsToInstances`:
-
-```javascript
-import { plainsToInstances } from "class-transform";
-let instances = plainsToInstances(SomeType, plains);
-// `Array<Object>` to `Array<SomeType>`
-```
-
-`instanceToPlain`:
-
-```javascript
-import { instanceToPlain } from "class-transform";
-let plain = instanceToPlain(instance);
-// `SomeType` to `Object`
-```
-
-`instancesToPlains`:
-
-```javascript
-import { instancesToPlains } from "class-transform";
-let plains = instancesToPlains(photos);
-// `Array<SomeType>` to `Array<Object>`
-```
-
-`nullifyExposed`:
 
 ```javascript
 import { nullifyExposed } from "class-transform";
 let instance = nullifyExposed(new SomeType());
-// Initialize all `Exposed` values with `null`
 ```
 
 Detailed information about each function is written as doc comments.
 
-## Exposed field types
+## Methods for exposing fields
 
 All field methods provide proper type hints to TypeScript type checker.
 
