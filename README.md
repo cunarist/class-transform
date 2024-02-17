@@ -181,9 +181,9 @@ All field methods provide proper type hints to TypeScript type checker.
 
 There are also methods for specifying options.
 
-| Option method   | Role                        |
-| --------------- | --------------------------- |
-| `Exposed.alias` | Alias name in plain objects |
+| Option method   | Role                           |
+| --------------- | ------------------------------ |
+| `Exposed.alias` | Property name in plain objects |
 
 You can combine the effects of each method by chaining methods.
 Please note that the type method should come at the _end_ of the chain.
