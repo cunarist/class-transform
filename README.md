@@ -51,7 +51,7 @@ Both JavaScript and TypeScript are fully supported.
   - [Strong type safety](#strong-type-safety)
   - [Working with nested structures](#working-with-nested-structures)
   - [Using different property name in plain objects](#using-different-property-name-in-plain-objects)
-  - [Providing a default value](#providing-a-default-value)
+  - [Providing an initial value](#providing-an-initial-value)
   - [Using advanced types](#using-advanced-types)
   - [Implicit type conversion](#implicit-type-conversion)
   - [Constructing an instance manually](#constructing-an-instance-manually)
@@ -148,7 +148,7 @@ for more examples of usages.
 | `plainsToInstances` | `Array<Object>` to `Array<SomeType>`  |
 | `instanceToPlain`   | `SomeType` to `Object`                |
 | `instancesToPlains` | `Array<SomeType>` to `Array<Object>`  |
-| `initExposed`       | Init all `Exposed` with default value |
+| `initExposed`       | Init all `Exposed` with initial value |
 
 ```javascript
 import { plainToInstance } from "class-transform";
@@ -166,7 +166,7 @@ Detailed information about each function is written as doc comments.
 
 All field methods provide proper type hints to TypeScript type checker.
 
-| Field method       | Type hint         | Default |
+| Field method       | Type hint         | Initial |
 | ------------------ | ----------------- | ------- |
 | `Exposed.number`   | `number \| null`  | `null`  |
 |                    | `number`          | given   |
@@ -331,11 +331,11 @@ console.log(plainNew);
 
 This is useful when the JSON API uses snakecase or some other naming conventions.
 
-## Providing a default value
+## Providing an initial value
 
 When a field didn't receive some proper value,
-it can get a default value instead of being filled with `null`.
-Simply provide the default value to the type method.
+it can get an initial value instead of being filled with `null`.
+Simply provide the initial value to the type method.
 By doing so, `null` will be removed from the field's type hint.
 
 ```javascript
@@ -353,7 +353,9 @@ console.log(instance);
 // User { firstName: 'John', lastName: 'Davis' }
 ```
 
-Even when you provide a default value of a wrong type, implicit type conversion happens under the hood, resulting in a completely type-safe instance.
+Even when you provide an initial value of a wrong type,
+implicit type conversion happens under the hood,
+resulting in a completely type-safe instance.
 
 ## Using advanced types
 
@@ -411,18 +413,17 @@ console.log(instance);
 
 ## Constructing an instance manually
 
-Because fields that are marked with `Exposed`
-don't actually have a valid value upon creation,
-you need to explicitly wrap the instance with `initExposed`
-after construction to use it properly,
-if the class includes `Exposed` fields.
+To create a class instance that has `Exposed` in it,
+you _must_ use the `initExposed` function instead of the `new` keyword.
+This is because fields that are marked with `Exposed`
+don't actually have a valid value upon creation.
 
 ```javascript
 import { Exposed, initExposed } from "class-transform";
 
 class Photo {
   id = Exposed.number();
-  filename = Exposed.string("HI.jpg"); // Default value
+  filename = Exposed.string("HI.jpg"); // Initial value
 }
 
 class Album {
@@ -433,7 +434,7 @@ class Album {
   hardCover = true;
 }
 
-let instance = initExposed(new Album());
+let instance = initExposed(Album);
 console.log(instance);
 // Album {
 //   id: null,

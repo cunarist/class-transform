@@ -4,6 +4,7 @@ import {
   instanceToPlain,
   instancesToPlains,
   initExposed,
+  NotExposingError,
 } from "class-transform";
 import { Photo, TimeRange } from "./classes.js";
 
@@ -12,7 +13,18 @@ console.log(divider);
 
 // Check replacing fields.
 
-let photoEmpty = initExposed(new Photo());
+try {
+  let photoEmpty = new Photo();
+  console.log(photoEmpty);
+  console.log(divider);
+} catch (error) {
+  if (error instanceof NotExposingError) {
+    console.log(error.message);
+  }
+  console.log(divider);
+}
+
+let photoEmpty = initExposed(Photo);
 console.log(photoEmpty);
 console.log(divider);
 
