@@ -369,9 +369,9 @@ Use `Exposed.toInstanceOnly` or `Exposed.toPlainOnly` method.
 import { Exclude } from "class-transformer";
 
 class User {
-  id: Exposed.number();
-  email: Exposed.string();
-  password: Exposed.toPlainOnly().string();
+  id = Exposed.number();
+  email = Exposed.string();
+  password = Exposed.toPlainOnly().string();
 }
 ```
 
