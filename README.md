@@ -189,7 +189,7 @@ There are also methods for specifying options.
 | `Exposed.toInstanceOnly` | Include only to instance       |
 | `Exposed.toPlainOnly`    | Include only to plain          |
 
-You can combine the effects of each method by chaining methods.
+You can combine the effects of these methods by chaining them.
 Please note that the type method should come at the _end_ of the chain.
 
 ```javascript
