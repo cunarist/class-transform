@@ -71,8 +71,8 @@ In JavaScript, objects can be classified into two categories:
 So, what is the problem?
 
 Sometimes you want to transform plain JavaScript object to an instance of the ES6 class.
-Once you've parsed some data from some JSON API or a JSON file with `JSON.parse`,
-you have a plain JavaScript object, not an instance of a class.
+Once you've parsed some data from a JSON API or a JSON file with `JSON.parse`,
+you have plain JavaScript objects, not instances of a class.
 
 For example you have a list of users in your `users.json` that you are loading:
 
@@ -109,7 +109,7 @@ let plains = await response.json();
 // Type checkers cannot help you with `any` type like this.
 ```
 
-To achieve object-oriented programming, you can use `class-transform`.
+To achieve type-safe programming, you can use `class-transform`.
 Purpose of this library is to help you to convert your plain objects
 to the instances of classes you have.
 
@@ -134,21 +134,21 @@ let instances = plainsToInstances(User, await response.json());
 Even inside TypeScript codebases,
 using classes for JSON can be advantageous over `interface` and `type` statements
 because they are preserved after compilation,
-enabling true object-oriented programming for type-safe runtime behaviors.
+enabling true object-oriented programming for reliable runtime behaviors.
 
 ## Samples
 
-Take a look on [samples](https://github.com/cunarist/class-transform/tree/main/sample)
+Take a look at the [sample code](https://github.com/cunarist/class-transform/tree/main/sample)
 for more examples of usages.
 
 ## Functions
 
 | Function            | Summary                               |
 | ------------------- | ------------------------------------- |
-| `plainToInstance`   | `Object` to `SomeType`                |
-| `plainsToInstances` | `Array<Object>` to `Array<SomeType>`  |
-| `instanceToPlain`   | `SomeType` to `Object`                |
-| `instancesToPlains` | `Array<SomeType>` to `Array<Object>`  |
+| `plainToInstance`   | `Object` to `T`                       |
+| `plainsToInstances` | `Array<Object>` to `Array<T>`         |
+| `instanceToPlain`   | `T` to `Object`                       |
+| `instancesToPlains` | `Array<T>` to `Array<Object>`         |
 | `initExposed`       | Init all `Exposed` with initial value |
 
 ```javascript
@@ -158,14 +158,12 @@ let instance = plainToInstance(SomeType, { ... });
 
 ```javascript
 import { initExposed } from "class-transform";
-let instance = initExposed(new SomeType());
+let instance = initExposed(SomeType);
 ```
-
-Detailed information about each function is written as doc comments.
 
 ## Methods for exposing fields
 
-All field methods provide proper type hints to TypeScript type checker.
+All field methods provide proper type hint to TypeScript type checker.
 
 | Field method       | Type hint         | Initial |
 | ------------------ | ----------------- | ------- |
@@ -186,8 +184,8 @@ There are also methods for specifying options.
 | Option method            | Role                           |
 | ------------------------ | ------------------------------ |
 | `Exposed.alias`          | Property name in plain objects |
-| `Exposed.toInstanceOnly` | Include only to instance       |
-| `Exposed.toPlainOnly`    | Include only to plain          |
+| `Exposed.toInstanceOnly` | Include it only to instance    |
+| `Exposed.toPlainOnly`    | Include it only to plain       |
 
 You can combine the effects of these methods by chaining them.
 Please note that the type method should come at the _end_ of the chain.
@@ -213,17 +211,17 @@ This applies to both `plainToInstance` and `instanceToPlain`.
 import { Exposed, plainToInstance, instanceToPlain } from "class-transform";
 
 class User {
-  id = Exposed.number();
-  firstName = Exposed.string();
-  lastName = Exposed.string();
-  favorites = Exposed.strings();
-  isKind = true;
+  id = Exposed.number(); // number | null
+  firstName = Exposed.string(); // string | null
+  lastName = Exposed.string("Johnson"); // string
+  favorites = Exposed.strings(); // Array<string>
+  isKind = true; // boolean
 }
 
 let plain = {
   unkownProp: "Hello there",
   firstName: "Umed",
-  lastName: "Khudoiberdiev",
+  lastName: "Khudo",
 };
 
 // An instance always guarantees the exact shape and types.
@@ -232,7 +230,7 @@ console.log(instance);
 // User {
 //   id: null,
 //   firstName: 'Umed',
-//   lastName: 'Khudoiberdiev',
+//   lastName: 'Khudo',
 //   favorites: [],
 //   isKind: true
 // }
@@ -243,7 +241,7 @@ console.log(plainNew);
 // {
 //   id: null,
 //   firstName: 'Umed',
-//   lastName: 'Khudoiberdiev'
+//   lastName: 'Khudo'
 //   favorites: [],
 // }
 ```
@@ -255,55 +253,58 @@ the value will not be included in the transformation at all.
 
 Each type method has a return type that represents the data,
 allowing TypeScript's type checker to do its job.
-It also works well with `"strict": true` of `tsconfig.json`.
-If you're using JavaScript, you can add `// @ts-check` at the top of your file,
-or set `tsconfig.json`'s `compilerOptions.checkJs` to `true`,
+It works well with `"strict": true` of `tsconfig.json`.
+If you're using JavaScript, you can set
+`tsconfig.json`'s `compilerOptions.checkJs` to `true`
 to utilize TypeScript's type checker.
 
 ## Working with nested structures
 
 When you are trying to transform objects that have nested objects,
-it's necessary to know which type you should transform the object into.
-You need to explicitly specify the type of field
+you need to explicitly specify the type of field
 by passing the class itself into `Exposed.struct` or `Exposed.structs`.
 
 Let's say we have an album with photos.
 And we are trying to convert album plain object to class object:
 
 ```javascript
-import { Exposed, plainToInstance } from "class-transform";
+import { Exposed, initExposed } from "class-transform";
 
 class Photo {
-  id = Exposed.number();
-  filename = Exposed.string();
+  id = Exposed.number(); // number | null
+  filename = Exposed.string("HI.jpg"); // string
 }
 
 class Album {
-  id = Exposed.number();
-  name = Exposed.string();
+  id = Exposed.number(); // number | null
+  name = Exposed.string(); // string | null
+  tags = Exposed.strings(); // Array<string>
   photo = Exposed.struct(Photo); // Photo
   photos = Exposed.structs(Photo); // Array<Photo>
+  hardCover = true;
 }
 
-let instance = plainToInstance(Album, plain);
+let instance = initExposed(Album);
 console.log(instance);
 // Album {
-//   id: ...,
-//   name: ...,
+//   id: null,
+//   name: null,
+//   tags: [],
 //   photo: Photo {
-//     id: ...,
-//     filename: ...,
+//     id: null,
+//     filename: 'HI.jpg',
 //   },
 //   photos: [
 //     Photo {
-//       id: ...,
-//       filename: ...,
+//       id: null,
+//       filename: 'HI.jpg'
 //     },
 //     Photo {
-//       id: ...,
-//       filename: ...,
+//       id: null,
+//       filename: 'HI.jpg'
 //     }
-//   }
+//   ],
+//   hardCover: true
 // }
 ```
 
@@ -378,7 +379,7 @@ class User {
 Now `password` field will be included
 only during the `instanceToPlain` operation.
 
-- `toPlainOnly`: `null` or initial value on `plainToInstance`
+- `toPlainOnly`: Initial value on `plainToInstance`
 - `toInstanceOnly`: Drop on `instanceToPlain`
 
 ## Using advanced types
@@ -447,7 +448,7 @@ import { Exposed, initExposed } from "class-transform";
 
 class Photo {
   id = Exposed.number();
-  filename = Exposed.string("HI.jpg"); // Initial value
+  filename = Exposed.string("HELLO.jpg"); // Initial value
 }
 
 class Album {
@@ -466,11 +467,11 @@ console.log(instance);
 //   tags: [],
 //   photo: Photo {
 //     id: null,
-//     filename: 'HI.jpg',
+//     filename: 'HELLO.jpg',
 //   },
 //   hardCover: true
 // }
 ```
 
 If you try to create an instance with `Exposed`
-by using `new SomeType()` syntax, `NotExposingError` will be thrown.
+by using `new T()` syntax, `NotExposingError` will be thrown.
