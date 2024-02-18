@@ -382,6 +382,9 @@ only during the `instanceToPlain` operation.
 - `toPlainOnly`: Initial value on `plainToInstance`
 - `toInstanceOnly`: Drop on `instanceToPlain`
 
+If you use more than one direction method in a chain,
+`DirectionSetError` will be thrown.
+
 ## Using advanced types
 
 Basically, it's recommended to store only primitive types for fields
