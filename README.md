@@ -421,7 +421,7 @@ class SomeType {
 
 let plain = { prop: "1234", otherProp: 5678 };
 
-let instance = plainToInstance(plain, SomeType);
+let instance = plainToInstance(plain, SomeType, []);
 console.log(instance);
 //  { prop: 1234, otherProp: '5678' }
 ```
