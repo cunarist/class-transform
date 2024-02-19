@@ -1,6 +1,6 @@
 {
   "name": "class-transform",
-  "version": "0.7.0-dev.12",
+  "version": "0.7.0-dev.13",
   "description": "Transformation between plain JavaScript objects and class instances",
   "author": "Cunarist",
   "license": "MIT",
