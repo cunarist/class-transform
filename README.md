@@ -247,7 +247,7 @@ console.log(plainNew);
 ```
 
 If a property is missing, `class-transform` will fill it with
-the default value, blank array, or an empty child instance
+the initial value, blank array, or an empty child instance
 depending on the field type. If the field is not `Exposed`,
 the value will not be included in the transformation at all.
 
