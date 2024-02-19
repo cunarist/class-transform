@@ -143,23 +143,12 @@ for more examples of usages.
 
 ## Functions
 
-| Function            | Summary                               |
-| ------------------- | ------------------------------------- |
-| `plainToInstance`   | `Object` to `T`                       |
-| `plainsToInstances` | `Array<Object>` to `Array<T>`         |
-| `instanceToPlain`   | `T` to `Object`                       |
-| `instancesToPlains` | `Array<T>` to `Array<Object>`         |
-| `initExposed`       | Init all `Exposed` with initial value |
-
-```javascript
-import { plainToInstance } from "class-transform";
-let instance = plainToInstance({}, SomeType, []);
-```
-
-```javascript
-import { initExposed } from "class-transform";
-let instance = initExposed(SomeType, []);
-```
+| Function            | Summary                       |
+| ------------------- | ----------------------------- |
+| `plainToInstance`   | `Object` to `T`               |
+| `plainsToInstances` | `Array<Object>` to `Array<T>` |
+| `instanceToPlain`   | `T` to `Object`               |
+| `instancesToPlains` | `Array<T>` to `Array<Object>` |
 
 ## Methods for exposing fields
 
@@ -269,7 +258,7 @@ Let's say we have an album with photos.
 And we are trying to convert album plain object to class object:
 
 ```javascript
-import { Exposed, initExposed } from "class-transform";
+import { Exposed } from "class-transform";
 
 class Photo {
   id = Exposed.number(); // number | null
@@ -285,7 +274,7 @@ class Album {
   hardCover = true;
 }
 
-let instance = initExposed(Album, []);
+let instance = new Album();
 console.log(instance);
 // Album {
 //   id: null,
@@ -443,7 +432,7 @@ You can simply use the `new` keyword.
 All the `Exposed` fields will get its initial value.
 
 ```javascript
-import { Exposed, initExposed } from "class-transform";
+import { Exposed } from "class-transform";
 
 class Photo {
   id = Exposed.number();
