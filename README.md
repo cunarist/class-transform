@@ -383,9 +383,6 @@ only during the `instanceToPlain` operation.
 - `toPlainOnly`: Initial value on `plainToInstance`
 - `toInstanceOnly`: Drop on `instanceToPlain`
 
-If you use more than one direction method in a chain,
-`DirectionSetError` will be thrown.
-
 ## Using advanced types
 
 Basically, it's recommended to store only primitive types for fields
@@ -442,23 +439,19 @@ console.log(instance);
 
 ## Constructing an instance manually
 
-To create a class instance that has `Exposed` in it,
-you _must_ use the `initExposed` function instead of the `new` keyword.
-This is because fields that are marked with `Exposed`
-don't actually have a valid value upon creation.
-
-You should also provide an array that contains constructor parameters.
+You can simply use the `new` keyword.
+All the `Exposed` fields will get its initial value.
 
 ```javascript
 import { Exposed, initExposed } from "class-transform";
 
 class Photo {
   id = Exposed.number();
-  filename = Exposed.string("HELLO.jpg"); // Initial value
+  filename = Exposed.string("HELLO.jpg");
 }
 
 class Album {
-  id = Exposed.number();
+  id = Exposed.number(0);
   name = Exposed.string();
   tags = Exposed.strings();
   photo = Exposed.struct(Photo, []);
@@ -469,10 +462,10 @@ class Album {
   }
 }
 
-let instance = initExposed(Album, [82]);
+let instance = new Album(82);
 console.log(instance);
 // Album {
-//   id: null,
+//   id: 0,
 //   name: null,
 //   tags: [],
 //   photo: Photo {
@@ -483,6 +476,3 @@ console.log(instance);
 //   pages: 82
 // }
 ```
-
-If you try to create an instance with `Exposed`
-by using `new T()` syntax, `NotExposingError` will be thrown.
