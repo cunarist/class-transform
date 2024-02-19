@@ -11,6 +11,11 @@ export class User {
   id = Exposed.number();
   firstName = Exposed.string(5050);
   lastName = Exposed.string("PLACEHOLDER");
+
+  /** @param {number} age */
+  constructor(age) {
+    this.age = age;
+  }
 }
 
 export class Photo {
@@ -19,9 +24,14 @@ export class Photo {
   metadata = Exposed.toPlainOnly().string();
   description = Exposed.string();
   tags = Exposed.toInstanceOnly().strings();
-  author = Exposed.struct(User);
-  albums = Exposed.structs(Album);
+  author = Exposed.struct(User, [25]);
+  albums = Exposed.structs(Album, []);
   year = 1970;
+
+  /** @param {string} mood */
+  constructor(mood) {
+    this.mood = mood;
+  }
 
   get name() {
     return this.id + "_" + this.filename;

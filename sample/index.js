@@ -14,7 +14,7 @@ console.log(divider);
 // Check replacing fields.
 
 try {
-  let photoEmpty = new Photo();
+  let photoEmpty = new Photo("Joyful");
   console.log(photoEmpty);
   console.log(divider);
 } catch (error) {
@@ -24,7 +24,7 @@ try {
   console.log(divider);
 }
 
-let photoEmpty = initExposed(Photo);
+let photoEmpty = initExposed(Photo, ["Calm"]);
 photoEmpty.metadata = "blank";
 console.log(photoEmpty);
 console.log(divider);
@@ -33,7 +33,7 @@ let photoPlainEmpty = instanceToPlain(photoEmpty);
 console.log(photoPlainEmpty);
 console.log(divider);
 
-let photoEmptyNew = plainToInstance(Photo, photoPlainEmpty);
+let photoEmptyNew = plainToInstance(photoPlainEmpty, Photo, ["Silent"]);
 console.log(photoEmptyNew);
 console.log(divider);
 
@@ -62,7 +62,7 @@ let photoPlain = {
   metadata: "I like it",
 };
 
-let photo = plainToInstance(Photo, photoPlain);
+let photo = plainToInstance(photoPlain, Photo, ["Vibrant"]);
 photo.year = 2020;
 console.log(photo);
 console.log(divider);
@@ -116,12 +116,12 @@ let photosPlain = [
 ];
 let photosJson = JSON.stringify(photosPlain, null, 2);
 
-let photos = plainsToInstances(Photo, JSON.parse(photosJson));
+let photos = plainsToInstances(JSON.parse(photosJson), Photo, ["Party"]);
 console.log(photos);
 console.log(divider);
 
 for (const photo of photos) {
-  console.log(photo.filename);
+  console.log(`${photo.filename} ${photo.mood}`);
 }
 console.log(divider);
 
@@ -136,7 +136,7 @@ let plain = {
   endTimestamp: 1613477400000,
 };
 
-let instance = plainToInstance(TimeRange, plain);
+let instance = plainToInstance(plain, TimeRange, []);
 console.log(instance.start);
 console.log(instance.end);
 console.log(divider);

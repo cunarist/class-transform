@@ -124,7 +124,7 @@ class User {
 }
 
 let response = await fetch("users.json");
-let instances = plainsToInstances(User, await response.json());
+let instances = plainsToInstances(await response.json(), User, []);
 // Now each value in `instances` array is an instance of `User`.
 // By converting plain objects into class instances,
 // type checking becomes available.
@@ -153,12 +153,12 @@ for more examples of usages.
 
 ```javascript
 import { plainToInstance } from "class-transform";
-let instance = plainToInstance(SomeType, { ... });
+let instance = plainToInstance({}, SomeType, []);
 ```
 
 ```javascript
 import { initExposed } from "class-transform";
-let instance = initExposed(SomeType);
+let instance = initExposed(SomeType, []);
 ```
 
 ## Methods for exposing fields
@@ -225,7 +225,7 @@ let plain = {
 };
 
 // An instance always guarantees the exact shape and types.
-let instance = plainToInstance(User, plain);
+let instance = plainToInstance(plain, User, []);
 console.log(instance);
 // User {
 //   id: null,
@@ -263,6 +263,7 @@ to utilize TypeScript's type checker.
 When you are trying to transform objects that have nested objects,
 you need to explicitly specify the type of field
 by passing the class itself into `Exposed.struct` or `Exposed.structs`.
+An array with the class parameters is also needed.
 
 Let's say we have an album with photos.
 And we are trying to convert album plain object to class object:
@@ -279,12 +280,12 @@ class Album {
   id = Exposed.number(); // number | null
   name = Exposed.string(); // string | null
   tags = Exposed.strings(); // Array<string>
-  photo = Exposed.struct(Photo); // Photo
-  photos = Exposed.structs(Photo); // Array<Photo>
+  photo = Exposed.struct(Photo, []); // Photo
+  photos = Exposed.structs(Photo, []); // Array<Photo>
   hardCover = true;
 }
 
-let instance = initExposed(Album);
+let instance = initExposed(Album, []);
 console.log(instance);
 // Album {
 //   id: null,
@@ -324,7 +325,7 @@ class User {
 
 let plain = { first_name_raw: "John", last_name_raw: "Davis" };
 
-let instance = plainToInstance(User, plain);
+let instance = plainToInstance(plain, User, []);
 console.log(instance);
 // User { firstName: 'John', lastName: 'Davis' }
 
@@ -352,7 +353,7 @@ class User {
 
 let plain = { firstName: "John" };
 
-let instance = plainToInstance(User, plain);
+let instance = plainToInstance(plain, User, []);
 console.log(instance);
 // User { firstName: 'John', lastName: 'Davis' }
 ```
@@ -413,7 +414,7 @@ let plain = {
   endTimestamp: 1613477400000,
 };
 
-let instance = plainToInstance(TimeRange, plain);
+let instance = plainToInstance(plain, TimeRange, []);
 console.log(instance.start);
 console.log(instance.end);
 // 2024-02-12T03:30:00.000Z
@@ -434,7 +435,7 @@ class SomeType {
 
 let plain = { prop: "1234", otherProp: 5678 };
 
-let instance = plainToInstance(SomeType, plain);
+let instance = plainToInstance(plain, SomeType);
 console.log(instance);
 //  { prop: 1234, otherProp: '5678' }
 ```
@@ -445,6 +446,8 @@ To create a class instance that has `Exposed` in it,
 you _must_ use the `initExposed` function instead of the `new` keyword.
 This is because fields that are marked with `Exposed`
 don't actually have a valid value upon creation.
+
+You should also provide an array that contains constructor parameters.
 
 ```javascript
 import { Exposed, initExposed } from "class-transform";
@@ -458,11 +461,15 @@ class Album {
   id = Exposed.number();
   name = Exposed.string();
   tags = Exposed.strings();
-  photo = Exposed.struct(Photo);
+  photo = Exposed.struct(Photo, []);
   hardCover = true;
+  /** @param {number} pages */
+  constuctor(pages) {
+    this.pages = pages;
+  }
 }
 
-let instance = initExposed(Album);
+let instance = initExposed(Album, [82]);
 console.log(instance);
 // Album {
 //   id: null,
@@ -472,7 +479,8 @@ console.log(instance);
 //     id: null,
 //     filename: 'HELLO.jpg',
 //   },
-//   hardCover: true
+//   hardCover: true,
+//   pages: 82
 // }
 ```
 
