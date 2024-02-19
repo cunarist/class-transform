@@ -445,6 +445,7 @@ class Album {
   tags = Exposed.strings();
   photo = Exposed.struct(Photo, []);
   hardCover = true;
+
   /** @param {number} pages */
   constuctor(pages) {
     this.pages = pages;
