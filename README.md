@@ -163,7 +163,7 @@ All field methods provide proper type hint to TypeScript type checker.
 |                    | `boolean`         | given   |
 | `Exposed.booleans` | `Array<boolean>`  | `[]`    |
 | `Exposed.string`   | `string \| null`  | `null`  |
-|                    | `string `         | given   |
+|                    | `string`          | given   |
 | `Exposed.strings`  | `Array<string>`   | `[]`    |
 | `Exposed.struct`   | `T`               | `T {}`  |
 | `Exposed.structs`  | `Array<T>`        | `[]`    |
@@ -197,7 +197,7 @@ Fields that are not `Exposed` will be ignored.
 This applies to both `plainToInstance` and `instanceToPlain`.
 
 ```javascript
-import { Exposed, plainToInstance, instanceToPlain } from "class-transform";
+import { Exposed, instanceToPlain, plainToInstance } from "class-transform";
 
 class User {
   id = Exposed.number(); // number | null
@@ -305,7 +305,7 @@ you can do that by using `Exposed.alias` method.
 Please note that the type method should come at the end.
 
 ```javascript
-import { Exposed, plainToInstance, instanceToPlain } from "class-transform";
+import { Exposed, instanceToPlain, plainToInstance } from "class-transform";
 
 class User {
   firstName = Exposed.alias("first_name_raw").string();

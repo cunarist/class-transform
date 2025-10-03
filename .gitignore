@@ -16,6 +16,9 @@ coverage/**
 # Dependency directories
 node_modules
 
+# NPM build output (from deno task build)
+npm/
+
 # MacOS related files
 *.DS_Store
 .AppleDouble

@@ -1,9 +1,9 @@
 import {
-  plainToInstance,
-  plainsToInstances,
-  instanceToPlain,
   instancesToPlains,
-} from "class-transform";
+  instanceToPlain,
+  plainsToInstances,
+  plainToInstance,
+} from "../lib/index.js";
 import { Photo, TimeRange } from "./classes.js";
 
 const divider = "----------------------------------------";
