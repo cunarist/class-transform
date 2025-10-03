@@ -8,21 +8,11 @@
     "type": "git",
     "url": "https://github.com/cunarist/class-transform.git"
   },
-  "imports": {
-    "@deno/dnt": "https://deno.land/x/dnt@0.40.0/mod.ts"
-  },
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
     "strict": false,
     "lib": ["deno.window", "ES2015"]
-  },
-  "tasks": {
-    "build": "deno run -A scripts/build_npm.ts",
-    "check": "deno fmt --check",
-    "fix": "deno fmt",
-    "test": "deno test",
-    "dev": "deno run --watch sample/index.js"
   },
   "fmt": {
     "include": ["src/", "sample/", "scripts/"],
@@ -44,5 +34,15 @@
   "publish": {
     "include": ["src/", "README.md", "LICENSE", "CHANGELOG.md"],
     "exclude": ["**/*.test.js", "**/*.test.ts"]
+  },
+  "tasks": {
+    "build": "deno run -A scripts/build_npm.ts",
+    "check": "deno fmt --check",
+    "fix": "deno fmt",
+    "test": "deno test",
+    "dev": "deno run --watch sample/index.js"
+  },
+  "imports": {
+    "@deno/dnt": "https://deno.land/x/dnt@0.40.0/mod.ts"
   }
 }
