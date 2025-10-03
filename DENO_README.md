@@ -1,6 +1,7 @@
 # Class Transform - Deno Version
 
-This project has been converted from Node.js/npm to Deno while maintaining the ability to publish to NPM.
+This project has been converted from Node.js/npm to Deno while maintaining the
+ability to publish to NPM.
 
 ## Development with Deno
 
@@ -72,13 +73,15 @@ deno publish
    cd npm && npm publish
    ```
 
-The NPM build will create a `npm/` directory with Node.js-compatible CommonJS and ES module builds.
+The NPM build will create a `npm/` directory with Node.js-compatible CommonJS
+and ES module builds.
 
 ## Migration Notes
 
 This project was migrated from package.json to deno.json:
 
-- ✅ Source code already used ES modules with explicit extensions (Deno-compatible)
+- ✅ Source code already used ES modules with explicit extensions
+  (Deno-compatible)
 - ✅ No external dependencies to convert
 - ✅ TypeScript configuration integrated into deno.json
 - ✅ Build pipeline using @deno/dnt for NPM compatibility

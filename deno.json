@@ -14,16 +14,6 @@
     "strict": false,
     "lib": ["deno.window", "ES2015"]
   },
-  "fmt": {
-    "include": ["src/", "sample/", "scripts/"],
-    "exclude": ["npm/", "build/"],
-    "useTabs": false,
-    "lineWidth": 80,
-    "indentWidth": 2,
-    "semiColons": true,
-    "singleQuote": false,
-    "proseWrap": "preserve"
-  },
   "lint": {
     "include": ["src/", "sample/", "scripts/"],
     "exclude": ["npm/", "build/"],

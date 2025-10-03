@@ -4,11 +4,10 @@
 [![NPM Version](https://img.shields.io/npm/v/class-transform)](https://badge.fury.io/js/class-transform)
 [![Minified Size](https://img.shields.io/bundlejs/size/class-transform)](https://bundlejs.com/?q=class-transform)
 
-Class syntax was introduced to JavaScript in ES6.
-Nowadays you are working with typed instances more than ever.
-`class-transform` allows you to transform
-JSON or plain object into strongly typed instance of a class and vice versa.
-This tool is very helpful for both the frontend and backend.
+Class syntax was introduced to JavaScript in ES6. Nowadays you are working with
+typed instances more than ever. `class-transform` allows you to transform JSON
+or plain object into strongly typed instance of a class and vice versa. This
+tool is very helpful for both the frontend and backend.
 
 ```javascript
 // Plain - no type information
@@ -36,9 +35,10 @@ Album {
 }
 ```
 
-Started as a fork of [class-transformer](https://github.com/typestack/class-transformer),
-this library aims to simplify the API, modernize code, and enhance type safety.
-Both JavaScript and TypeScript are fully supported.
+Started as a fork of
+[class-transformer](https://github.com/typestack/class-transformer), this
+library aims to simplify the API, modernize code, and enhance type safety. Both
+JavaScript and TypeScript are fully supported.
 
 ## Table of contents
 
@@ -61,18 +61,16 @@ Both JavaScript and TypeScript are fully supported.
 
 In JavaScript, objects can be classified into two categories:
 
-- Plain objects:
-  Objects that are instances of `Object` class.
-  Sometimes they are called literal objects, when created via `{}` notation.
-- Instance objects:
-  Instances of classes with own defined constructor, properties and methods.
-  Usually you define them via `class` notation.
+- Plain objects: Objects that are instances of `Object` class. Sometimes they
+  are called literal objects, when created via `{}` notation.
+- Instance objects: Instances of classes with own defined constructor,
+  properties and methods. Usually you define them via `class` notation.
 
 So, what is the problem?
 
-Sometimes you want to transform plain JavaScript object to an instance of the ES6 class.
-Once you've parsed some data from a JSON API or a JSON file with `JSON.parse`,
-you have plain objects, not instances of a class.
+Sometimes you want to transform plain JavaScript object to an instance of the
+ES6 class. Once you've parsed some data from a JSON API or a JSON file with
+`JSON.parse`, you have plain objects, not instances of a class.
 
 For example you have a list of users in your `users.json` that you are loading:
 
@@ -99,8 +97,8 @@ For example you have a list of users in your `users.json` that you are loading:
 ]
 ```
 
-To load the JSON data, you would write the following code.
-However, it consists solely of plain objects and lacks type safety.
+To load the JSON data, you would write the following code. However, it consists
+solely of plain objects and lacks type safety.
 
 ```javascript
 let response = await fetch("users.json");
@@ -109,9 +107,9 @@ let plains = await response.json();
 // Type checkers cannot help you with `any` type like this.
 ```
 
-To achieve type-safe programming, you can use `class-transform`.
-Purpose of this library is to help you to convert your plain objects
-to the instances of classes you have.
+To achieve type-safe programming, you can use `class-transform`. Purpose of this
+library is to help you to convert your plain objects to the instances of classes
+you have.
 
 ```javascript
 import { Exposed, plainsToInstances } from "class-transform";
@@ -131,15 +129,16 @@ let instances = plainsToInstances(await response.json(), User, []);
 // You can use proper class methods as well.
 ```
 
-Even inside TypeScript codebases,
-using classes for JSON can be advantageous over `interface` and `type` statements
-because they are preserved after compilation,
-enabling true object-oriented programming for reliable runtime behaviors.
+Even inside TypeScript codebases, using classes for JSON can be advantageous
+over `interface` and `type` statements because they are preserved after
+compilation, enabling true object-oriented programming for reliable runtime
+behaviors.
 
 ## Samples
 
-Take a look at the [sample code](https://github.com/cunarist/class-transform/tree/main/sample)
-for more examples of usages.
+Take a look at the
+[sample code](https://github.com/cunarist/class-transform/tree/main/sample) for
+more examples of usages.
 
 ## Functions
 
@@ -176,8 +175,8 @@ There are also methods for specifying options.
 | `Exposed.toInstanceOnly` | Include it only to instance    |
 | `Exposed.toPlainOnly`    | Include it only to plain       |
 
-You can combine the effects of these methods by chaining them.
-Please note that the type method should come at the _end_ of the chain.
+You can combine the effects of these methods by chaining them. Please note that
+the type method should come at the _end_ of the chain.
 
 ```javascript
 class SomeType {
@@ -187,14 +186,12 @@ class SomeType {
 
 ## Strong type safety
 
-Strong type safety is always guaranteed.
-A class instance will always have the
+Strong type safety is always guaranteed. A class instance will always have the
 exact set of values that match its fields, with the exact types.
 
-`class-transform` only transforms class fields
-that are set as `Exposed` with plain objects.
-Fields that are not `Exposed` will be ignored.
-This applies to both `plainToInstance` and `instanceToPlain`.
+`class-transform` only transforms class fields that are set as `Exposed` with
+plain objects. Fields that are not `Exposed` will be ignored. This applies to
+both `plainToInstance` and `instanceToPlain`.
 
 ```javascript
 import { Exposed, instanceToPlain, plainToInstance } from "class-transform";
@@ -235,27 +232,25 @@ console.log(plainNew);
 // }
 ```
 
-If a property is missing, `class-transform` will fill it with
-the initial value, blank array, or an empty child instance
-depending on the field type. If the field is not `Exposed`,
-the value will not be included in the transformation at all.
+If a property is missing, `class-transform` will fill it with the initial value,
+blank array, or an empty child instance depending on the field type. If the
+field is not `Exposed`, the value will not be included in the transformation at
+all.
 
-Each type method has a return type that represents the data,
-allowing TypeScript's type checker to do its job.
-It works well with `"strict": true` of `tsconfig.json`.
-If you're using JavaScript, you can set
-`tsconfig.json`'s `compilerOptions.checkJs` to `true`
-to utilize TypeScript's type checker.
+Each type method has a return type that represents the data, allowing
+TypeScript's type checker to do its job. It works well with `"strict": true` of
+`tsconfig.json`. If you're using JavaScript, you can set `tsconfig.json`'s
+`compilerOptions.checkJs` to `true` to utilize TypeScript's type checker.
 
 ## Working with nested structures
 
-When you are trying to transform objects that have nested objects,
-you need to explicitly specify the type of field
-by passing the class itself into `Exposed.struct` or `Exposed.structs`.
-An array with the class parameters is also needed.
+When you are trying to transform objects that have nested objects, you need to
+explicitly specify the type of field by passing the class itself into
+`Exposed.struct` or `Exposed.structs`. An array with the class parameters is
+also needed.
 
-Let's say we have an album with photos.
-And we are trying to convert album plain object to class object:
+Let's say we have an album with photos. And we are trying to convert album plain
+object to class object:
 
 ```javascript
 import { Exposed } from "class-transform";
@@ -300,9 +295,9 @@ console.log(instance);
 
 ## Using different property name in plain objects
 
-If the plain object's property should have a different name,
-you can do that by using `Exposed.alias` method.
-Please note that the type method should come at the end.
+If the plain object's property should have a different name, you can do that by
+using `Exposed.alias` method. Please note that the type method should come at
+the end.
 
 ```javascript
 import { Exposed, instanceToPlain, plainToInstance } from "class-transform";
@@ -323,14 +318,14 @@ console.log(plainNew);
 // { first_name_raw: 'John', last_name_raw: 'Davis' }
 ```
 
-This is useful when the JSON API uses snakecase or some other naming conventions.
+This is useful when the JSON API uses snakecase or some other naming
+conventions.
 
 ## Providing an initial value
 
-When a field didn't receive some proper value,
-it can get an initial value instead of being filled with `null`.
-Simply provide the initial value to the type method.
-By doing so, `null` will be removed from the field's type hint.
+When a field didn't receive some proper value, it can get an initial value
+instead of being filled with `null`. Simply provide the initial value to the
+type method. By doing so, `null` will be removed from the field's type hint.
 
 ```javascript
 import { Exposed, plainToInstance } from "class-transform";
@@ -347,14 +342,13 @@ console.log(instance);
 // User { firstName: 'John', lastName: 'Davis' }
 ```
 
-Even when you provide an initial value of a wrong type,
-implicit type conversion happens under the hood,
-resulting in a completely type-safe instance.
+Even when you provide an initial value of a wrong type, implicit type conversion
+happens under the hood, resulting in a completely type-safe instance.
 
 ## Skipping by direction
 
-You can control on which operation you will include a field.
-Use `Exposed.toInstanceOnly` or `Exposed.toPlainOnly` method.
+You can control on which operation you will include a field. Use
+`Exposed.toInstanceOnly` or `Exposed.toPlainOnly` method.
 
 ```typescript
 import { Exclude } from "class-transformer";
@@ -366,20 +360,20 @@ class User {
 }
 ```
 
-Now `password` field will be included
-only during the `instanceToPlain` operation.
+Now `password` field will be included only during the `instanceToPlain`
+operation.
 
 - `toPlainOnly`: Initial value on `plainToInstance`
 - `toInstanceOnly`: Drop on `instanceToPlain`
 
 ## Using advanced types
 
-Basically, it's recommended to store only primitive types for fields
-to maintain clean structure and transformation.
+Basically, it's recommended to store only primitive types for fields to maintain
+clean structure and transformation.
 
-However, sometimes more advanced types might be needed.
-In such cases, you can use getter and setter methods
-to process the data from the basic values in the class.
+However, sometimes more advanced types might be needed. In such cases, you can
+use getter and setter methods to process the data from the basic values in the
+class.
 
 ```javascript
 import { Exposed, plainToInstance } from "class-transform";
@@ -428,8 +422,8 @@ console.log(instance);
 
 ## Constructing an instance manually
 
-You can simply use the `new` keyword.
-All the `Exposed` fields will get its initial value.
+You can simply use the `new` keyword. All the `Exposed` fields will get its
+initial value.
 
 ```javascript
 import { Exposed } from "class-transform";

@@ -16,24 +16,30 @@
 
 #### Changed
 
-- re-added accidentally removed deprecated function names `classToPlain` and `plainToClass`
+- re-added accidentally removed deprecated function names `classToPlain` and
+  `plainToClass`
 
 ### [0.5.0][v0.5.0] [BREAKING CHANGE] - 2021-11-20
 
-> **NOTE:** This version fixes a security vulnerability allowing denial of service attacks with a specially crafted request payload. Please update as soon as possible.
+> **NOTE:** This version fixes a security vulnerability allowing denial of
+> service attacks with a specially crafted request payload. Please update as
+> soon as possible.
 
 #### Breaking Changes
 
-See the breaking changes from `0.4.1` release. It was accidentally released as patch version.
+See the breaking changes from `0.4.1` release. It was accidentally released as
+patch version.
 
 ### [0.4.1][v0.4.1] [BREAKING CHANGE] - 2021-11-20
 
-> **NOTE:** This version fixes a security vulnerability allowing denial of service attacks with a specially crafted request payload. Please update as soon as possible.
+> **NOTE:** This version fixes a security vulnerability allowing denial of
+> service attacks with a specially crafted request payload. Please update as
+> soon as possible.
 
 #### Breaking Changes
 
-**Exported functions has been renamed**
-Some of the exported functions has been renamed to better reflect what they are doing.
+**Exported functions has been renamed** Some of the exported functions has been
+renamed to better reflect what they are doing.
 
 - `classToPlain` -> `instanceToPlain`
 - `plainToClass` -> `plainToInstance`
@@ -52,7 +58,8 @@ Some of the exported functions has been renamed to better reflect what they are 
 
 #### Breaking Changes
 
-See the breaking changes from `0.3.2` release. It was accidentally released as patch version.
+See the breaking changes from `0.3.2` release. It was accidentally released as
+patch version.
 
 #### Added
 
@@ -72,9 +79,9 @@ See the breaking changes from `0.3.2` release. It was accidentally released as p
 
 #### Breaking Changes
 
-**Signature change for `@Transform` decorator**
-From this version the `@Transform` decorator receives the transformation parameters in a a wrapper object. You need to
-destructure the values you are interested in.
+**Signature change for `@Transform` decorator** From this version the
+`@Transform` decorator receives the transformation parameters in a a wrapper
+object. You need to destructure the values you are interested in.
 
 Old way:
 
@@ -90,8 +97,10 @@ New way with wrapper object:
 
 #### Added
 
-- `exposeDefaultValues` option has been added, when enabled properties will use their default values when no value is present for the property
-- the name of the currently transformed parameter is exposed in the `@Transform` decorator
+- `exposeDefaultValues` option has been added, when enabled properties will use
+  their default values when no value is present for the property
+- the name of the currently transformed parameter is exposed in the `@Transform`
+  decorator
 
 #### Fixed
 
@@ -122,7 +131,8 @@ New way with wrapper object:
 #### Fixed
 
 - circular dependency fixed
-- dev dependencies removed from package.json before publishing (no more security warnings)
+- dev dependencies removed from package.json before publishing (no more security
+  warnings)
 - transformer order is deterministic now (#231)
 - fix prototype pollution issue (#367)
 - various fixes in documentation
@@ -131,14 +141,17 @@ New way with wrapper object:
 
 #### Changed
 
-- `enableImplicitConversion` has been added and imlplicit value conversion is disabled by default.
-- reverted #234 - fix: write properties with defined default values on prototype which broke the `@Exclude` decorator.
+- `enableImplicitConversion` has been added and imlplicit value conversion is
+  disabled by default.
+- reverted #234 - fix: write properties with defined default values on prototype
+  which broke the `@Exclude` decorator.
 
 ### [0.2.2][v0.2.2] [BREAKING CHANGE]
 
 > **NOTE:** This version is deprecated.
 
-This version has introduced a breaking-change when this library is used with class-validator. See #257 for details.
+This version has introduced a breaking-change when this library is used with
+class-validator. See #257 for details.
 
 #### Added
 
@@ -150,14 +163,16 @@ This version has introduced a breaking-change when this library is used with cla
 
 #### Added
 
-- add option to strip unkown properties via using the `excludeExtraneousValues` option
+- add option to strip unkown properties via using the `excludeExtraneousValues`
+  option
 
 ### [0.2.0][v0.2.0] [BREAKING CHANGE]
 
 #### Added
 
 - add documentation for using `Set`s and `Map`s
-- add opotion to pass a discriminator function to convert values into different types based on custom conditions
+- add opotion to pass a discriminator function to convert values into different
+  types based on custom conditions
 - added support for polymorphism based on a named type property
 
 #### Fixed
@@ -192,13 +207,16 @@ This version has introduced a breaking-change when this library is used with cla
 
 - renamed library from `constructor-utils` to `class-transform`
 - completely renamed most of names
-- renamed all main methods: `plainToConstructor` now is `plainToClass` and `constructorToPlain` is `classToPlain`, etc.
+- renamed all main methods: `plainToConstructor` now is `plainToClass` and
+  `constructorToPlain` is `classToPlain`, etc.
 - `plainToConstructorArray` method removed - now `plainToClass` handles it
 - `@Skip()` decorator renamed to `@Exclude()`
 - added `@Expose` decorator
 - added lot of new options: groups, versioning, custom names, etc.
-- methods and getters that should be exposed must be decorated with `@Expose` decorator
-- added `excludedPrefix` to class transform options that allows exclude properties that start with one of the given prefix
+- methods and getters that should be exposed must be decorated with `@Expose`
+  decorator
+- added `excludedPrefix` to class transform options that allows exclude
+  properties that start with one of the given prefix
 
 ### 0.0.22
 
@@ -224,7 +242,8 @@ This version has introduced a breaking-change when this library is used with cla
 
 #### Changed
 
-- renamed `constructor-utils/constructor-utils` to `constructor-utils` package namespace
+- renamed `constructor-utils/constructor-utils` to `constructor-utils` package
+  namespace
 
 ### 0.0.15
 
@@ -236,7 +255,8 @@ This version has introduced a breaking-change when this library is used with cla
 
 #### Removed
 
-- removed `import "reflect-metadata"` from source code. Now reflect metadata should be included like any other shims.
+- removed `import "reflect-metadata"` from source code. Now reflect metadata
+  should be included like any other shims.
 
 ### 0.0.13
 
