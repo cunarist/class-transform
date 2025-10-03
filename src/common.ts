@@ -2,26 +2,23 @@
  * Enum class that represents the transformation direction.
  */
 export class Direction {
-  static toBoth = 0;
-  static toInstanceOnly = 1;
-  static toPlainOnly = 2;
+  static readonly toBoth = 0;
+  static readonly toInstanceOnly = 1;
+  static readonly toPlainOnly = 2;
 }
 
-let exposingDepth = 0;
+let exposingDepth: number = 0;
 
 /**
  * Executes a provided function in an exposing context,
  * which makes `Exposed` fields actually become
  * instances of `Exposed`.
  * This function can be called recursively.
- * @template T
- * @param {() => T} callable
- * @returns {T}
  */
-export function whileExposing(callable) {
+export function whileExposing<T>(callable: () => T): T {
   exposingDepth += 1;
   try {
-    let returned = callable();
+    const returned = callable();
     return returned;
   } catch (error) {
     throw error;
@@ -32,10 +29,9 @@ export function whileExposing(callable) {
 
 /**
  * Checks if the code is currently within an exposing context.
- * @returns {boolean}
  */
-export function isExposing() {
-  if (exposingDepth == 0) {
+export function isExposing(): boolean {
+  if (exposingDepth === 0) {
     return false;
   } else {
     return true;
