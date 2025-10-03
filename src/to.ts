@@ -1,67 +1,54 @@
-import { Exposed } from "./exposed.js";
-import { Direction, whileExposing } from "./common.js";
+import { Exposed } from "./exposed.ts";
+import { Direction, whileExposing } from "./common.ts";
 
 /**
- * Transforms an array of plain JavaScript objects
+ * Transforms an array of plain objects
  * to an array of class instances.
- * ---
- * @template T
- * @template {Array<any>} A
- * @param {Array<Object>} plains
- * @param {new (...args: A) => T} type
- * @param {A} args
- * @returns {Array<T>}
  */
-export function plainsToInstances(plains, type, args) {
+export function plainsToInstances<T, A extends any[]>(
+  plains: Record<string, any>[],
+  type: new (...args: A) => T,
+  args: A,
+): T[] {
   if (!(plains instanceof Array)) {
     throw new TypeError("For non-arrays, `plainToInstance` should be used");
   }
-  const array = [];
+  const array: T[] = [];
   for (const eachObject of plains) {
     array.push(plainToInstance(eachObject, type, args));
   }
-  // @ts-ignore
   return array;
 }
 
 /**
  * Transforms an array of class instances
- * to an array of plain JavaScript objects.
- * ---
- * @template T
- * @param {Array<T>} instances - The instance to convert to a plain object.
- * @returns {Array<Object>}
+ * to an array of plain objects.
  */
-export function instancesToPlains(instances) {
+export function instancesToPlains<T>(instances: T[]): Record<string, any>[] {
   if (!(instances instanceof Array)) {
     throw new TypeError("For non-arrays, `instanceToPlain` should be used");
   }
-  const array = [];
+  const array: Record<string, any>[] = [];
   for (const eachInstance of instances) {
     array.push(instanceToPlain(eachInstance));
   }
-  // @ts-ignore
   return array;
 }
 
 /**
  * Transforms a plain JavaScript object to a class instance.
- * ---
- * @template T
- * @template {Array<any>} A
- * @param {Object} plain
- * @param {new (...args: A) => T} type
- * @param {A} args
- * @returns {T}
  */
-export function plainToInstance(plain, type, args) {
+export function plainToInstance<T, A extends any[]>(
+  plain: Record<string, any>,
+  type: new (...args: A) => T,
+  args: A,
+): T {
   if (plain instanceof Array) {
     throw new TypeError("For arrays, `plainsToInstances` should be used");
   }
 
   return whileExposing(() => {
-    /** @type {Object} */
-    const instance = new type(...args);
+    const instance = new type(...args) as any;
 
     for (const property in instance) {
       const exposed = instance[property];
@@ -71,28 +58,28 @@ export function plainToInstance(plain, type, args) {
         continue;
       }
 
-      const type = exposed.type;
+      const exposedType = exposed.type;
       const isArray = exposed.isArray;
       const plainAlias = exposed.plainAlias;
       const defaultValue = exposed.defaultValue;
       const direction = exposed.direction;
-      const args = exposed.args;
+      const exposedArgs = exposed.args;
 
-      let value;
+      let value: any;
       if (plainAlias === null) {
         value = plain[property];
       } else {
         value = plain[plainAlias];
       }
 
-      if (type === null) {
+      if (exposedType === null) {
         throw new TypeError("Type information not included in `Exposed`");
       }
 
       if (
         value === null ||
         value === undefined ||
-        direction == Direction.toPlainOnly
+        direction === Direction.toPlainOnly
       ) {
         if (isArray) {
           // Expected array, received invalid value.
@@ -103,11 +90,13 @@ export function plainToInstance(plain, type, args) {
           // Put in the initial value with proper type enforced.
           if (defaultValue === null) {
             instance[property] = null;
-          } else if (type === Number || type === Boolean || type === String) {
-            // @ts-ignore
-            instance[property] = type(defaultValue);
+          } else if (
+            exposedType === Number || exposedType === Boolean ||
+            exposedType === String
+          ) {
+            instance[property] = (exposedType as any)(defaultValue);
           } else {
-            instance[property] = new type();
+            instance[property] = new exposedType();
           }
         }
         continue;
@@ -117,16 +106,18 @@ export function plainToInstance(plain, type, args) {
         if (value instanceof Array) {
           // Expected array, received array.
           // Put in an array with elements that have proper type enforced.
-          const array = [];
+          const array: any[] = [];
           instance[property] = array;
           for (const eachValue of value) {
             if (eachValue === null) {
               continue;
-            } else if (type === Number || type === Boolean || type === String) {
-              // @ts-ignore
-              array.push(type(eachValue));
+            } else if (
+              exposedType === Number || exposedType === Boolean ||
+              exposedType === String
+            ) {
+              array.push((exposedType as any)(eachValue));
             } else {
-              array.push(plainToInstance(eachValue, type, args));
+              array.push(plainToInstance(eachValue, exposedType, exposedArgs));
             }
           }
         } else {
@@ -140,20 +131,28 @@ export function plainToInstance(plain, type, args) {
           // Put in the initial value with proper type enforced.
           if (defaultValue === null) {
             instance[property] = null;
-          } else if (type === Number || type === Boolean || type === String) {
-            // @ts-ignore
-            instance[property] = type(defaultValue);
+          } else if (
+            exposedType === Number || exposedType === Boolean ||
+            exposedType === String
+          ) {
+            instance[property] = (exposedType as any)(defaultValue);
           } else {
-            instance[property] = new type();
+            instance[property] = new exposedType();
           }
         } else {
           // Expected single, received single.
           // Put in the received value with proper type enforced.
-          if (type === Number || type === Boolean || type === String) {
-            // @ts-ignore
-            instance[property] = type(value);
+          if (
+            exposedType === Number || exposedType === Boolean ||
+            exposedType === String
+          ) {
+            instance[property] = (exposedType as any)(value);
           } else {
-            instance[property] = plainToInstance(value, type, args);
+            instance[property] = plainToInstance(
+              value,
+              exposedType,
+              exposedArgs,
+            );
           }
         }
       }
@@ -180,31 +179,27 @@ export function plainToInstance(plain, type, args) {
 
 /**
  * Transforms a class instance to a plain JavaScript object.
- * ---
- * @template T
- * @param {T} instance - The instance to convert to a plain object.
- * @returns {Object}
  */
-export function instanceToPlain(instance) {
+export function instanceToPlain<T>(instance: T): Record<string, any> {
   if (instance instanceof Array) {
     throw new TypeError("For arrays, `instancesToPlains` should be used");
   }
 
   return whileExposing(() => {
     const type = Object.getPrototypeOf(instance).constructor;
-    const blankInstance = new type();
-    const exposedProperties = [];
+    const blankInstance = new type() as any;
+    const exposedProperties: string[] = [];
+
     for (const property in blankInstance) {
       if (blankInstance[property] instanceof Exposed) {
         exposedProperties.push(property);
       }
     }
 
-    /** @type {Object} */
-    const plain = {};
+    const plain: Record<string, any> = {};
 
     for (const property of exposedProperties) {
-      const value = instance[property];
+      const value = (instance as any)[property];
 
       if (value === null || value === undefined) {
         plain[property] = null;
@@ -215,7 +210,7 @@ export function instanceToPlain(instance) {
       const plainName = blankExposed.plainAlias ?? property;
       const direction = blankExposed.direction;
 
-      if (direction == Direction.toInstanceOnly) {
+      if (direction === Direction.toInstanceOnly) {
         continue;
       }
 
@@ -226,27 +221,27 @@ export function instanceToPlain(instance) {
       }
 
       if (value instanceof Array) {
-        const array = [];
+        const array: any[] = [];
         plain[plainName] = array;
         for (const eachValue of value) {
-          if (typeof eachValue == "number") {
+          if (typeof eachValue === "number") {
             array.push(eachValue);
-          } else if (typeof eachValue == "boolean") {
+          } else if (typeof eachValue === "boolean") {
             array.push(eachValue);
-          } else if (typeof eachValue == "string") {
+          } else if (typeof eachValue === "string") {
             array.push(eachValue);
-          } else if (typeof eachValue == "object") {
+          } else if (typeof eachValue === "object") {
             array.push(instanceToPlain(eachValue));
           }
         }
       } else {
-        if (typeof value == "number") {
+        if (typeof value === "number") {
           plain[plainName] = value;
-        } else if (typeof value == "boolean") {
+        } else if (typeof value === "boolean") {
           plain[plainName] = value;
-        } else if (typeof value == "string") {
+        } else if (typeof value === "string") {
           plain[plainName] = value;
-        } else if (typeof value == "object") {
+        } else if (typeof value === "object") {
           plain[plainName] = instanceToPlain(value);
         } else {
           plain[plainName] = null;

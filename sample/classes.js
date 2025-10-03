@@ -1,6 +1,6 @@
 // @ts-check
 
-import { Exposed } from "../lib/index.js";
+import { Exposed } from "../src/index.ts";
 
 export class Album {
   id = Exposed.number();

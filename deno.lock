@@ -79,7 +79,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
-        "npm:prettier@^3.5.3",
+        "npm:prettier@^3.6.2",
         "npm:typescript@^5.8.3"
       ]
     }

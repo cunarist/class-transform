@@ -3,7 +3,7 @@ import {
   instanceToPlain,
   plainsToInstances,
   plainToInstance,
-} from "../lib/index.js";
+} from "../src/index.ts";
 import { Photo, TimeRange } from "./classes.js";
 
 const divider = "----------------------------------------";

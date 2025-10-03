@@ -1,5 +1,5 @@
 // Simple test to verify the library works correctly
-import { Exposed, instanceToPlain, plainToInstance } from "../lib/index.js";
+import { Exposed, instanceToPlain, plainToInstance } from "../src/index.ts";
 
 class Person {
   name = Exposed.string();

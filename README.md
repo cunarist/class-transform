@@ -72,7 +72,7 @@ So, what is the problem?
 
 Sometimes you want to transform plain JavaScript object to an instance of the ES6 class.
 Once you've parsed some data from a JSON API or a JSON file with `JSON.parse`,
-you have plain JavaScript objects, not instances of a class.
+you have plain objects, not instances of a class.
 
 For example you have a list of users in your `users.json` that you are loading:
 

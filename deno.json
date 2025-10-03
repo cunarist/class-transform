@@ -1,8 +1,8 @@
 {
   "name": "@cunarist/class-transform",
   "version": "0.7.0",
-  "description": "Transformation between plain JavaScript objects and class instances",
-  "exports": "./lib/index.js",
+  "description": "Transformation between plain objects and class instances",
+  "exports": "./src/index.ts",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
     "dev": "deno run --watch sample/index.js"
   },
   "fmt": {
-    "include": ["lib/", "sample/", "scripts/"],
+    "include": ["src/", "sample/", "scripts/"],
     "exclude": ["npm/", "build/"],
     "useTabs": false,
     "lineWidth": 80,
@@ -35,11 +35,14 @@
     "proseWrap": "preserve"
   },
   "lint": {
-    "include": ["lib/", "sample/", "scripts/"],
-    "exclude": ["npm/", "build/"]
+    "include": ["src/", "sample/", "scripts/"],
+    "exclude": ["npm/", "build/"],
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
   },
   "publish": {
-    "include": ["lib/", "README.md", "LICENSE", "CHANGELOG.md"],
+    "include": ["src/", "README.md", "LICENSE", "CHANGELOG.md"],
     "exclude": ["**/*.test.js", "**/*.test.ts"]
   }
 }

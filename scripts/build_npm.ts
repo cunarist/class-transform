@@ -5,7 +5,7 @@ import { build, emptyDir } from "@deno/dnt";
 await emptyDir("./npm");
 
 await build({
-  entryPoints: ["./lib/index.js"],
+  entryPoints: ["./src/index.ts"],
   outDir: "./npm",
   shims: {
     // see JS docs for overview and more options
@@ -15,8 +15,7 @@ await build({
     // package.json properties
     name: "class-transform",
     version: "0.7.0",
-    description:
-      "Transformation between plain JavaScript objects and class instances",
+    description: "Transformation between plain objects and class instances",
     license: "MIT",
     author: "Cunarist",
     repository: {

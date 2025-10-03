@@ -1,7 +1,7 @@
-export { Exposed } from "./exposed.js";
+export { Exposed } from "./exposed.ts";
 export {
   instancesToPlains,
   instanceToPlain,
   plainsToInstances,
   plainToInstance,
-} from "./to.js";
+} from "./to.ts";
