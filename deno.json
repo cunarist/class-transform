@@ -28,6 +28,7 @@
     "dev": "deno run --watch sample/index.ts"
   },
   "imports": {
-    "@deno/dnt": "https://deno.land/x/dnt@0.40.0/mod.ts"
+    "@deno/dnt": "https://deno.land/x/dnt@0.40.0/mod.ts",
+    "@std/assert": "jsr:@std/assert@1"
   }
 }
